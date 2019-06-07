@@ -1,20 +1,26 @@
 ﻿################################################################################
 # Set minimum required version of cmake, project name and compile options
 ################################################################################
-cmake_minimum_required(VERSION 2.8.3)
+cmake_minimum_required(VERSION 3.5)
 project(open_manipulator_teleop)
 
-add_compile_options(-std=c++11)
+# Default to C++14
+if(NOT CMAKE_CXX_STANDARD)
+  set(CMAKE_CXX_STANDARD 14)
+endif()
+
+if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
+  add_compile_options(-Wall -Wextra -Wpedantic)
+endif()
 
 ################################################################################
-# Find catkin packages and libraries for catkin and system dependencies
+# Find ament packages and libraries for ament and system dependencies
 ################################################################################
-find_package(catkin REQUIRED COMPONENTS
-    roscpp
-    std_msgs
-    sensor_msgs
-    open_manipulator_msgs
-)
+find_package(ament_cmake REQUIRED)
+find_package(rclcpp REQUIRED)
+find_package(std_msgs REQUIRED)
+find_package(sensor_msgs REQUIRED)
+find_package(open_manipulator_msgs REQUIRED)
 
 ################################################################################
 # Setup for python modules and scripts
@@ -27,46 +33,26 @@ find_package(catkin REQUIRED COMPONENTS
 ################################################################################
 ## Declare ROS dynamic reconfigure parameters
 ################################################################################
-
-################################################################################
-# Declare catkin specific configuration to be passed to dependent projects
-################################################################################
-catkin_package(
-  INCLUDE_DIRS include
-  CATKIN_DEPENDS roscpp std_msgs sensor_msgs open_manipulator_msgs
-)
-
-################################################################################
-# Build
-################################################################################
-include_directories(
-  include
-  ${catkin_INCLUDE_DIRS}
-)
-
-add_executable(open_manipulator_teleop_keyboard src/open_manipulator_teleop_keyboard.cpp)
-add_dependencies(open_manipulator_teleop_keyboard ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
-target_link_libraries(open_manipulator_teleop_keyboard ${catkin_LIBRARIES} )
-
-add_executable(open_manipulator_teleop_joystick src/open_manipulator_teleop_joystick.cpp)
-add_dependencies(open_manipulator_teleop_joystick ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
-target_link_libraries(open_manipulator_teleop_joystick ${catkin_LIBRARIES} )
+ament_export_include_directories(include)
 
 ################################################################################
 # Install
 ################################################################################
-install(TARGETS open_manipulator_teleop_keyboard open_manipulator_teleop_joystick
-  RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
-)
-
-install(DIRECTORY include/${PROJECT_NAME}/
-  DESTINATION ${CATKIN_PACKAGE_INCLUDE_DESTINATION}
-)
-
-install(DIRECTORY launch
-  DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}
+install(
+  DIRECTORY launch
+  DESTINATION share/${PROJECT_NAME}
 )
 
 ################################################################################
 # Test
 ################################################################################
+if(BUILD_TESTING)
+  find_package(ament_lint_auto REQUIRED)
+  set(ament_cmake_copyright_FOUND TRUE)
+  ament_lint_auto_find_test_dependencies()
+endif()
+
+################################################################################
+# Macro for ament package
+################################################################################
+ament_package()

@@ -14,7 +14,7 @@ if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
 endif()
 
 ################################################################################
-# Find catkin packages and libraries for catkin and system dependencie
+# Find ament packages and libraries for ament and system dependencies
 ################################################################################
 find_package(ament_cmake REQUIRED)
 find_package(rclcpp REQUIRED)
@@ -32,10 +32,6 @@ find_package(urdf REQUIRED)
 
 ################################################################################
 # Declare ROS dynamic reconfigure parameters
-################################################################################
-
-################################################################################
-# Declare catkin specific configuration to be passed to dependent projects
 ################################################################################
 
 ################################################################################
