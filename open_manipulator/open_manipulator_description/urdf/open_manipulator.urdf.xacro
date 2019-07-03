@@ -72,7 +72,7 @@
     <child link="link2"/>
     <origin xyz="0.012 0.0 0.017" rpy="0 0 0"/>
     <axis xyz="0 0 1"/>
-    <limit velocity="4.8" effort="1" lower="${-pi*0.9}" upper="${pi*0.9}" />
+    <limit velocity="4.8" effort="1" lower="-2.82743338823" upper="2.82743338823" />
   </joint>
 
   <!-- Transmission 1 -->
@@ -104,7 +104,7 @@
     </inertial>-->
 
      <inertial>
-      <origin xyz="-3.0184870e-04 5.4043684e-04 ${0.018 + 2.9433464e-02}" />
+      <origin xyz="-3.0184870e-04 5.4043684e-04 0.047433464" />
       <mass value="9.8406837e-02" />
       <inertia ixx="3.4543422e-05" ixy="-1.6031095e-08" ixz="-3.8375155e-07"
                iyy="3.2689329e-05" iyz="2.8511935e-08"
@@ -118,7 +118,7 @@
     <child link="link3"/>
     <origin xyz="0.0 0.0 0.0595" rpy="0 0 0"/>
     <axis xyz="0 1 0"/>
-    <limit velocity="4.8" effort="1" lower="${-pi*0.57}" upper="${pi*0.5}" />
+    <limit velocity="4.8" effort="1" lower="-1.79070781255" upper="1.57079632679" />
   </joint>
 
   <!-- Transmission 2 -->
@@ -164,7 +164,7 @@
     <child link="link4"/>
     <origin xyz="0.024 0 0.128" rpy="0 0 0"/>
     <axis xyz="0 1 0"/>
-    <limit velocity="4.8" effort="1" lower="${-pi*0.3}" upper="${pi*0.44}" />
+    <limit velocity="4.8" effort="1" lower="-0.94247779607" upper="1.38230076758" />
   </joint>
 
   <!-- Transmission 3 -->
@@ -210,7 +210,7 @@
     <child link="link5"/>
     <origin xyz="0.124 0.0 0.0" rpy="0 0 0"/>
     <axis xyz="0 1 0"/>
-    <limit velocity="4.8" effort="1" lower="${-pi*0.57}" upper="${pi*0.65}" />
+    <limit velocity="4.8" effort="1" lower="-1.79070781255" upper="2.04203522483" />
   </joint>
 
   <!-- Transmission 4 -->

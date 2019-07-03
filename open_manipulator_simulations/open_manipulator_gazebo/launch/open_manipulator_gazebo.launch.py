@@ -25,13 +25,15 @@ from launch.actions import ExecuteProcess
 from launch_ros.actions import Node
 
 def generate_launch_description():
+    use_sim_time = LaunchConfiguration('use_sim_time', default='True')  
     world_file_name = 'empty.world'
-    use_sim_time = LaunchConfiguration('use_sim_time', default='true')  
+    # world = os.path.join(get_package_share_directory('open_manipulator_gazebo'), 'worlds', world_file_name)
+    world = os.path.join(get_package_share_directory('open_manipulator_gazebo'), 'worlds', 'open_manipulator.world')
     urdf = os.path.join(get_package_share_directory('open_manipulator_description'), 'urdf', 'open_manipulator.urdf.xacro')
 
     return LaunchDescription([
         ExecuteProcess(
-            cmd=['gazebo', '--verbose', urdf], 
+            cmd=['gazebo', '--verbose', world, '-s', 'libgazebo_ros_init.so'], 
             output='screen'),
 
         ExecuteProcess(
@@ -42,7 +44,12 @@ def generate_launch_description():
             package='robot_state_publisher',
             node_executable='robot_state_publisher',
             node_name='robot_state_publisher',
-            output='screen',
-            parameters=[{' use_sim_time': use_sim_time}],
-            arguments=[urdf])
+            arguments=[urdf],
+            output='screen'),
+
+        # Node(
+        #     package='open_manipulator_gazebo', 
+        #     node_executable='open_manipulator_spawner.py', 
+        #     arguments=[urdf], 
+        #     output='screen')
     ])

@@ -23,9 +23,6 @@ from launch import LaunchDescription
 from launch_ros.actions import Node
 
 def generate_launch_description():
-    # robot_name = open_manipulator
-    # open_rviz = LaunchConfiguration('open_rviz', default='true')
-    # use_gui = LaunchConfiguration('use_gui', default='false')
     rviz_config_dir = os.path.join(get_package_share_directory('open_manipulator_description'), 'rviz', 'open_manipulator.rviz')
     
     return LaunchDescription([
