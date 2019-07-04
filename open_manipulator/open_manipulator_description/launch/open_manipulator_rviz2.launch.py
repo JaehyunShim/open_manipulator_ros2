@@ -20,10 +20,13 @@ import os
 
 from ament_index_python.packages import get_package_share_directory
 from launch import LaunchDescription
+from launch.substitutions import LaunchConfiguration
 from launch_ros.actions import Node
 
 def generate_launch_description():
+    use_gui = LaunchConfiguration('use_gui', default='True')  
     rviz_config_dir = os.path.join(get_package_share_directory('open_manipulator_description'), 'rviz', 'open_manipulator.rviz')
+    urdf = os.path.join(get_package_share_directory('open_manipulator_description'), 'urdf', 'open_manipulator.urdf.xacro')
     
     return LaunchDescription([
         Node(
@@ -31,6 +34,21 @@ def generate_launch_description():
             package='rviz2',
             node_executable='rviz2',
             arguments=['-d', rviz_config_dir],
-            output='screen'
-        )
+            output='screen'),
+
+        Node(
+            package='joint_state_publisher',
+            node_executable='joint_state_publisher',
+            node_name='joint_state_publisher',
+            arguments=[urdf],
+            parameters=[{'use_gui': use_gui}],
+            output='screen'),
+
+        Node(
+            package='robot_state_publisher',
+            node_executable='robot_state_publisher',
+            node_name='robot_state_publisher',
+            arguments=[urdf],
+            output='screen')
+
     ])

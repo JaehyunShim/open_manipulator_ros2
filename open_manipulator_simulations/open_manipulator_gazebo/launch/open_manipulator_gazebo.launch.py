@@ -38,18 +38,5 @@ def generate_launch_description():
 
         ExecuteProcess(
             cmd=['ros2', 'param', 'set', '/gazebo', 'use_sim_time', use_sim_time],
-            output='screen'),
-
-        Node(
-            package='robot_state_publisher',
-            node_executable='robot_state_publisher',
-            node_name='robot_state_publisher',
-            arguments=[urdf],
-            output='screen'),
-
-        # Node(
-        #     package='open_manipulator_gazebo', 
-        #     node_executable='open_manipulator_spawner.py', 
-        #     arguments=[urdf], 
-        #     output='screen')
+            output='screen')
     ])
