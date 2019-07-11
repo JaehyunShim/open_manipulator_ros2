@@ -23,8 +23,10 @@
   #include <RobotisManipulator.h>
   #include <DynamixelWorkbench.h>
 #else
-  #include <robotis_manipulator/robotis_manipulator.h>
-  #include <dynamixel_workbench_toolbox/dynamixel_workbench.h>
+  // #include <robotis_manipulator/robotis_manipulator.h>
+  #include "../../../../robotis_manipulator/include/robotis_manipulator/robotis_manipulator.h"
+  // #include <dynamixel_workbench_toolbox/dynamixel_workbench.h>
+  #include "../../../../dynamixel-workbench/dynamixel_workbench_toolbox/include/dynamixel_workbench_toolbox/dynamixel_workbench.h"
 #endif
 
 namespace dynamixel

@@ -35,20 +35,15 @@ find_package(dynamixel_sdk REQUIRED)
 ################################################################################
 # Declare catkin specific configuration to be passed to dependent projects
 ################################################################################
-
-ament_export_include_directories(include)
 ament_export_dependencies(rclcpp)
 ament_export_dependencies(dynamixel_sdk)
 ament_export_libraries(dynamixel_workbench_toolbox)
-ament_package()
-
 
 ################################################################################
 # Build
 ################################################################################
-include_directories(
+ament_export_include_directories(
   include
-#  ${catkin_INCLUDE_DIRS}
 )
 
 add_library(dynamixel_workbench_toolbox
@@ -63,17 +58,18 @@ add_library(dynamixel_workbench_toolbox
 ################################################################################
 # Install
 ################################################################################
-#install(TARGETS dynamixel_workbench_toolbox
-#  ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
-#  LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
-#  RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
-#)
+install(TARGETS dynamixel_workbench_toolbox
+  ARCHIVE DESTINATION lib
+  LIBRARY DESTINATION lib
+  RUNTIME DESTINATION bin
+)
 
 install(
   DIRECTORY include/${PROJECT_NAME}/
-  DESTINATION share/${PROJECT_NAME}
+  DESTINATION include/${PROJECT_NAME}
 )
 
 ################################################################################
 # Test
 ################################################################################
+ament_package()

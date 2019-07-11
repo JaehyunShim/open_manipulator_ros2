@@ -39,16 +39,13 @@ find_package(Eigen3 REQUIRED)
 ament_export_include_directories(include)
 ament_export_dependencies(rclcpp)
 ament_export_dependencies(cmake_modules)
-ament_export_dependencies(EIGEN3)
 ament_export_libraries(robotis_manipulator)
-ament_package()
 
 ################################################################################
 # Build
 ################################################################################
-include_directories(
+ament_export_include_directories(
   include
-#  ${catkin_INCLUDE_DIRS}
   ${EIGEN3_INCLUDE_DIRS}
 )
 
@@ -81,3 +78,4 @@ install(DIRECTORY include/${PROJECT_NAME}/
 ################################################################################
 # Test
 ################################################################################
+ament_package()

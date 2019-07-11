@@ -22,7 +22,8 @@
 #if defined(__OPENCR__)
   #include <RobotisManipulator.h>
 #else
-  #include <robotis_manipulator/robotis_manipulator.h>
+  // #include <robotis_manipulator/robotis_manipulator.h>
+  #include "../../../../robotis_manipulator/include/robotis_manipulator/robotis_manipulator.h"
 #endif
 
 using namespace robotis_manipulator;
