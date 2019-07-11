@@ -1,3 +1,6 @@
+################################################################################
+# Set minimum required version of cmake, project name and compile options
+################################################################################
 cmake_minimum_required(VERSION 3.5)
 project(teleop_twist_joy)
 
@@ -10,12 +13,33 @@ if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
   add_compile_options(-Wall -Wextra -Wpedantic)
 endif()
 
+################################################################################
+# Find catkin packages and libraries for catkin and system dependencies
+################################################################################
 find_package(ament_cmake REQUIRED)
-
 find_package(geometry_msgs REQUIRED)
 find_package(rclcpp REQUIRED)
 find_package(sensor_msgs REQUIRED)
 
+################################################################################
+# Setup for python modules and scripts
+################################################################################
+
+################################################################################
+# Declare ROS messages, services and actions
+################################################################################
+
+################################################################################
+## Declare ROS dynamic reconfigure parameters
+################################################################################
+
+################################################################################
+# Declare catkin specific configuration to be passed to dependent projects
+################################################################################
+
+################################################################################
+# Build
+################################################################################
 include_directories(include)
 
 add_library(${PROJECT_NAME} src/${PROJECT_NAME})
@@ -31,6 +55,9 @@ target_link_libraries(${PROJECT_NAME}_node ${PROJECT_NAME})
 set_target_properties(${PROJECT_NAME}_node
   PROPERTIES OUTPUT_NAME teleop_node PREFIX "")
 
+################################################################################
+# Install
+################################################################################
 install(TARGETS ${PROJECT_NAME}
   ARCHIVE DESTINATION lib
   LIBRARY DESTINATION lib
@@ -45,6 +72,9 @@ install(DIRECTORY include/${PROJECT_NAME}/
 #install(DIRECTORY launch config
 #  DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION})
 
+################################################################################
+# Test
+################################################################################
 if(BUILD_TESTING)
   # find_package(roslint REQUIRED)
   # roslint_cpp()
