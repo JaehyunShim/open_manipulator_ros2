@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <package format="2">
-  <name>teleop_twist_joy</name>
+  <name>open_manipulator_teleop</name>
   <version>2.2.0</version>
   <license>Apache 2.0</license>
   <description>open_manipulator_teleop</description>

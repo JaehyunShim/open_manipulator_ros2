@@ -2,7 +2,7 @@
 # Set minimum required version of cmake, project name and compile options
 ################################################################################
 cmake_minimum_required(VERSION 3.5)
-project(teleop_twist_joy)
+project(open_manipulator_teleop)
 
 # Default to C++14
 if(NOT CMAKE_CXX_STANDARD)
@@ -41,20 +41,17 @@ include_directories(include)
 ################################################################################
 # Build
 ################################################################################
-add_executable(${PROJECT_NAME} src/teleop_twist_joy.cpp)
+add_executable(open_manipulator_teleop_joystick src/open_manipulator_teleop_joystick.cpp)
+ament_target_dependencies(open_manipulator_teleop_joystick "geometry_msgs" "rclcpp" "sensor_msgs")
+
 #target_link_libraries(${PROJECT_NAME} ${PROJECT_NAME})
 #set_target_properties(${PROJECT_NAME}
-#  PROPERTIES OUTPUT_NAME teleop_twist_joy PREFIX "")
-ament_target_dependencies(${PROJECT_NAME}
-  "geometry_msgs"
-  "rclcpp"
-  "sensor_msgs"
-)
+#  PROPERTIES OUTPUT_NAME open_manipulator_teleop PREFIX "")
 
 ################################################################################
 # Install
 ################################################################################
-install(TARGETS ${PROJECT_NAME}
+install(TARGETS open_manipulator_teleop_joystick
 #  ARCHIVE DESTINATION lib
 #  LIBRARY DESTINATION lib
 #  RUNTIME DESTINATION bin

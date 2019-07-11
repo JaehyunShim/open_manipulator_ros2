@@ -2,7 +2,7 @@
 # Set minimum required version of cmake, project name and compile options
 ################################################################################
 cmake_minimum_required(VERSION 3.5)
-project(open_manipulator_teleop)
+project(open_manipulator_teleop2)
 
 # Default to C++14
 if(NOT CMAKE_CXX_STANDARD)
@@ -34,12 +34,34 @@ find_package(open_manipulator_msgs REQUIRED)
 ## Declare ROS dynamic reconfigure parameters
 ################################################################################
 ament_export_include_directories(include)
+ament_export_dependencies(rclcpp)
+ament_export_dependencies(std_msgs)
+ament_export_dependencies(sensor_msgs)
+ament_export_dependencies(open_manipulator_msgs)
+
+################################################################################
+# Build
+################################################################################
+add_executable(open_manipulator_teleop_keyboard src/open_manipulator_teleop_keyboard.cpp)
+ament_target_dependencies(open_manipulator_teleop_keyboard "rclcpp" "std_msgs" "sensor_msgs" "open_manipulator_msgs")
+#target_link_libraries(open_manipulator_teleop_keyboard ${catkin_LIBRARIES} )
+
+add_executable(open_manipulator_teleop_joystick src/open_manipulator_teleop_joystick.cpp)
+ament_target_dependencies(open_manipulator_teleop_joystick "rclcpp" "std_msgs" "sensor_msgs" "open_manipulator_msgs")
+#target_link_libraries(open_manipulator_teleop_joystick ${catkin_LIBRARIES} )
 
 ################################################################################
 # Install
 ################################################################################
-install(
-  DIRECTORY launch
+install(TARGETS open_manipulator_teleop_keyboard open_manipulator_teleop_joystick
+  RUNTIME DESTINATION bin
+)
+
+install(DIRECTORY include/${PROJECT_NAME}/
+  DESTINATION include
+)
+
+install(DIRECTORY launch
   DESTINATION share/${PROJECT_NAME}
 )
 

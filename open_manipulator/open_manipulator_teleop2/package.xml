@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <package format="2">
-  <name>open_manipulator_teleop</name>
+  <name>open_manipulator_teleop2</name>
   <version>1.0.0</version>
   <description>
     Provides teleoperation using keyboard for OpenManipulator.
