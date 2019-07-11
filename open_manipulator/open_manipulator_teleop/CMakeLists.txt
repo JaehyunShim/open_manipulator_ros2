@@ -36,38 +36,32 @@ find_package(sensor_msgs REQUIRED)
 ################################################################################
 # Declare catkin specific configuration to be passed to dependent projects
 ################################################################################
+include_directories(include)
 
 ################################################################################
 # Build
 ################################################################################
-include_directories(include)
-
-add_library(${PROJECT_NAME} src/${PROJECT_NAME})
-
+add_executable(${PROJECT_NAME} src/teleop_twist_joy.cpp)
+#target_link_libraries(${PROJECT_NAME} ${PROJECT_NAME})
+#set_target_properties(${PROJECT_NAME}
+#  PROPERTIES OUTPUT_NAME teleop_twist_joy PREFIX "")
 ament_target_dependencies(${PROJECT_NAME}
   "geometry_msgs"
   "rclcpp"
   "sensor_msgs"
 )
 
-add_executable(${PROJECT_NAME}_node src/teleop_node.cpp)
-target_link_libraries(${PROJECT_NAME}_node ${PROJECT_NAME})
-set_target_properties(${PROJECT_NAME}_node
-  PROPERTIES OUTPUT_NAME teleop_node PREFIX "")
-
 ################################################################################
 # Install
 ################################################################################
 install(TARGETS ${PROJECT_NAME}
-  ARCHIVE DESTINATION lib
-  LIBRARY DESTINATION lib
-  RUNTIME DESTINATION bin)
-
-install(TARGETS ${PROJECT_NAME}_node
+#  ARCHIVE DESTINATION lib
+#  LIBRARY DESTINATION lib
+#  RUNTIME DESTINATION bin
   DESTINATION lib/${PROJECT_NAME})
 
-install(DIRECTORY include/${PROJECT_NAME}/
-  DESTINATION include)
+#install(DIRECTORY include/${PROJECT_NAME}/
+#  DESTINATION include)
 
 #install(DIRECTORY launch config
 #  DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION})
@@ -75,31 +69,6 @@ install(DIRECTORY include/${PROJECT_NAME}/
 ################################################################################
 # Test
 ################################################################################
-if(BUILD_TESTING)
-  # find_package(roslint REQUIRED)
-  # roslint_cpp()
-  # roslint_python()
-  # roslint_add_test()
-
-  # find_package(roslaunch REQUIRED)
-  # roslaunch_add_file_check(launch/teleop.launch)
-
-  # find_package(rostest REQUIRED)
-  # include_directories(include ${catkin_INCLUDE_DIRS})
-
-  # # Check axes and scaling.
-  # add_rostest(test/differential_joy.test)
-  # add_rostest(test/holonomic_joy.test)
-  # add_rostest(test/six_dof_joy.test)
-
-  # # Check enable and turbo button logic.
-  # add_rostest(test/no_enable_joy.test)
-  # add_rostest(test/turbo_enable_joy.test)
-  # add_rostest(test/only_turbo_joy.test)
-  # add_rostest(test/turbo_angular_enable_joy.test)
-  # add_rostest(test/turbo_angular_enable_joy_with_rosparam_map.test)
-endif()
-
-ament_export_include_directories(include)
-ament_export_libraries(${PROJECT_NAME})
+#ament_export_include_directories(include)
+#ament_export_libraries(${PROJECT_NAME})
 ament_package()

@@ -216,3 +216,15 @@ void TeleopTwistJoy::Impl::joyCallback(const sensor_msgs::msg::Joy::SharedPtr jo
 }
 
 }  // namespace teleop_twist_joy
+
+
+int main(int argc, char *argv[])
+{
+  rclcpp::init(argc, argv);
+
+  rclcpp::spin(std::make_unique<teleop_twist_joy::TeleopTwistJoy>());
+
+  rclcpp::shutdown();
+
+  return 0;
+}
