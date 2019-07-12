@@ -1,14 +1,15 @@
 <?xml version="1.0"?>
 <package format="2">
-  <name>open_manipulator_teleop</name>
+  <name>open_manipulator_x_teleop</name>
   <version>2.2.0</version>
   <license>Apache 2.0</license>
-  <description>open_manipulator_teleop</description>
+  <description>open_manipulator_x_teleop</description>
   <author email="jhshim@robotis.com">Ryan Shim</author>
   <maintainer email="hjkim@robotis.com">Hye-Jong KIM</maintainer>
   <buildtool_depend>ament_cmake</buildtool_depend>
   <depend>geometry_msgs</depend>
   <depend>rclcpp</depend>
   <depend>sensor_msgs</depend>
+  <depend>open_manipulator_msgs</depend>
   <export><build_type>ament_cmake</build_type></export>
 </package>
