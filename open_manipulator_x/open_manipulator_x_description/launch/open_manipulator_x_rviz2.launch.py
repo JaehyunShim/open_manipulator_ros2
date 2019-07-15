@@ -1,0 +1,54 @@
+# /*******************************************************************************
+# * Copyright 2019 ROBOTIS CO., LTD.
+# *
+# * Licensed under the Apache License, Version 2.0 (the "License");
+# * you may not use this file except in compliance with the License.
+# * You may obtain a copy of the License at
+# *
+# *     http://www.apache.org/licenses/LICENSE-2.0
+# *
+# * Unless required by applicable law or agreed to in writing, software
+# * distributed under the License is distributed on an "AS IS" BASIS,
+# * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# * See the License for the specific language governing permissions and
+# * limitations under the License.
+# *******************************************************************************/
+
+# /* Author: Jaehyun Shim */
+
+import os
+
+from ament_index_python.packages import get_package_share_directory
+from launch import LaunchDescription
+from launch.substitutions import LaunchConfiguration
+from launch_ros.actions import Node
+
+def generate_launch_description():
+    use_gui = LaunchConfiguration('use_gui', default='True')  
+    rviz_config_dir = os.path.join(get_package_share_directory('open_manipulator_x_description'), 'rviz', 'open_manipulator_x.rviz')
+    urdf = os.path.join(get_package_share_directory('open_manipulator_x_description'), 'urdf', 'open_manipulator_x.urdf.xacro')
+    
+    return LaunchDescription([
+        Node(
+            node_name='rviz2',
+            package='rviz2',
+            node_executable='rviz2',
+            arguments=['-d', rviz_config_dir],
+            output='screen'),
+
+        Node(
+            package='joint_state_publisher',
+            node_executable='joint_state_publisher',
+            node_name='joint_state_publisher',
+            arguments=[urdf],
+            parameters=[{'use_gui': use_gui}],
+            output='screen'),
+
+        Node(
+            package='robot_state_publisher',
+            node_executable='robot_state_publisher',
+            node_name='robot_state_publisher',
+            arguments=[urdf],
+            output='screen')
+
+    ])
