@@ -27,15 +27,11 @@
 #include "open_manipulator_msgs/srv/set_joint_position.hpp"
 #include "open_manipulator_msgs/srv/set_kinematics_pose.hpp"
 
-#include <termios.h>
 #include <cinttypes>
 #include <functional>
 #include <map>
 #include <memory>
 #include <string>
-
-#define ROS_INFO_NAMED RCUTILS_LOG_INFO_NAMED
-#define ROS_INFO_COND_NAMED RCUTILS_LOG_INFO_EXPRESSION_NAMED
 
 #define NUM_OF_JOINT 4
 #define DELTA 0.01
@@ -52,37 +48,23 @@ public:
   OpenManipulatorXTeleopJoystick();
   virtual ~OpenManipulatorXTeleopJoystick();
 
-
-  // void joyCallback(const sensor_msgs::msg::Joy::SharedPtr joy);
-  // void sendCmdVelMsg(const sensor_msgs::msg::Joy::SharedPtr, const std::string& which_map);
-
-  // rclcpp::Subscription<sensor_msgs::msg::Joy>::SharedPtr joy_sub;
-  // rclcpp::Publisher<geometry_msgs::msg::Twist>::SharedPtr cmd_vel_pub;
-
-  // int64_t enable_button;
-  // int64_t enable_turbo_button;
-
-  // std::map<std::string, int64_t> axis_linear_map;
-  // std::map<std::string, std::map<std::string, double>> scale_linear_map;
-
-  // std::map<std::string, int64_t> axis_angular_map;
-  // std::map<std::string, std::map<std::string, double>> scale_angular_map;
-
-  // bool sent_disable_msg;
-
+private:
   /*****************************************************************************
   ** Position in Joint Space and Task Space
   *****************************************************************************/
-  std::vector<double> present_joint_angle;
-  std::vector<double> present_kinematic_position;
+  std::vector<double> present_joint_angle_;
+  std::vector<double> present_kinematic_position_;
 
   /*****************************************************************************
   ** ROS Subscribers, Callback Functions and Relevant Functions
   *****************************************************************************/
+  rclcpp::Subscription<sensor_msgs::msg::JointState>::SharedPtr joint_states_sub_;
+  rclcpp::Subscription<open_manipulator_msgs::msg::KinematicsPose>::SharedPtr kinematics_pose_sub_;
+  rclcpp::Subscription<sensor_msgs::msg::Joy>::SharedPtr joy_command_sub_;
 
   void jointStatesCallback(const sensor_msgs::msg::JointState::SharedPtr msg);
   void kinematicsPoseCallback(const open_manipulator_msgs::msg::KinematicsPose::SharedPtr msg);
-  void joyCallback2(const sensor_msgs::msg::Joy::SharedPtr msg);
+  void joyCallback(const sensor_msgs::msg::Joy::SharedPtr msg);
 
   void setGoal(const char *str);
   bool setJointSpacePath(std::vector<std::string> joint_name, std::vector<double> joint_angle, double path_time);
@@ -92,22 +74,9 @@ public:
   /*****************************************************************************
   ** ROS  Clients
   *****************************************************************************/
-
-
-private:
-  struct Impl; 
-  Impl* pimpl_;
-
-  std::shared_ptr<rclcpp::Node> node_ = nullptr;
-
-  rclcpp::Subscription<sensor_msgs::msg::JointState>::SharedPtr joint_states_sub;
-  rclcpp::Subscription<open_manipulator_msgs::msg::KinematicsPose>::SharedPtr kinematics_pose_sub;
-  rclcpp::Subscription<sensor_msgs::msg::Joy>::SharedPtr joy_command_sub;
-
-  rclcpp::Client<open_manipulator_msgs::srv::SetKinematicsPose>::SharedPtr goal_task_space_path_from_present_position_only_client;
-  rclcpp::Client<open_manipulator_msgs::srv::SetJointPosition>::SharedPtr goal_joint_space_path_client;
-  rclcpp::Client<open_manipulator_msgs::srv::SetJointPosition>::SharedPtr goal_tool_control_client;
-
+  rclcpp::Client<open_manipulator_msgs::srv::SetJointPosition>::SharedPtr goal_joint_space_path_client_;
+  rclcpp::Client<open_manipulator_msgs::srv::SetJointPosition>::SharedPtr goal_tool_control_client_;
+  rclcpp::Client<open_manipulator_msgs::srv::SetKinematicsPose>::SharedPtr goal_task_space_path_from_present_position_only_client_;
 };
 
 }  // namespace open_manipulator_x_teleop_joystick

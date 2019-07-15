@@ -45,6 +45,10 @@ include_directories(include)
 add_executable(open_manipulator_x_teleop_joystick src/open_manipulator_x_teleop_joystick.cpp)
 ament_target_dependencies(open_manipulator_x_teleop_joystick "geometry_msgs" "rclcpp" "sensor_msgs" "open_manipulator_msgs")
 
+add_executable(open_manipulator_x_teleop_keyboard src/open_manipulator_x_teleop_keyboard.cpp)
+ament_target_dependencies(open_manipulator_x_teleop_keyboard "geometry_msgs" "rclcpp" "sensor_msgs" "open_manipulator_msgs")
+
+
 #target_link_libraries(${PROJECT_NAME} ${PROJECT_NAME})
 #set_target_properties(${PROJECT_NAME}
 #  PROPERTIES OUTPUT_NAME open_manipulator_x_teleop PREFIX "")
@@ -52,7 +56,7 @@ ament_target_dependencies(open_manipulator_x_teleop_joystick "geometry_msgs" "rc
 ################################################################################
 # Install
 ################################################################################
-install(TARGETS open_manipulator_x_teleop_joystick
+install(TARGETS open_manipulator_x_teleop_joystick open_manipulator_x_teleop_keyboard
 #  ARCHIVE DESTINATION lib
 #  LIBRARY DESTINATION lib
 #  RUNTIME DESTINATION bin
@@ -61,8 +65,10 @@ install(TARGETS open_manipulator_x_teleop_joystick
 #install(DIRECTORY include/${PROJECT_NAME}/
 #  DESTINATION include)
 
-#install(DIRECTORY launch config
-#  DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION})
+install(
+  DIRECTORY launch 
+  DESTINATION share/${PROJECT_NAME}
+)
 
 ################################################################################
 # Test

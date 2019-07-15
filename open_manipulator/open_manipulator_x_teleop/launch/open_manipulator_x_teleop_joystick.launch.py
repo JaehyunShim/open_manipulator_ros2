@@ -23,15 +23,15 @@ from launch import LaunchDescription
 from launch_ros.actions import Node
 
 def generate_launch_description():
-    # end_effector_name = LaunchConfiguration('robot_name', default='open_manipulator')
-    end_effector_name = LaunchConfiguration('end_effector', default='gripper')
+    # end_effector_name = LaunchConfiguration('robot_name', default='open_manipulator_x')
+    # end_effector_name = LaunchConfiguration('end_effector', default='gripper')
     
     return LaunchDescription([
         Node(
-            node_name='teleop_keyboard',
-            package='open_manipulator_teleop',
-            node_executable='open_manipulator_teleop_keyboard',
-            arguments=['-d', end_effector_name],
+            package='open_manipulator_x_teleop',
+            node_executable='open_manipulator_x_teleop_joystick',
+            node_name='open_manipulator_x_teleop_joystick',
+            # arguments=['-d', end_effector_name],
             output='screen'
         )
     ])
