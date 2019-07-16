@@ -14,7 +14,7 @@
 * limitations under the License.
 *******************************************************************************/
 
-/* Authors: Ryan Shim */
+/* Authors: Ryan Shim, Hye-Jong KIM, Yong-Ho Na */
 
 #ifndef OPEN_MANIPULATOR_X_TELEOP_KEYBOARD_H
 #define OPEN_MANIPULATOR_X_TELEOP_KEYBOARD_H

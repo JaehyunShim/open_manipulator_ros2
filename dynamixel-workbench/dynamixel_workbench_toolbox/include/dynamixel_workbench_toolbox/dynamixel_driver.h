@@ -26,8 +26,7 @@
   #include <DynamixelSDK.h>
 #elif defined(__linux__) || defined(__APPLE__)
   #include "unistd.h"
-  // #include "dynamixel_sdk/dynamixel_sdk.h"
-  #include "../../../../DynamixelSDK/ros/include/dynamixel_sdk/dynamixel_sdk.h"
+  #include "dynamixel_sdk/dynamixel_sdk.h"
 #endif
 
 #define MAX_DXL_SERIES_NUM  5

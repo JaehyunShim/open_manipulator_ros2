@@ -14,7 +14,7 @@
 * limitations under the License.
 *******************************************************************************/
 
-/* Authors: Ryan Shim */
+/* Authors: Ryan Shim, Hye-Jong KIM, Yong-Ho Na */
 
 #ifndef OPEN_MANIPULATOR_X_TELEOP_JOYSTICK_H
 #define OPEN_MANIPULATOR_X_TELEOP_JOYSTICK_H
@@ -72,7 +72,7 @@ private:
   bool setToolControl(std::vector<double> joint_angle);
 
   /*****************************************************************************
-  ** ROS  Clients
+  ** ROS Clients
   *****************************************************************************/
   rclcpp::Client<open_manipulator_msgs::srv::SetJointPosition>::SharedPtr goal_joint_space_path_client_;
   rclcpp::Client<open_manipulator_msgs::srv::SetJointPosition>::SharedPtr goal_tool_control_client_;

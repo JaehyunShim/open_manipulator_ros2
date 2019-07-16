@@ -52,7 +52,7 @@ add_library(dynamixel_workbench_toolbox
   src/${PROJECT_NAME}/dynamixel_tool.cpp
   src/${PROJECT_NAME}/dynamixel_workbench.cpp
 )
-#add_dependencies(dynamixel_workbench_toolbox ${catkin_EXPORTED_TARGETS})
+ament_target_dependencies(dynamixel_workbench_toolbox rclcpp dynamixel_sdk)
 #target_link_libraries(dynamixel_workbench_toolbox ${catkin_LIBRARIES})
 
 ################################################################################
