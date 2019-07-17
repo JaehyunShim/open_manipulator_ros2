@@ -44,7 +44,8 @@ set(srv_files
     "srv/SetActuatorState.srv"
 )
 
-rosidl_generate_interfaces(${PROJECT_NAME}
+rosidl_generate_interfaces(
+  ${PROJECT_NAME}
   ${msg_files}
   ${srv_files}
   DEPENDENCIES std_msgs geometry_msgs

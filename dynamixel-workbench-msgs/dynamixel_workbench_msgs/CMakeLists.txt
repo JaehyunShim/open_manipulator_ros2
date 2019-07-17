@@ -17,9 +17,9 @@ endif()
 ################################################################################
 # Find catkin packages and libraries for catkin and system dependencies
 ################################################################################
-find_package(catkin REQUIRED)
+find_package(ament_cmake REQUIRED)
 find_package(std_msgs REQUIRED)
-find_package(message_generation REQUIRED)
+find_package(rosidl_default_generators REQUIRED)
 
 ################################################################################
 # Setup for python modules and scripts
@@ -28,35 +28,36 @@ find_package(message_generation REQUIRED)
 ################################################################################
 # Declare ROS messages, services and actions
 ################################################################################
-add_message_files(
-  FILES
-  AX.msg
-  EX.msg
-  MX.msg
-  MX2.msg
-  MX2Ext.msg
-  MXExt.msg
-  PRO.msg
-  PROExt.msg
-  RX.msg
-  XH.msg
-  XL.msg
-  XL320.msg
-  XM.msg
-  XMExt.msg
-  DynamixelState.msg
-  DynamixelStateList.msg
-  DynamixelInfo.msg
-  DynamixelLoadInfo.msg
+set(msg_files
+    "msg/AX.msg"
+    "msg/EX.msg"
+    "msg/MX.msg"
+    "msg/MX2.msg"
+    "msg/MX2Ext.msg"
+    "msg/MXExt.msg"
+    "msg/PRO.msg"
+    "msg/PROExt.msg"
+    "msg/RX.msg"
+    "msg/XH.msg"
+    "msg/XL.msg"
+    "msg/XL320.msg"
+    "msg/XM.msg"
+    "msg/XMExt.msg"
+    "msg/DynamixelState.msg"
+    "msg/DynamixelStateList.msg"
+    "msg/DynamixelInfo.msg"
+    "msg/DynamixelLoadInfo.msg"
 )
 
-add_service_files(
-  FILES
-  GetDynamixelInfo.srv
-  DynamixelCommand.srv
+set(srv_files
+    "srv/GetDynamixelInfo.srv"
+    "srv/DynamixelCommand.srv"
 )
 
-generate_messages(
+rosidl_generate_interfaces(
+  ${PROJECT_NAME}
+  ${msg_files}
+  ${srv_files}
   DEPENDENCIES std_msgs
 )
 
@@ -67,18 +68,9 @@ generate_messages(
 ################################################################################
 # Declare catkin specific configuration to be passed to dependent projects
 ################################################################################
-catkin_package(
-   CATKIN_DEPENDS std_msgs message_runtime
-)
+#catkin_package(
+#   CATKIN_DEPENDS std_msgs message_runtime
+#)
 
-################################################################################
-# Build
-################################################################################
-
-################################################################################
-# Install
-################################################################################
-
-################################################################################
-# Test
-################################################################################
+ament_export_dependencies(rosidl_default_runtime)
+ament_package()
