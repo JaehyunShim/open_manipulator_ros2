@@ -25,8 +25,11 @@
 #include "std_msgs/msg/float64.hpp"
 #include "std_msgs/msg/string.hpp"
 #include "std_msgs/msg/empty.hpp"
-#include <boost/thread.hpp>
+// #include <boost/thread.hpp>
 #include <unistd.h>
+#include <chrono>
+#include <cstdio>
+#include <memory>
 
 // #include <moveit/move_group_interface/move_group_interface.h>
 // #include <moveit/robot_state/robot_state.h>
@@ -75,10 +78,17 @@ class OpenManipulatorXController : public rclcpp::Node
   bool calcPlannedPath(const std::string planning_group, open_manipulator_msgs::msg::KinematicsPose msg);
   bool calcPlannedPath(const std::string planning_group, open_manipulator_msgs::msg::JointPosition msg);
 
+  rclcpp::TimerBase::SharedPtr timer_;
+
  private:
-  // ROS Parameters
+
+  /*****************************************************************************
+  ** Parameters
+  *****************************************************************************/
+  rclcpp::SyncParametersClient::SharedPtr parameters_client_;
+
   bool using_platform_;
-  // bool using_moveit_;
+  bool using_moveit_;
   double control_period_;
 
   // flag parameter
@@ -89,7 +99,7 @@ class OpenManipulatorXController : public rclcpp::Node
   // // MoveIt! interface
   // moveit::planning_interface::MoveGroupInterface* move_group_;
   // trajectory_msgs::msg::JointTrajectory joint_trajectory_;
-  // double moveit_sampling_time_;
+  double moveit_sampling_time_;
   // bool moveit_plan_only_;
 
   // Thread parameter
@@ -137,23 +147,23 @@ class OpenManipulatorXController : public rclcpp::Node
   ** ROS Servers and Callback Functions
   *****************************************************************************/
   rclcpp::Service<open_manipulator_msgs::srv::SetJointPosition>::SharedPtr goal_joint_space_path_server_;
-  rclcpp::Service<open_manipulator_msgs::srv::SetJointPosition>::SharedPtr goal_joint_space_path_to_kinematics_pose_server_;
-  rclcpp::Service<open_manipulator_msgs::srv::SetJointPosition>::SharedPtr goal_joint_space_path_to_kinematics_position_server_;
-  rclcpp::Service<open_manipulator_msgs::srv::SetJointPosition>::SharedPtr goal_joint_space_path_to_kinematics_orientation_server_;
-  rclcpp::Service<open_manipulator_msgs::srv::SetJointPosition>::SharedPtr goal_task_space_path_server_;
-  rclcpp::Service<open_manipulator_msgs::srv::SetJointPosition>::SharedPtr goal_task_space_path_position_only_server_;
-  rclcpp::Service<open_manipulator_msgs::srv::SetJointPosition>::SharedPtr goal_task_space_path_orientation_only_server_;
+  rclcpp::Service<open_manipulator_msgs::srv::SetKinematicsPose>::SharedPtr goal_joint_space_path_to_kinematics_pose_server_;
+  rclcpp::Service<open_manipulator_msgs::srv::SetKinematicsPose>::SharedPtr goal_joint_space_path_to_kinematics_position_server_;
+  rclcpp::Service<open_manipulator_msgs::srv::SetKinematicsPose>::SharedPtr goal_joint_space_path_to_kinematics_orientation_server_;
+  rclcpp::Service<open_manipulator_msgs::srv::SetKinematicsPose>::SharedPtr goal_task_space_path_server_;
+  rclcpp::Service<open_manipulator_msgs::srv::SetKinematicsPose>::SharedPtr goal_task_space_path_position_only_server_;
+  rclcpp::Service<open_manipulator_msgs::srv::SetKinematicsPose>::SharedPtr goal_task_space_path_orientation_only_server_;
   rclcpp::Service<open_manipulator_msgs::srv::SetJointPosition>::SharedPtr goal_joint_space_path_from_present_server_;
-  rclcpp::Service<open_manipulator_msgs::srv::SetJointPosition>::SharedPtr goal_task_space_path_from_present_position_only_server_;
-  rclcpp::Service<open_manipulator_msgs::srv::SetJointPosition>::SharedPtr goal_task_space_path_from_present_orientation_only_server_;
-  rclcpp::Service<open_manipulator_msgs::srv::SetJointPosition>::SharedPtr goal_task_space_path_from_present_server_;
+  rclcpp::Service<open_manipulator_msgs::srv::SetKinematicsPose>::SharedPtr goal_task_space_path_from_present_position_only_server_;
+  rclcpp::Service<open_manipulator_msgs::srv::SetKinematicsPose>::SharedPtr goal_task_space_path_from_present_orientation_only_server_;
+  rclcpp::Service<open_manipulator_msgs::srv::SetKinematicsPose>::SharedPtr goal_task_space_path_from_present_server_;
   rclcpp::Service<open_manipulator_msgs::srv::SetJointPosition>::SharedPtr goal_tool_control_server_;
-  rclcpp::Service<open_manipulator_msgs::srv::SetJointPosition>::SharedPtr set_actuator_state_server_;
-  rclcpp::Service<open_manipulator_msgs::srv::SetJointPosition>::SharedPtr goal_drawing_trajectory_server_;
-  rclcpp::Service<open_manipulator_msgs::srv::SetJointPosition>::SharedPtr get_joint_position_server_;
-  rclcpp::Service<open_manipulator_msgs::srv::SetJointPosition>::SharedPtr get_kinematics_pose_server_;
+  rclcpp::Service<open_manipulator_msgs::srv::SetActuatorState>::SharedPtr set_actuator_state_server_;
+  rclcpp::Service<open_manipulator_msgs::srv::SetDrawingTrajectory>::SharedPtr goal_drawing_trajectory_server_;
+  rclcpp::Service<open_manipulator_msgs::srv::GetJointPosition>::SharedPtr get_joint_position_server_;
+  rclcpp::Service<open_manipulator_msgs::srv::GetKinematicsPose>::SharedPtr get_kinematics_pose_server_;
   rclcpp::Service<open_manipulator_msgs::srv::SetJointPosition>::SharedPtr set_joint_position_server_;
-  rclcpp::Service<open_manipulator_msgs::srv::SetJointPosition>::SharedPtr set_kinematics_pose_server_;
+  rclcpp::Service<open_manipulator_msgs::srv::SetKinematicsPose>::SharedPtr set_kinematics_pose_server_;
 
   void goalJointSpacePathCallback(
     const std::shared_ptr<rmw_request_id_t> request_header,
