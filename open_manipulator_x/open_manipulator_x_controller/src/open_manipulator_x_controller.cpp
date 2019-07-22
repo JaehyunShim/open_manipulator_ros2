@@ -58,19 +58,19 @@ OpenManipulatorXController::OpenManipulatorXController(std::string usb_port, std
   /************************************************************
   ** Initialise ROS Publishers, Subscribers and Servers
   ************************************************************/
-  // initPublisher();
-  // initSubscriber();
-  // initServer();
+  initPublisher();
+  initSubscriber();
+  initServer();
 
-  // /************************************************************
-  // ** Start Process and Publish Threads
-  // ************************************************************/
-  // this->startTimerThread();
+  /************************************************************
+  ** Start Process and Publish Threads
+  ************************************************************/
+  this->startTimerThread();
 
-  // auto period = std::chrono::milliseconds(10); 
-  // timer_ = this->create_wall_timer(
-  //   std::chrono::duration_cast<std::chrono::milliseconds>(period), 
-  //   std::bind(&OpenManipulatorXController::publishCallback, this));
+  auto period = std::chrono::milliseconds(10); 
+  timer_ = this->create_wall_timer(
+    std::chrono::duration_cast<std::chrono::milliseconds>(period), 
+    std::bind(&OpenManipulatorXController::publishCallback, this));
 }
 
 OpenManipulatorXController::~OpenManipulatorXController()
