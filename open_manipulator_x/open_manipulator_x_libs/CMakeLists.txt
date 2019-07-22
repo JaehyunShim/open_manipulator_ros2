@@ -14,7 +14,7 @@ if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
 endif()
 
 ################################################################################
-# Find catkin packages and libraries for catkin and system dependencies
+# Find ament packages and libraries for ament and system dependencies
 ################################################################################
 find_package(ament_cmake REQUIRED)
 find_package(rclcpp REQUIRED)
@@ -48,10 +48,8 @@ ament_export_libraries(open_manipulator_x_libs)
 ################################################################################
 # Build
 ################################################################################
-ament_export_include_directories(
-  include
-  ${EIGEN3_INCLUDE_DIRS}
-)
+include_directories(include)
+include_directories(${EIGEN3_INCLUDE_DIRS})
 
 add_library(open_manipulator_x_libs
   src/open_manipulator_x.cpp

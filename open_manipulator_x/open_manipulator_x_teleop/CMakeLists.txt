@@ -14,12 +14,12 @@ if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
 endif()
 
 ################################################################################
-# Find catkin packages and libraries for catkin and system dependencies
+# Find ament packages and libraries for ament and system dependencies
 ################################################################################
 find_package(ament_cmake REQUIRED)
-find_package(geometry_msgs REQUIRED)
 find_package(rclcpp REQUIRED)
 find_package(sensor_msgs REQUIRED)
+find_package(geometry_msgs REQUIRED)
 find_package(open_manipulator_msgs REQUIRED)
 
 ################################################################################
@@ -35,9 +35,11 @@ find_package(open_manipulator_msgs REQUIRED)
 ################################################################################
 
 ################################################################################
-# Declare catkin specific configuration to be passed to dependent projects
+# Declare ament specific configuration to be passed to dependent projects
 ################################################################################
 include_directories(include)
+#ament_export_include_directories(include)
+#ament_export_libraries(${PROJECT_NAME})
 
 ################################################################################
 # Build
@@ -60,9 +62,11 @@ install(TARGETS open_manipulator_x_teleop_joystick open_manipulator_x_teleop_key
 #  ARCHIVE DESTINATION lib
 #  LIBRARY DESTINATION lib
 #  RUNTIME DESTINATION bin
-  DESTINATION lib/${PROJECT_NAME})
+  DESTINATION lib/${PROJECT_NAME}
+)
 
-#install(DIRECTORY include/${PROJECT_NAME}/
+#install(
+#  DIRECTORY include/${PROJECT_NAME}/
 #  DESTINATION include)
 
 install(
@@ -71,8 +75,7 @@ install(
 )
 
 ################################################################################
-# Test
+# Macro for ament package
 ################################################################################
-#ament_export_include_directories(include)
-#ament_export_libraries(${PROJECT_NAME})
+
 ament_package()

@@ -53,7 +53,9 @@ add_library(dynamixel_workbench_toolbox
   src/${PROJECT_NAME}/dynamixel_workbench.cpp
 )
 ament_target_dependencies(dynamixel_workbench_toolbox rclcpp dynamixel_sdk)
-#target_link_libraries(dynamixel_workbench_toolbox ${catkin_LIBRARIES})
+target_link_libraries(dynamixel_workbench_toolbox 
+                      ${rclcpp_LIBRARIES}
+                      ${dynamixel_sdk_LIBRARIES})
 
 ################################################################################
 # Install
