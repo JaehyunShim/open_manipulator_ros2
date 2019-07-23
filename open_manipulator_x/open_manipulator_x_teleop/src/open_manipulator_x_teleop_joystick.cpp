@@ -14,7 +14,7 @@
 * limitations under the License.
 *******************************************************************************/
 
-/* Authors: Ryan Shim, Hye-Jong KIM, Yong-Ho Na */
+/* Authors: Ryan Shim, Darby Lim, Hye-Jong KIM, Yong-Ho Na */
 
 #include "open_manipulator_x_teleop/open_manipulator_x_teleop_joystick.h"
 

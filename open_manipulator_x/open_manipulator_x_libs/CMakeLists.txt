@@ -59,6 +59,7 @@ add_library(open_manipulator_x_libs
 ament_target_dependencies(open_manipulator_x_libs 
   rclcpp robotis_manipulator dynamixel_workbench_toolbox cmake_modules EIGEN3)
 target_link_libraries(open_manipulator_x_libs 
+  ${rclcpp_manipulator_LIBRARIES}
   ${robotis_manipulator_LIBRARIES}
   ${dynamixel_workbench_toolbox_LIBRARIES}
   ${Eigen3_LIBRARIES})
@@ -79,6 +80,10 @@ install(
 
 ################################################################################
 # Test
+################################################################################
+
+################################################################################
+# Macro for ament package
 ################################################################################
 ament_export_include_directories(include/${PROJECT_NAME})
 ament_export_libraries(open_manipulator_x_libs)

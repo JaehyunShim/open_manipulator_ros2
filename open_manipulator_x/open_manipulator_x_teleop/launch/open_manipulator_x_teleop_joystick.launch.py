@@ -20,18 +20,24 @@ import os
 
 from ament_index_python.packages import get_package_share_directory
 from launch import LaunchDescription
+from launch.substitutions import LaunchConfiguration
 from launch_ros.actions import Node
 
 def generate_launch_description():
-    # end_effector_name = LaunchConfiguration('robot_name', default='open_manipulator_x')
-    # end_effector_name = LaunchConfiguration('end_effector', default='gripper')
+    end_effector_name = LaunchConfiguration('end_effector', default='gripper')
     
     return LaunchDescription([
+        Node(
+            package='joy',
+            node_executable='joy_node',
+            node_name='joy_node',
+        #     arguments=['-d', end_effector_name],
+            output='screen'),
+
         Node(
             package='open_manipulator_x_teleop',
             node_executable='open_manipulator_x_teleop_joystick',
             node_name='open_manipulator_x_teleop_joystick',
-            # arguments=['-d', end_effector_name],
-            output='screen'
-        )
+            arguments=['-d', end_effector_name],
+            output='screen')
     ])

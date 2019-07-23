@@ -67,7 +67,7 @@
           <geometry>
             <mesh>
               <scale>0.001 0.001 0.001</scale>
-              <uri>file:///home/robotis/ros2_example_ws/src/ROS2_study/open_manipulator_x/open_manipulator_x_description/meshes/chain_link1.stl</uri>
+              <uri>file:///home/robotis/ros2_example_ws/src/ROS2_study/open_manipulator_x/open_manipulator_x_description/meshes/link1.stl</uri>
             </mesh>
           </geometry>
         </collision>
@@ -76,7 +76,7 @@
           <geometry>
             <mesh>
               <scale>0.001 0.001 0.001</scale>
-              <uri>file:///home/robotis/ros2_example_ws/src/ROS2_study/open_manipulator_x/open_manipulator_x_description/meshes/chain_link1.stl</uri>
+              <uri>file:///home/robotis/ros2_example_ws/src/ROS2_study/open_manipulator_x/open_manipulator_x_description/meshes/link1.stl</uri>
             </mesh>
           </geometry>
         </visual>
@@ -104,7 +104,7 @@
           <geometry>
             <mesh>
               <scale>0.001 0.001 0.001</scale>
-              <uri>file:///home/robotis/ros2_example_ws/src/ROS2_study/open_manipulator_x/open_manipulator_x_description/meshes/chain_link2.stl</uri>
+              <uri>file:///home/robotis/ros2_example_ws/src/ROS2_study/open_manipulator_x/open_manipulator_x_description/meshes/link2.stl</uri>
             </mesh>
           </geometry>
         </collision>
@@ -113,7 +113,7 @@
           <geometry>
             <mesh>
               <scale>0.001 0.001 0.001</scale>
-              <uri>file:///home/robotis/ros2_example_ws/src/ROS2_study/open_manipulator_x/open_manipulator_x_description/meshes/chain_link2.stl</uri>
+              <uri>file:///home/robotis/ros2_example_ws/src/ROS2_study/open_manipulator_x/open_manipulator_x_description/meshes/link2.stl</uri>
             </mesh>
           </geometry>
         </visual>
@@ -155,7 +155,7 @@
           <geometry>
             <mesh>
               <scale>0.001 0.001 0.001</scale>
-              <uri>file:///home/robotis/ros2_example_ws/src/ROS2_study/open_manipulator_x/open_manipulator_x_description/meshes/chain_link3.stl</uri>
+              <uri>file:///home/robotis/ros2_example_ws/src/ROS2_study/open_manipulator_x/open_manipulator_x_description/meshes/link3.stl</uri>
             </mesh>
           </geometry>
         </collision>
@@ -164,7 +164,7 @@
           <geometry>
             <mesh>
               <scale>0.001 0.001 0.001</scale>
-              <uri>file:///home/robotis/ros2_example_ws/src/ROS2_study/open_manipulator_x/open_manipulator_x_description/meshes/chain_link3.stl</uri>
+              <uri>file:///home/robotis/ros2_example_ws/src/ROS2_study/open_manipulator_x/open_manipulator_x_description/meshes/link3.stl</uri>
             </mesh>
           </geometry>
         </visual>
@@ -206,7 +206,7 @@
           <geometry>
             <mesh>
               <scale>0.001 0.001 0.001</scale>
-              <uri>file:///home/robotis/ros2_example_ws/src/ROS2_study/open_manipulator_x/open_manipulator_x_description/meshes/chain_link4.stl</uri>
+              <uri>file:///home/robotis/ros2_example_ws/src/ROS2_study/open_manipulator_x/open_manipulator_x_description/meshes/link4.stl</uri>
             </mesh>
           </geometry>
         </collision>
@@ -215,7 +215,7 @@
           <geometry>
             <mesh>
               <scale>0.001 0.001 0.001</scale>
-              <uri>file:///home/robotis/ros2_example_ws/src/ROS2_study/open_manipulator_x/open_manipulator_x_description/meshes/chain_link4.stl</uri>
+              <uri>file:///home/robotis/ros2_example_ws/src/ROS2_study/open_manipulator_x/open_manipulator_x_description/meshes/link4.stl</uri>
             </mesh>
           </geometry>
         </visual>
@@ -257,7 +257,7 @@
           <geometry>
             <mesh>
               <scale>0.001 0.001 0.001</scale>
-              <uri>file:///home/robotis/ros2_example_ws/src/ROS2_study/open_manipulator_x/open_manipulator_x_description/meshes/chain_link5.stl</uri>
+              <uri>file:///home/robotis/ros2_example_ws/src/ROS2_study/open_manipulator_x/open_manipulator_x_description/meshes/link5.stl</uri>
             </mesh>
           </geometry>
         </collision>
@@ -266,7 +266,7 @@
           <geometry>
             <mesh>
               <scale>0.001 0.001 0.001</scale>
-              <uri>file:///home/robotis/ros2_example_ws/src/ROS2_study/open_manipulator_x/open_manipulator_x_description/meshes/chain_link5.stl</uri>
+              <uri>file:///home/robotis/ros2_example_ws/src/ROS2_study/open_manipulator_x/open_manipulator_x_description/meshes/link5.stl</uri>
             </mesh>
           </geometry>
         </visual>
@@ -316,7 +316,7 @@
           <geometry>
             <mesh>
               <scale>0.001 0.001 0.001</scale>
-              <uri>file:///home/robotis/ros2_example_ws/src/ROS2_study/open_manipulator_x/open_manipulator_x_description/meshes/chain_link_grip_l.stl</uri>
+              <uri>file:///home/robotis/ros2_example_ws/src/ROS2_study/open_manipulator_x/open_manipulator_x_description/meshes/link_grip_l.stl</uri>
             </mesh>
           </geometry>
         </collision>
@@ -325,7 +325,7 @@
           <geometry>
             <mesh>
               <scale>0.001 0.001 0.001</scale>
-              <uri>file:///home/robotis/ros2_example_ws/src/ROS2_study/open_manipulator_x/open_manipulator_x_description/meshes/chain_link_grip_l.stl</uri>
+              <uri>file:///home/robotis/ros2_example_ws/src/ROS2_study/open_manipulator_x/open_manipulator_x_description/meshes/link_grip_l.stl</uri>
             </mesh>
           </geometry>
         </visual>
@@ -367,7 +367,7 @@
           <geometry>
             <mesh>
               <scale>0.001 0.001 0.001</scale>
-              <uri>file:///home/robotis/ros2_example_ws/src/ROS2_study/open_manipulator_x/open_manipulator_x_description/meshes/chain_link_grip_r.stl</uri>
+              <uri>file:///home/robotis/ros2_example_ws/src/ROS2_study/open_manipulator_x/open_manipulator_x_description/meshes/link_grip_r.stl</uri>
             </mesh>
           </geometry>
         </collision>
@@ -376,7 +376,7 @@
           <geometry>
             <mesh>
               <scale>0.001 0.001 0.001</scale>
-              <uri>file:///home/robotis/ros2_example_ws/src/ROS2_study/open_manipulator_x/open_manipulator_x_description/meshes/chain_link_grip_r.stl</uri>
+              <uri>file:///home/robotis/ros2_example_ws/src/ROS2_study/open_manipulator_x/open_manipulator_x_description/meshes/link_grip_r.stl</uri>
             </mesh>
           </geometry>
         </visual>

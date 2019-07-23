@@ -14,13 +14,12 @@
 * limitations under the License.
 *******************************************************************************/
 
-/* Authors: Ryan Shim, Hye-Jong KIM, Yong-Ho Na */
+/* Authors: Ryan Shim, Darby Lim, Hye-Jong KIM, Yong-Ho Na */
 
 #ifndef OPEN_MANIPULATOR_X_TELEOP_JOYSTICK_H
 #define OPEN_MANIPULATOR_X_TELEOP_JOYSTICK_H
 
 #include <rclcpp/rclcpp.hpp>
-#include <geometry_msgs/msg/twist.hpp>
 #include <rcutils/logging_macros.h>
 #include <sensor_msgs/msg/joy.hpp>
 #include <sensor_msgs/msg/joint_state.hpp>
