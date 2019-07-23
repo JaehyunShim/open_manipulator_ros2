@@ -38,12 +38,11 @@ find_package(Eigen3 REQUIRED)
 ################################################################################
 # Declare catkin specific configuration to be passed to dependent projects
 ################################################################################
-ament_export_include_directories(include)
 ament_export_dependencies(rclcpp)
 ament_export_dependencies(robotis_manipulator)
 ament_export_dependencies(dynamixel_workbench_toolbox)
 ament_export_dependencies(cmake_modules)
-ament_export_libraries(open_manipulator_x_libs)
+ament_export_dependencies(Eigen3)
 
 ################################################################################
 # Build
@@ -58,9 +57,11 @@ add_library(open_manipulator_x_libs
   src/kinematics.cpp
 )
 ament_target_dependencies(open_manipulator_x_libs 
-  rclcpp robotis_manipulator dynamixel_workbench_toolbox cmake_modules)
-target_link_libraries(open_manipulator_x_libs  
-                      ${Eigen3_LIBRARIES})
+  rclcpp robotis_manipulator dynamixel_workbench_toolbox cmake_modules EIGEN3)
+target_link_libraries(open_manipulator_x_libs 
+  ${robotis_manipulator_LIBRARIES}
+  ${dynamixel_workbench_toolbox_LIBRARIES}
+  ${Eigen3_LIBRARIES})
 
 ################################################################################
 # Install
@@ -72,11 +73,13 @@ install(TARGETS open_manipulator_x_libs
 )
 
 install(
-  DIRECTORY include/${PROJECT_NAME}/
+  DIRECTORY include/${PROJECT_NAME}
   DESTINATION include/${PROJECT_NAME}
 )
 
 ################################################################################
 # Test
 ################################################################################
+ament_export_include_directories(include/${PROJECT_NAME})
+ament_export_libraries(open_manipulator_x_libs)
 ament_package()
