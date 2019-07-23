@@ -5,8 +5,50 @@
   <!-- Import all Gazebo-customization elements, including Gazebo colors -->
   <xacro:include filename="$(find open_manipulator_x_description)/urdf/open_manipulator_x.gazebo.xacro" />
   <!-- Import Rviz colors -->
-  <xacro:include filename="$(find open_manipulator_x_description)/urdf/materials.xacro" />
+  <!-- <xacro:include filename="$(find open_manipulator_x_description)/urdf/materials.xacro" /> -->
 
+  <!-- Init colour -->  
+  <material name="black">
+      <color rgba="0.0 0.0 0.0 1.0"/>
+  </material>
+
+  <material name="dark">
+    <color rgba="0.3 0.3 0.3 1.0"/>
+  </material>
+
+  <material name="light_black">
+    <color rgba="0.4 0.4 0.4 1.0"/>
+  </material>
+
+  <material name="blue">
+    <color rgba="0.0 0.0 0.8 1.0"/>
+  </material>
+
+  <material name="green">
+    <color rgba="0.0 0.8 0.0 1.0"/>
+  </material>
+
+  <material name="grey">
+    <color rgba="0.5 0.5 0.5 1.0"/>
+  </material>
+
+  <material name="orange">
+    <color rgba="1.0 0.4235 0.0392 1.0"/>
+  </material>
+
+  <material name="brown">
+    <color rgba="0.8706 0.8118 0.7647 1.0"/>
+  </material>
+
+  <material name="red">
+    <color rgba="0.8 0.0 0.0 1.0"/>
+  </material>
+
+  <material name="white">
+    <color rgba="1.0 1.0 1.0 1.0"/>
+  </material>
+  
+  
   <!-- Transmission macro -->
   <xacro:macro name="SimpleTransmission" params="joint n">
     <transmission name="tran${n}">
@@ -37,7 +79,7 @@
     <visual>
       <origin xyz="0 0 0" rpy="0 0 0"/>
       <geometry>
-        <mesh filename="package://open_manipulator_x_description/meshes/chain_link1.stl" scale="0.001 0.001 0.001"/>
+        <mesh filename="package://open_manipulator_x_description/meshes/link1.stl" scale="0.001 0.001 0.001"/>
       </geometry>
       <material name="grey"/>
     </visual>
@@ -45,7 +87,7 @@
     <collision>
       <origin xyz="0 0 0" rpy="0 0 0"/>
       <geometry>
-        <mesh filename="package://open_manipulator_x_description/meshes/chain_link1.stl" scale="0.001 0.001 0.001"/>
+        <mesh filename="package://open_manipulator_x_description/meshes/link1.stl" scale="0.001 0.001 0.001"/>
       </geometry>
     </collision>
 
@@ -83,7 +125,7 @@
     <visual>
       <origin xyz="0 0 0.019" rpy="0 0 0"/>
       <geometry>
-        <mesh filename="package://open_manipulator_x_description/meshes/chain_link2.stl" scale="0.001 0.001 0.001"/>
+        <mesh filename="package://open_manipulator_x_description/meshes/link2.stl" scale="0.001 0.001 0.001"/>
       </geometry>
       <material name="grey"/>
     </visual>
@@ -91,7 +133,7 @@
     <collision>
       <origin xyz="0 0 0.019" rpy="0 0 0"/>
       <geometry>
-        <mesh filename="package://open_manipulator_x_description/meshes/chain_link2.stl" scale="0.001 0.001 0.001"/>
+        <mesh filename="package://open_manipulator_x_description/meshes/link2.stl" scale="0.001 0.001 0.001"/>
       </geometry>
     </collision>
 
@@ -129,7 +171,7 @@
     <visual>
       <origin xyz="0 0 0" rpy="0 0 0"/>
       <geometry>
-        <mesh filename="package://open_manipulator_x_description/meshes/chain_link3.stl" scale="0.001 0.001 0.001"/>
+        <mesh filename="package://open_manipulator_x_description/meshes/link3.stl" scale="0.001 0.001 0.001"/>
       </geometry>
       <material name="grey"/>
     </visual>
@@ -137,7 +179,7 @@
     <collision>
       <origin xyz="0 0 0" rpy="0 0 0"/>
       <geometry>
-        <mesh filename="package://open_manipulator_x_description/meshes/chain_link3.stl" scale="0.001 0.001 0.001"/>
+        <mesh filename="package://open_manipulator_x_description/meshes/link3.stl" scale="0.001 0.001 0.001"/>
       </geometry>
     </collision>
 
@@ -175,7 +217,7 @@
     <visual>
       <origin xyz="0 0 0" rpy="0 0 0"/>
       <geometry>
-        <mesh filename="package://open_manipulator_x_description/meshes/chain_link4.stl" scale="0.001 0.001 0.001"/>
+        <mesh filename="package://open_manipulator_x_description/meshes/link4.stl" scale="0.001 0.001 0.001"/>
       </geometry>
       <material name="grey"/>
     </visual>
@@ -183,7 +225,7 @@
     <collision>
       <origin xyz="0 0 0" rpy="0 0 0"/>
       <geometry>
-        <mesh filename="package://open_manipulator_x_description/meshes/chain_link4.stl" scale="0.001 0.001 0.001"/>
+        <mesh filename="package://open_manipulator_x_description/meshes/link4.stl" scale="0.001 0.001 0.001"/>
       </geometry>
     </collision>
 
@@ -221,7 +263,7 @@
     <visual>
       <origin xyz="0 0 0" rpy="0 0 0"/>
       <geometry>
-        <mesh filename="package://open_manipulator_x_description/meshes/chain_link5.stl" scale="0.001 0.001 0.001"/>
+        <mesh filename="package://open_manipulator_x_description/meshes/link5.stl" scale="0.001 0.001 0.001"/>
       </geometry>
       <material name="grey"/>
     </visual>
@@ -229,7 +271,7 @@
     <collision>
       <origin xyz="0 0 0" rpy="0 0 0"/>
       <geometry>
-        <mesh filename="package://open_manipulator_x_description/meshes/chain_link5.stl" scale="0.001 0.001 0.001"/>
+        <mesh filename="package://open_manipulator_x_description/meshes/link5.stl" scale="0.001 0.001 0.001"/>
       </geometry>
     </collision>
 
@@ -255,7 +297,7 @@
     <visual>
       <origin xyz="0.0 0.0 0" rpy="0 0 0"/>
       <geometry>
-        <mesh filename="package://open_manipulator_x_description/meshes/chain_link_grip_l.stl" scale="0.001 0.001 0.001"/>
+        <mesh filename="package://open_manipulator_x_description/meshes/link_grip_l.stl" scale="0.001 0.001 0.001"/>
       </geometry>
       <material name="grey"/>
     </visual>
@@ -263,7 +305,7 @@
     <collision>
       <origin xyz="0.0 0.0 0" rpy="0 0 0"/>
       <geometry>
-        <mesh filename="package://open_manipulator_x_description/meshes/chain_link_grip_l.stl" scale="0.001 0.001 0.001"/>
+        <mesh filename="package://open_manipulator_x_description/meshes/link_grip_l.stl" scale="0.001 0.001 0.001"/>
       </geometry>
     </collision>
 
@@ -301,7 +343,7 @@
     <visual>
       <origin xyz="0.0 -0.0 0" rpy="0 0 0"/>
       <geometry>
-        <mesh filename="package://open_manipulator_x_description/meshes/chain_link_grip_r.stl" scale="0.001 0.001 0.001"/>
+        <mesh filename="package://open_manipulator_x_description/meshes/link_grip_r.stl" scale="0.001 0.001 0.001"/>
       </geometry>
       <material name="grey"/>
     </visual>
@@ -309,7 +351,7 @@
     <collision>
       <origin xyz="0.0 -0.0 0" rpy="0 0 0"/>
       <geometry>
-        <mesh filename="package://open_manipulator_x_description/meshes/chain_link_grip_r.stl" scale="0.001 0.001 0.001"/>
+        <mesh filename="package://open_manipulator_x_description/meshes/link_grip_r.stl" scale="0.001 0.001 0.001"/>
       </geometry>
     </collision>
 
