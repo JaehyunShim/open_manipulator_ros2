@@ -18,9 +18,9 @@ endif()
 # Find ament packages and libraries for ament and system dependencies
 ################################################################################
 find_package(ament_cmake REQUIRED)
-find_package(rosidl_default_generators REQUIRED)
 find_package(std_msgs REQUIRED)
 find_package(geometry_msgs REQUIRED)
+find_package(rosidl_default_generators REQUIRED)
 
 ################################################################################
 # Setup for python modules and scripts
@@ -29,19 +29,21 @@ find_package(geometry_msgs REQUIRED)
 ################################################################################
 # Declare ROS messages, services and actions
 ################################################################################
-set(msg_files
-    "msg/JointPosition.msg"
-    "msg/KinematicsPose.msg"
-    "msg/OpenManipulatorState.msg"
+set(
+  msg_files
+  "msg/JointPosition.msg"
+  "msg/KinematicsPose.msg"
+  "msg/OpenManipulatorState.msg"
 )
 
-set(srv_files
-    "srv/GetJointPosition.srv"
-    "srv/GetKinematicsPose.srv"
-    "srv/SetJointPosition.srv"
-    "srv/SetKinematicsPose.srv"
-    "srv/SetDrawingTrajectory.srv"
-    "srv/SetActuatorState.srv"
+set(
+  srv_files
+  "srv/GetJointPosition.srv"
+  "srv/GetKinematicsPose.srv"
+  "srv/SetJointPosition.srv"
+  "srv/SetKinematicsPose.srv"
+  "srv/SetDrawingTrajectory.srv"
+  "srv/SetActuatorState.srv"
 )
 
 rosidl_generate_interfaces(
@@ -52,5 +54,26 @@ rosidl_generate_interfaces(
   ADD_LINTER_TESTS
 )
 
+################################################################################
+# Declare ROS dynamic reconfigure parameters
+################################################################################
+
+################################################################################
+# Declare ament specific configuration to be passed to dependent projects
+################################################################################
+ament_export_dependencies(std_msgs)
+ament_export_dependencies(geometry_msgs)
 ament_export_dependencies(rosidl_default_runtime)
+
+################################################################################
+# Build
+################################################################################
+
+################################################################################
+# Install
+################################################################################
+
+################################################################################
+# Macro for ament package
+################################################################################
 ament_package()
