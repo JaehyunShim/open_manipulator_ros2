@@ -27,10 +27,10 @@ from launch_ros.actions import Node
 def generate_launch_description():
     use_sim_time = LaunchConfiguration('use_sim_time', default='True')  
     # paused = LaunchConfiguration('paused', default='True')  
-    world_file_name = 'empty.world'
-    # world = os.path.join(get_package_share_directory('open_manipulator_x_gazebo'), 'worlds', world_file_name)
-    world = os.path.join(get_package_share_directory('open_manipulator_x_gazebo'), 'worlds', 'open_manipulator_x.world')
-    urdf = os.path.join(get_package_share_directory('open_manipulator_x_description'), 'urdf', 'open_manipulator_x.urdf.xacro')
+    # world_file_name = 'empty.world'
+    world_file_name = 'open_manipulator_x.world'    
+    world = os.path.join(get_package_share_directory('open_manipulator_x_gazebo'), 'worlds', world_file_name)
+    # urdf = os.path.join(get_package_share_directory('open_manipulator_x_description'), 'urdf', 'open_manipulator_x.urdf.xacro')
 
     return LaunchDescription([
         ExecuteProcess(

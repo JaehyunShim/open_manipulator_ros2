@@ -79,6 +79,12 @@
               <uri>file:///home/robotis/ros2_example_ws/src/ROS2_study/open_manipulator_x/open_manipulator_x_description/meshes/link1.stl</uri>
             </mesh>
           </geometry>
+          <material> 
+            <ambient>0.1 0.1 0.1 1</ambient>
+            <!-- <diffuse>0.1 0.1 0.2 1</diffuse>
+            <specular>0 0 0 0</specular>
+            <emissive>0 0 0 1</emissive>-->
+          </material> 
         </visual>
       </link>
       <joint name='world_fixed' type='fixed'>
@@ -116,6 +122,12 @@
               <uri>file:///home/robotis/ros2_example_ws/src/ROS2_study/open_manipulator_x/open_manipulator_x_description/meshes/link2.stl</uri>
             </mesh>
           </geometry>
+          <material> 
+            <ambient>0.1 0.1 0.1 1</ambient>
+            <!-- <diffuse>0.1 0.1 0.2 1</diffuse>
+            <specular>0 0 0 0</specular>
+            <emissive>0 0 0 1</emissive>-->
+          </material> 
         </visual>
       </link>
       <joint name='joint1' type='revolute'>
@@ -167,6 +179,12 @@
               <uri>file:///home/robotis/ros2_example_ws/src/ROS2_study/open_manipulator_x/open_manipulator_x_description/meshes/link3.stl</uri>
             </mesh>
           </geometry>
+          <material> 
+            <ambient>0.1 0.1 0.1 1</ambient>
+            <!-- <diffuse>0.1 0.1 0.2 1</diffuse>
+            <specular>0 0 0 0</specular>
+            <emissive>0 0 0 1</emissive>-->
+          </material> 
         </visual>
       </link>
       <joint name='joint2' type='revolute'>
@@ -218,6 +236,12 @@
               <uri>file:///home/robotis/ros2_example_ws/src/ROS2_study/open_manipulator_x/open_manipulator_x_description/meshes/link4.stl</uri>
             </mesh>
           </geometry>
+          <material> 
+            <ambient>0.1 0.1 0.1 1</ambient>
+            <!-- <diffuse>0.1 0.1 0.2 1</diffuse>
+            <specular>0 0 0 0</specular>
+            <emissive>0 0 0 1</emissive>-->
+          </material> 
         </visual>
       </link>
       <joint name='joint3' type='revolute'>
@@ -269,6 +293,12 @@
               <uri>file:///home/robotis/ros2_example_ws/src/ROS2_study/open_manipulator_x/open_manipulator_x_description/meshes/link5.stl</uri>
             </mesh>
           </geometry>
+          <material> 
+            <ambient>0.1 0.1 0.1 1</ambient>
+            <!-- <diffuse>0.1 0.1 0.2 1</diffuse>
+            <specular>0 0 0 0</specular>
+            <emissive>0 0 0 1</emissive>-->
+          </material> 
         </visual>
         <visual name='link5_fixed_joint_lump__end_effector_link_visual_1'>
           <pose frame=''>0.126 0 0 0 -0 0</pose>
@@ -277,6 +307,12 @@
               <size>0.01 0.01 0.01</size>
             </box>
           </geometry>
+          <material> 
+            <ambient>1.0 0.0 0.0 1</ambient>
+            <!-- <diffuse>0.1 0.1 0.2 1</diffuse>
+            <specular>0 0 0 0</specular>
+            <emissive>0 0 0 1</emissive>-->
+          </material> 
         </visual>
       </link>
       <joint name='joint4' type='revolute'>
@@ -328,6 +364,12 @@
               <uri>file:///home/robotis/ros2_example_ws/src/ROS2_study/open_manipulator_x/open_manipulator_x_description/meshes/link_grip_l.stl</uri>
             </mesh>
           </geometry>
+          <material> 
+            <ambient>0.1 0.1 0.1 1</ambient>
+            <!-- <diffuse>0.1 0.1 0.2 1</diffuse>
+            <specular>0 0 0 0</specular>
+            <emissive>0 0 0 1</emissive>-->
+          </material> 
         </visual>
       </link>
       <joint name='gripper' type='prismatic'>
@@ -379,6 +421,12 @@
               <uri>file:///home/robotis/ros2_example_ws/src/ROS2_study/open_manipulator_x/open_manipulator_x_description/meshes/link_grip_r.stl</uri>
             </mesh>
           </geometry>
+          <material> 
+            <ambient>0.1 0.1 0.1 1</ambient>
+            <!-- <diffuse>0.1 0.1 0.2 1</diffuse>
+            <specular>0 0 0 0</specular>
+            <emissive>0 0 0 1</emissive>-->
+          </material> 
         </visual>
       </link>
       <joint name='gripper_sub' type='prismatic'>
