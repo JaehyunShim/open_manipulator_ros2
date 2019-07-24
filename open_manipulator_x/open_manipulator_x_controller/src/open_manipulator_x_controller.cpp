@@ -77,7 +77,7 @@ OpenManipulatorXController::~OpenManipulatorXController()
 {
   timer_thread_state_ = false;
   pthread_join(timer_thread_, NULL); // Wait for the thread associated with thread_p to complete
-  log::info("Shutdown the OpenManipulator-X controller");
+  log::info("Shutdown the OpenManipulator-X Controller");
   open_manipulator_.disableAllActuator();
 }
 
