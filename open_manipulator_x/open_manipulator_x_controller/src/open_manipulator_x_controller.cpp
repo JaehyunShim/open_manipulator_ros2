@@ -14,7 +14,7 @@
 * limitations under the License.
 *******************************************************************************/
 
-/* Authors: Ryan Shim, Hye-Jong KIM, Yong-Ho Na */
+/* Authors: Ryan Shim, Darby Lim, Hye-Jong KIM, Yong-Ho Na */
 
 #include "../include/open_manipulator_x_controller/open_manipulator_x_controller.h"
 
@@ -47,7 +47,7 @@ OpenManipulatorXController::OpenManipulatorXController(std::string usb_port, std
   open_manipulator_.initOpenManipulator(using_platform_, usb_port, baud_rate, 0.010f);
 
   if (using_platform_ == true)       log::info("Succeeded to Initialise OpenManipulate-X Controller");
-  else if (using_platform_ == false) log::info("Ready to simulate OpenManipulate-X on Gazebo");
+  else if (using_platform_ == false) log::info("Ready to Simulate OpenManipulate-X on Gazebo");
 
   // if (using_moveit_ == true)
   // {
