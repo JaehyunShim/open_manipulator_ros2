@@ -2,7 +2,7 @@
 # Set minimum required version of cmake, project name and compile options
 ################################################################################
 cmake_minimum_required(VERSION 3.5)
-project(open_manipulator_x_gazebo)
+project(open_manipulator_x_gazebo_controller)
 
 # Default to C++14
 if(NOT CMAKE_CXX_STANDARD)
@@ -18,9 +18,9 @@ endif()
 ################################################################################
 find_package(ament_cmake REQUIRED)
 find_package(rclcpp REQUIRED)
-find_package(std_msgs REQUIRED)
-find_package(gazebo_ros_pkgs REQUIRED)
-find_package(urdf REQUIRED)
+find_package(sensor_msgs REQUIRED)
+find_package(gazebo_msgs REQUIRED)
+find_package(open_manipulator_x_libs REQUIRED)
 
 ################################################################################
 # Setup for python modules and scripts
@@ -35,36 +35,57 @@ find_package(urdf REQUIRED)
 ################################################################################
 
 ################################################################################
+# Declare ament specific configuration to be passed to dependent projects
+################################################################################
+ament_export_include_directories(include)
+ament_export_dependencies(rclcpp)
+ament_export_dependencies(sensor_msgs)
+ament_export_dependencies(gazebo_msgs)
+ament_export_dependencies(open_manipulator_x_libs)
+
+################################################################################
 # Build
 ################################################################################
-#add_executable(gripper_sub_publisher src/gripper_sub_publisher.cpp)
-#add_dependencies(gripper_sub_publisher ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
-#target_link_libraries(gripper_sub_publisher ${catkin_LIBRARIES})
+include_directories(include)
+include_directories(
+  ${rclcpp_INCLUDE_DIRS}
+  ${sensor_msgs_INCLUDE_DIRS}
+  ${gazebo_msgs_INCLUDE_DIRS}
+  ${open_manipulator_x_libs_INCLUDE_DIRS}
+)
+
+add_executable(${PROJECT_NAME} src/${PROJECT_NAME}.cpp)
+ament_target_dependencies(${PROJECT_NAME} 
+  "rclcpp" 
+  "sensor_msgs" 
+  "gazebo_msgs"
+  "open_manipulator_x_libs"
+)
+target_link_libraries(${PROJECT_NAME} ${rclcpp_LIBRARIES} ${open_manipulator_x_libs_LIBRARIES})
 
 ################################################################################
 # Install
 ################################################################################
-#install(TARGETS gripper_sub_publisher
-#  RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
-#)
+install(TARGETS ${PROJECT_NAME}
+#  RUNTIME DESTINATION bin
+  DESTINATION lib/${PROJECT_NAME}
+)
 
 install(
-  DIRECTORY launch worlds
+  DIRECTORY include/${PROJECT_NAME}/
+  DESTINATION include/${PROJECT_NAME}
+)
+
+install(
+  DIRECTORY config launch
   DESTINATION share/${PROJECT_NAME}
 )
 
 ################################################################################
 # Test
 ################################################################################
-if(BUILD_TESTING)
-  find_package(ament_lint_auto REQUIRED)
-  set(ament_cmake_copyright_FOUND TRUE)
-  ament_lint_auto_find_test_dependencies()
-endif()
 
 ################################################################################
 # Macro for ament package
 ################################################################################
-ament_export_dependencies(xacro)
-ament_export_dependencies(urdf)
 ament_package()

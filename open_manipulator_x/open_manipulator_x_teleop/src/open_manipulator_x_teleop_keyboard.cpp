@@ -46,12 +46,12 @@ OpenManipulatorXTeleopKeyboard::OpenManipulatorXTeleopKeyboard()
   goal_task_space_path_from_present_position_only_client_ = this->create_client<open_manipulator_msgs::srv::SetKinematicsPose>("goal_task_space_path_from_present_position_only");
   goal_joint_space_path_from_present_client_ = this->create_client<open_manipulator_msgs::srv::SetJointPosition>("goal_joint_space_path_from_present");
 
-  RCLCPP_INFO(this->get_logger(), "OpenManipulator Initialised");
+  RCLCPP_INFO(this->get_logger(), "OpenManipulator Teleop Keyboard Initialised");
 }
 
 OpenManipulatorXTeleopKeyboard::~OpenManipulatorXTeleopKeyboard() 
 {
-  RCLCPP_INFO(this->get_logger(), "OpenManipulator Terminated");
+  RCLCPP_INFO(this->get_logger(), "OpenManipulator Teleop Keyboard Terminated");
 }
 
 /*****************************************************************************

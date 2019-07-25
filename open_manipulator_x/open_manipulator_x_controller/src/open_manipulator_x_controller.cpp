@@ -47,7 +47,7 @@ OpenManipulatorXController::OpenManipulatorXController(std::string usb_port, std
   open_manipulator_.initOpenManipulator(using_platform_, usb_port, baud_rate, 0.010f);
 
   if (using_platform_ == true)       log::info("Succeeded to Initialise OpenManipulate-X Controller");
-  else if (using_platform_ == false) log::info("Ready to Simulate OpenManipulate-X on Gazebo");
+  else if (using_platform_ == false) log::info("Ready to simulate OpenManipulate-X on Gazebo");
 
   // if (using_moveit_ == true)
   // {
@@ -833,8 +833,9 @@ void OpenManipulatorXController::publishGazeboCommand()
 // void OpenManipulatorXController::publishCallback(const ros::TimerEvent&)   // any alternative???
 void OpenManipulatorXController::publishCallback()   // any alternative???
 {
-  if (using_platform_ == true)  publishJointStates();
-  else  publishGazeboCommand();
+  // if (using_platform_ == true)  publishJointStates();
+  // else  publishGazeboCommand();
+  publishJointStates();
 
   publishOpenManipulatorStates();
   publishKinematicsPose();
