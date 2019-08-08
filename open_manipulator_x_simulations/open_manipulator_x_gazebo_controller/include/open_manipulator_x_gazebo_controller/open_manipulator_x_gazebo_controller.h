@@ -29,6 +29,11 @@
 #include "open_manipulator_x_libs/open_manipulator_x.h"
 #include "sensor_msgs/msg/joint_state.hpp"
 #include "gazebo_msgs/srv/apply_joint_effort.hpp"
+#include "gazebo_msgs/srv/joint_request.hpp"
+
+#include "trajectory_msgs/msg/joint_trajectory.hpp"
+
+#include "../include/open_manipulator_x_gazebo_controller/pid.h"
 
 
 namespace open_manipulator_x_gazebo_controller
@@ -48,17 +53,25 @@ class OpenManipulatorXGazeboController : public rclcpp::Node
   std::vector<double> goal_joint_position_;
   std::vector<double> present_joint_position_;
   std::vector<double> goal_joint_effort_;
+  std::vector<double> prev_goal_joint_effort_;
+
+  PID pid = PID(0.1, 100, -100, 1.0, 0.40, 0.0);
 
   rclcpp::Subscription<sensor_msgs::msg::JointState>::SharedPtr goal_joint_position_sub_;
   rclcpp::Subscription<sensor_msgs::msg::JointState>::SharedPtr present_joint_position_sub_;
   rclcpp::Client<gazebo_msgs::srv::ApplyJointEffort>::SharedPtr goal_joint_effort_client_;
+  rclcpp::Client<gazebo_msgs::srv::JointRequest>::SharedPtr clear_joint_effort_client_;
+
+  rclcpp::Publisher<trajectory_msgs::msg::JointTrajectory>::SharedPtr goal_joint_position_pub_;
+
 
   void goalJointCallback(const sensor_msgs::msg::JointState::SharedPtr msg);
   void jointStatesCallback(const sensor_msgs::msg::JointState::SharedPtr msg);
-  bool setEffort();
+  void setPosition();
+  void setEffort();
   void convertPositionToEffort();
 
-
+  rclcpp::TimerBase::SharedPtr timer_;
 };
 
 }  // namespace open_manipulator_x_gazebo_controller

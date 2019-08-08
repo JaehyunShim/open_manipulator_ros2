@@ -449,10 +449,22 @@
       </joint>
 
 
+
+      <plugin name="gazebo_ros_joint_pose_trajectory"
+          filename="libgazebo_ros_joint_pose_trajectory.so">
+        <ros>
+          <namespace>/demo</namespace>
+          <argument>set_joint_trajectory:=set_trajectory_demo</argument>
+        </ros>
+        <update_rate>2</update_rate>
+      </plugin>
+
+
       <plugin name="joint_states" filename="libgazebo_ros_joint_state_publisher.so">
         <ros>
-          <!-- <namespace>/om</namespace> -->
-          <argument>~/out:=gazebo/joint_states</argument>
+          <!-- <namespace>/om</namespace> 
+          <argument>~/out:=gazebo/joint_states</argument>-->
+          <argument>~/out:=joint_states</argument>
         </ros>
         <update_rate>30</update_rate>
         <joint_name>joint1</joint_name>

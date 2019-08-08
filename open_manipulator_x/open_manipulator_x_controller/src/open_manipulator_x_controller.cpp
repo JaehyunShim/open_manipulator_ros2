@@ -166,22 +166,22 @@ void OpenManipulatorXController::initPublisher()
     open_manipulator_kinematics_pose_pub_.push_back(pb);
   }
 
-  if(using_platform_ == true)
-  {
-    open_manipulator_joint_states_pub_ = this->create_publisher<sensor_msgs::msg::JointState>("joint_states", 10);
-  }
-  else
-  {
-    auto gazebo_joints_name = open_manipulator_.getManipulator()->getAllActiveJointComponentName();
-    gazebo_joints_name.reserve(gazebo_joints_name.size() + opm_tools_name.size());
-    gazebo_joints_name.insert(gazebo_joints_name.end(), opm_tools_name.begin(), opm_tools_name.end());
+  // if(using_platform_ == true)
+  // {
+    open_manipulator_joint_states_pub_ = this->create_publisher<sensor_msgs::msg::JointState>("controller/joint_states", 10);
+  // }
+  // else
+  // {
+  //   auto gazebo_joints_name = open_manipulator_.getManipulator()->getAllActiveJointComponentName();
+  //   gazebo_joints_name.reserve(gazebo_joints_name.size() + opm_tools_name.size());
+  //   gazebo_joints_name.insert(gazebo_joints_name.end(), opm_tools_name.begin(), opm_tools_name.end());
 
-    for (auto const& name:gazebo_joints_name)
-    {
-      auto pb = this->create_publisher<std_msgs::msg::Float64>(name + "_position/command", 10);
-      gazebo_goal_joint_position_pub_.push_back(pb);
-    }
-  }
+  //   for (auto const& name:gazebo_joints_name)
+  //   {
+  //     auto pb = this->create_publisher<std_msgs::msg::Float64>(name + "_position/command", 10);
+  //     gazebo_goal_joint_position_pub_.push_back(pb);
+  //   }
+  // }
   // if (using_moveit_ == true)
   // {
   //   moveit_update_start_state_pub_ = node_handle_.advertise<std_msgs::Empty>("rviz/moveit/update_start_state", 10);

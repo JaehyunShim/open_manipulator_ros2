@@ -50,5 +50,4 @@ def generate_launch_description():
             node_name='robot_state_publisher',
             arguments=[urdf],
             output='screen')
-
     ])

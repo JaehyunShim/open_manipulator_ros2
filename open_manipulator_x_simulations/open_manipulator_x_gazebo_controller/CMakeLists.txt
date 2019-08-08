@@ -19,6 +19,7 @@ endif()
 find_package(ament_cmake REQUIRED)
 find_package(rclcpp REQUIRED)
 find_package(sensor_msgs REQUIRED)
+find_package(trajectory_msgs REQUIRED)
 find_package(gazebo_msgs REQUIRED)
 find_package(open_manipulator_x_libs REQUIRED)
 
@@ -40,6 +41,7 @@ find_package(open_manipulator_x_libs REQUIRED)
 ament_export_include_directories(include)
 ament_export_dependencies(rclcpp)
 ament_export_dependencies(sensor_msgs)
+ament_export_dependencies(trajectory_msgs)
 ament_export_dependencies(gazebo_msgs)
 ament_export_dependencies(open_manipulator_x_libs)
 
@@ -50,14 +52,16 @@ include_directories(include)
 include_directories(
   ${rclcpp_INCLUDE_DIRS}
   ${sensor_msgs_INCLUDE_DIRS}
+  ${trajectory_msgs_INCLUDE_DIRS}
   ${gazebo_msgs_INCLUDE_DIRS}
   ${open_manipulator_x_libs_INCLUDE_DIRS}
 )
 
-add_executable(${PROJECT_NAME} src/${PROJECT_NAME}.cpp)
+add_executable(${PROJECT_NAME} src/${PROJECT_NAME}.cpp src/pid.cpp)
 ament_target_dependencies(${PROJECT_NAME} 
   "rclcpp" 
   "sensor_msgs" 
+  "trajectory_msgs" 
   "gazebo_msgs"
   "open_manipulator_x_libs"
 )

@@ -26,17 +26,24 @@ from launch.actions import IncludeLaunchDescription
 from launch_ros.actions import Node
 
 def generate_launch_description():
-    # usb_port = LaunchConfiguration('usb_port', default='open_manipulator_x')
-    # baud_rate = LaunchConfiguration('baud_rate', default='gripper') 
-    param_file_name = 'open_manipulator_x_controller_params.yaml'
+    use_robot_name         = LaunchConfiguration('use_robot_name',         default='open_manipulator_x')
+    dynamixel_usb_port     = LaunchConfiguration('dynamixel_usb_port',     default='/dev/ttyUSB0')
+    dynamixel_baud_rate    = LaunchConfiguration('dynamixel_baud_rate',    default='1000000')
+    control_period         = LaunchConfiguration('control_period',         default='0.010')
+    use_platform           = LaunchConfiguration('use_platform',           default='True')
+    use_moveit             = LaunchConfiguration('use_moveit',             default='False')
+    planning_group_name    = LaunchConfiguration('planning_group_name',    default='arm')
+    moveit_sample_duration = LaunchConfiguration('moveit_sample_duration', default='0.050') 
+
+    # param_file_name = 'open_manipulator_x_controller_params.yaml'
     # param_path = os.path.join(
     #     get_package_share_directory('open_manipulator_x_controller'), 
     #     'param', param_file_name
     # )
 
-param_path = '/home/robotis/ros2_example_ws/src/ROS2_study/open_manipulator_x/open_manipulator_x_controller/param/open_manipulator_x_controller_params.yaml'
+    param_path = '/home/robotis/colcon_ws/src/ROS2_study/open_manipulator_x/open_manipulator_x_controller/param/open_manipulator_x_controller_params.yaml'
 
-    print(param_path)
+#    print(param_path)
         
     return LaunchDescription([
         Node(
@@ -44,8 +51,6 @@ param_path = '/home/robotis/ros2_example_ws/src/ROS2_study/open_manipulator_x/op
             node_executable='open_manipulator_x_controller',
             node_name='open_manipulator_x_controller',
             # arguments=['-d', usb_port, baud_rate],
-            parameters=[param_path],
-            output='screen'
-        )
-
+            parameters=[{'use_platform': use_platform}],
+            output='screen')
     ])
