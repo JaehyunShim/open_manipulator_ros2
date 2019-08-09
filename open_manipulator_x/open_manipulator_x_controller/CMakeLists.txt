@@ -110,7 +110,8 @@ install(TARGETS open_manipulator_x_controller
 
 install(PROGRAMS
   scripts/create_udev_rules
-  DESTINATION bin
+#  DESTINATION bin
+  DESTINATION lib/${PROJECT_NAME}
 )
 
 install(

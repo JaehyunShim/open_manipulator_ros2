@@ -14,9 +14,9 @@
 * limitations under the License.
 *******************************************************************************/
 
-/* Authors: Ryan Shim, Darby Lim, Hye-Jong KIM, Yong-Ho Na */
+/* Authors: Ryan Shim */
 
-#include "../include/open_manipulator_x_controller/open_manipulator_x_controller.h"
+#include "open_manipulator_x_controller/open_manipulator_x_controller.h"
 
 using namespace open_manipulator_x_controller;
 using namespace std::placeholders;
@@ -168,7 +168,7 @@ void OpenManipulatorXController::initPublisher()
 
   // if(using_platform_ == true)
   // {
-    open_manipulator_joint_states_pub_ = this->create_publisher<sensor_msgs::msg::JointState>("controller/joint_states", 10);
+    open_manipulator_joint_states_pub_ = this->create_publisher<sensor_msgs::msg::JointState>("open_manipulator_x/joint_states", 10);
   // }
   // else
   // {
