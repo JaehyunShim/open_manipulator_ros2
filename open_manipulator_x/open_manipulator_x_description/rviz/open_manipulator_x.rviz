@@ -48,9 +48,9 @@ Visualization Manager:
     - Alpha: 1
       Class: rviz_default_plugins/RobotModel
       Collision Enabled: false
-      Description File: /home/robotis/colcon_ws/src/ROS2_study/open_manipulator_x/open_manipulator_x_description/urdf/open_manipulator_x.urdf.xacro
-      Description Source: File
-      Description Topic: ""
+      Description File: ""
+      Description Source: Topic
+      Description Topic: /robot_description
       Enabled: true
       Links:
         All Links Enabled: true
