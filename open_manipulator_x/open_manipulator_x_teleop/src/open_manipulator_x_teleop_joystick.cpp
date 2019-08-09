@@ -14,7 +14,7 @@
 * limitations under the License.
 *******************************************************************************/
 
-/* Authors: Ryan Shim, Darby Lim, Hye-Jong KIM, Yong-Ho Na */
+/* Authors: Ryan Shim */
 
 #include "open_manipulator_x_teleop/open_manipulator_x_teleop_joystick.h"
 
@@ -201,7 +201,6 @@ bool OpenManipulatorXTeleopJoystick::setJointSpacePath(std::vector<std::string> 
 bool OpenManipulatorXTeleopJoystick::setToolControl(std::vector<double> joint_angle)
 {
   auto request = std::make_shared<open_manipulator_msgs::srv::SetJointPosition::Request>();
-  // request->joint_position.joint_name.push_back(priv_node_handle_.param<std::string>("end_effector_name", "gripper"));
   request->joint_position.joint_name.push_back("gripper");
   request->joint_position.position = joint_angle;
 
@@ -219,7 +218,6 @@ bool OpenManipulatorXTeleopJoystick::setToolControl(std::vector<double> joint_an
 bool OpenManipulatorXTeleopJoystick::setTaskSpacePathFromPresentPositionOnly(std::vector<double> kinematics_pose, double path_time)
 {
   auto request = std::make_shared<open_manipulator_msgs::srv::SetKinematicsPose::Request>();
-  // request->planning_group = priv_node_handle_.param<std::string>("end_effector_name", "gripper");
   request->planning_group = "gripper";
   request->kinematics_pose.pose.position.x = kinematics_pose.at(0);
   request->kinematics_pose.pose.position.y = kinematics_pose.at(1);

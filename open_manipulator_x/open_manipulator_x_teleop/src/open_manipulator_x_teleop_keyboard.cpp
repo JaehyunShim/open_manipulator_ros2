@@ -14,7 +14,7 @@
 * limitations under the License.
 *******************************************************************************/
 
-/* Authors: Ryan Shim, Darby Lim, Hye-Jong KIM, Yong-Ho Na */
+/* Authors: Ryan Shim */
 
 #include "open_manipulator_x_teleop/open_manipulator_x_teleop_keyboard.h"
 
@@ -24,39 +24,51 @@ namespace open_manipulator_x_teleop_keyboard
 OpenManipulatorXTeleopKeyboard::OpenManipulatorXTeleopKeyboard()
 : Node("open_manipulator_x_teleop_keyboard")
 {
-  /*****************************************************************************
+  /********************************************************************************
   ** Initialise joint angle and kinematic position size 
-  *****************************************************************************/
+  ********************************************************************************/
   present_joint_angle_.resize(NUM_OF_JOINT);
   present_kinematic_position_.resize(3);
 
-  /*****************************************************************************
+  /********************************************************************************
   ** Initialise Subscribers
-  *****************************************************************************/
+  ********************************************************************************/
   joint_states_sub_ = this->create_subscription<sensor_msgs::msg::JointState>(
     "joint_states", 10, std::bind(&OpenManipulatorXTeleopKeyboard::jointStatesCallback, this, std::placeholders::_1));
   kinematics_pose_sub_ = this->create_subscription<open_manipulator_msgs::msg::KinematicsPose>(
     "kinematics_pose", 10, std::bind(&OpenManipulatorXTeleopKeyboard::kinematicsPoseCallback, this, std::placeholders::_1));
 
-  /*****************************************************************************
+  /********************************************************************************
   ** Initialise Clients
-  *****************************************************************************/
+  ********************************************************************************/
   goal_joint_space_path_client_ = this->create_client<open_manipulator_msgs::srv::SetJointPosition>("goal_joint_space_path");
   goal_tool_control_client_ = this->create_client<open_manipulator_msgs::srv::SetJointPosition>("goal_tool_control");
   goal_task_space_path_from_present_position_only_client_ = this->create_client<open_manipulator_msgs::srv::SetKinematicsPose>("goal_task_space_path_from_present_position_only");
   goal_joint_space_path_from_present_client_ = this->create_client<open_manipulator_msgs::srv::SetJointPosition>("goal_joint_space_path_from_present");
 
   RCLCPP_INFO(this->get_logger(), "OpenManipulator Teleop Keyboard Initialised");
+
+  /********************************************************************************
+  ** Display in terminal
+  ********************************************************************************/
+  printf("OpenManipulator teleoperation using keyboard start");
+  this->disableWaitingForEnter();
+
+  auto period = std::chrono::milliseconds(10); 
+  timer_ = this->create_wall_timer(
+    std::chrono::duration_cast<std::chrono::milliseconds>(period), 
+    std::bind(&OpenManipulatorXTeleopKeyboard::displayCallback, this));
 }
 
 OpenManipulatorXTeleopKeyboard::~OpenManipulatorXTeleopKeyboard() 
 {
+  this->restoreTerminalSettings();
   RCLCPP_INFO(this->get_logger(), "OpenManipulator Teleop Keyboard Terminated");
 }
 
-/*****************************************************************************
+/********************************************************************************
 ** Callback Functions
-*****************************************************************************/
+********************************************************************************/
 void OpenManipulatorXTeleopKeyboard::jointStatesCallback(const sensor_msgs::msg::JointState::SharedPtr msg)
 {
   std::vector<double> temp_angle;
@@ -80,9 +92,9 @@ void OpenManipulatorXTeleopKeyboard::kinematicsPoseCallback(const open_manipulat
   present_kinematic_position_ = temp_position;
 }
 
-/*****************************************************************************
+/********************************************************************************
 ** Callback Functions and Relevant Functions
-*****************************************************************************/
+********************************************************************************/
 void OpenManipulatorXTeleopKeyboard::setGoal(char ch)
 {
   std::vector<double> goalPose;  goalPose.resize(3, 0.0);
@@ -275,7 +287,6 @@ bool OpenManipulatorXTeleopKeyboard::setJointSpacePath(std::vector<std::string> 
 bool OpenManipulatorXTeleopKeyboard::setToolControl(std::vector<double> joint_angle)
 {
   auto request = std::make_shared<open_manipulator_msgs::srv::SetJointPosition::Request>();
-  // request->joint_position.joint_name.push_back(priv_node_handle_.param<std::string>("end_effector_name", "gripper"));
   request->joint_position.joint_name.push_back("gripper");
   request->joint_position.position = joint_angle;
 
@@ -293,7 +304,6 @@ bool OpenManipulatorXTeleopKeyboard::setToolControl(std::vector<double> joint_an
 bool OpenManipulatorXTeleopKeyboard::setTaskSpacePathFromPresentPositionOnly(std::vector<double> kinematics_pose, double path_time)
 {
   auto request = std::make_shared<open_manipulator_msgs::srv::SetKinematicsPose::Request>();
-  // request->planning_group = priv_node_handle_.param<std::string>("end_effector_name", "gripper");
   request->planning_group = "gripper";
   request->kinematics_pose.pose.position.x = kinematics_pose.at(0);
   request->kinematics_pose.pose.position.y = kinematics_pose.at(1);
@@ -329,9 +339,9 @@ bool OpenManipulatorXTeleopKeyboard::setJointSpacePathFromPresent(std::vector<st
   return false;
 }
 
-/*****************************************************************************
+/********************************************************************************
 ** Other Functions
-*****************************************************************************/
+********************************************************************************/
 void OpenManipulatorXTeleopKeyboard::printText()
 {
   printf("\n");
@@ -392,43 +402,30 @@ void OpenManipulatorXTeleopKeyboard::disableWaitingForEnter(void)
 {
   struct termios newt;
 
-  tcgetattr(0, &oldt_);  /* Save terminal settings */
-  newt = oldt_;  /* Init new settings */
-  newt.c_lflag &= ~(ICANON | ECHO);  /* Change settings */
-  tcsetattr(0, TCSANOW, &newt);  /* Apply settings */
+  tcgetattr(0, &oldt_);             /* Save terminal settings */
+  newt = oldt_;                     /* Init new settings */
+  newt.c_lflag &= ~(ICANON | ECHO); /* Change settings */
+  tcsetattr(0, TCSANOW, &newt);     /* Apply settings */
+}
+
+void OpenManipulatorXTeleopKeyboard::displayCallback(void)  
+{
+  this->printText();
+  
+  char ch = std::getchar();
+  this->setGoal(ch);
 }
 
 }  // namespace open_manipulator_x_teleop_keyboard
 
-/*****************************************************************************
+/********************************************************************************
 ** Main
-*****************************************************************************/
+********************************************************************************/
 int main(int argc, char *argv[])
 {
   rclcpp::init(argc, argv);
 
-  rclcpp::executors::SingleThreadedExecutor executor;
-  
-  auto shared_ptr = std::make_shared<open_manipulator_x_teleop_keyboard::OpenManipulatorXTeleopKeyboard>();
-  executor.add_node(shared_ptr);
-
-  printf("OpenManipulator teleoperation using keyboard start");
-  shared_ptr->disableWaitingForEnter();
-
-  executor.spin_some();
-  shared_ptr->printText();
- 
-  char ch;
-  while (rclcpp::ok() && (ch = std::getchar()) != 'q')
-  {
-    executor.spin_some();
-    shared_ptr->printText();
-    executor.spin_some();
-    shared_ptr->setGoal(ch);
-  }
-
-  printf("input : q \tTeleop. is finished\n");
-  shared_ptr->restoreTerminalSettings();
+  rclcpp::spin(std::make_unique<open_manipulator_x_teleop_keyboard::OpenManipulatorXTeleopKeyboard>());
 
   rclcpp::shutdown();
 

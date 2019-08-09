@@ -14,24 +14,17 @@
 * limitations under the License.
 *******************************************************************************/
 
-/* Authors: Ryan Shim, Darby Lim, Hye-Jong KIM, Yong-Ho Na */
+/* Authors: Ryan Shim */
 
 #ifndef OPEN_MANIPULATOR_X_TELEOP_KEYBOARD_H
 #define OPEN_MANIPULATOR_X_TELEOP_KEYBOARD_H
 
 #include <rclcpp/rclcpp.hpp>
-#include <rcutils/logging_macros.h>
+#include <termios.h>
 #include <sensor_msgs/msg/joy.hpp>
 #include <sensor_msgs/msg/joint_state.hpp>
 #include "open_manipulator_msgs/srv/set_joint_position.hpp"
 #include "open_manipulator_msgs/srv/set_kinematics_pose.hpp"
-
-#include <termios.h>
-#include <cinttypes>
-#include <functional>
-#include <map>
-#include <memory>
-#include <string>
 
 #define NUM_OF_JOINT 4
 #define DELTA 0.01
@@ -56,8 +49,10 @@ public:
   std::vector<double> getPresentJointAngle();
   std::vector<double> getPresentKinematicsPose();
   struct termios oldt_;
-  void restoreTerminalSettings(void);
-  void disableWaitingForEnter(void);
+  void restoreTerminalSettings();
+  void disableWaitingForEnter();
+  rclcpp::TimerBase::SharedPtr timer_;
+  void displayCallback(); 
 
 private:
   /*****************************************************************************

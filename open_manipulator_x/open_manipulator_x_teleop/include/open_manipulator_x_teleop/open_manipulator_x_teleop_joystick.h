@@ -14,23 +14,16 @@
 * limitations under the License.
 *******************************************************************************/
 
-/* Authors: Ryan Shim, Darby Lim, Hye-Jong KIM, Yong-Ho Na */
+/* Authors: Ryan Shim */
 
 #ifndef OPEN_MANIPULATOR_X_TELEOP_JOYSTICK_H
 #define OPEN_MANIPULATOR_X_TELEOP_JOYSTICK_H
 
 #include <rclcpp/rclcpp.hpp>
-#include <rcutils/logging_macros.h>
 #include <sensor_msgs/msg/joy.hpp>
 #include <sensor_msgs/msg/joint_state.hpp>
 #include "open_manipulator_msgs/srv/set_joint_position.hpp"
 #include "open_manipulator_msgs/srv/set_kinematics_pose.hpp"
-
-#include <cinttypes>
-#include <functional>
-#include <map>
-#include <memory>
-#include <string>
 
 #define NUM_OF_JOINT 4
 #define DELTA 0.01
