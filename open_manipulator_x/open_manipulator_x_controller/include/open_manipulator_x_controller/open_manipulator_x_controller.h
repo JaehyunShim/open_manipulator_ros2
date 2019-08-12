@@ -74,23 +74,17 @@ class OpenManipulatorXController : public rclcpp::Node
   bool calcPlannedPath(const std::string planning_group, open_manipulator_msgs::msg::KinematicsPose msg);
   bool calcPlannedPath(const std::string planning_group, open_manipulator_msgs::msg::JointPosition msg);
 
-  rclcpp::TimerBase::SharedPtr timer_;
-  rclcpp::TimerBase::SharedPtr timer2_;
+  rclcpp::TimerBase::SharedPtr process_timer;
+  rclcpp::TimerBase::SharedPtr publish_timer;
 
  private:
 
   /*****************************************************************************
   ** Parameters
   *****************************************************************************/
-  rclcpp::SyncParametersClient::SharedPtr parameters_client_;
-
   bool using_platform_;
-  bool using_moveit_;
   double control_period_;
-
-  // flag parameter
-  bool tool_ctrl_state_;
-  bool timer_thread_state_;
+  // bool using_moveit_;
   // bool moveit_plan_state_;
 
   // // MoveIt! interface
@@ -98,10 +92,6 @@ class OpenManipulatorXController : public rclcpp::Node
   // trajectory_msgs::msg::JointTrajectory joint_trajectory_;
   double moveit_sampling_time_;
   // bool moveit_plan_only_;
-
-  // Thread parameter
-  pthread_t timer_thread_;
-  pthread_attr_t attr_;
 
   // Robotis_manipulator related 
   OpenManipulator open_manipulator_;
