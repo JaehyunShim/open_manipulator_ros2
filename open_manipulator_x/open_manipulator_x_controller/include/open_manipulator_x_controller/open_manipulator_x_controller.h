@@ -14,7 +14,7 @@
 * limitations under the License.
 *******************************************************************************/
 
-/* Authors: Ryan Shim, Hye-Jong KIM, Yong-Ho Na */
+/* Authors: Ryan Shim */
 
 #ifndef OPEN_MANIPULATOR_X_CONTROLLER_H
 #define OPEN_MANIPULATOR_X_CONTROLLER_H
@@ -25,7 +25,6 @@
 #include "std_msgs/msg/float64.hpp"
 #include "std_msgs/msg/string.hpp"
 #include "std_msgs/msg/empty.hpp"
-// #include <boost/thread.hpp>
 #include <unistd.h>
 #include <chrono>
 #include <cstdio>
@@ -65,12 +64,9 @@ class OpenManipulatorXController : public rclcpp::Node
   OpenManipulatorXController(std::string usb_port, std::string baud_rate);
   ~OpenManipulatorXController();
 
-  // void publishCallback(const ros::TimerEvent&);  // any alternative...??????
-  void publishCallback();  // any alternative...??????
+  void processCallback(); 
+  void publishCallback();  
   double getControlPeriod(void){return control_period_;}
-
-  void startTimerThread();
-  static void *timerThread(void *param);
 
   // void moveitTimer(double present_time);
   void process(double time);
@@ -79,6 +75,7 @@ class OpenManipulatorXController : public rclcpp::Node
   bool calcPlannedPath(const std::string planning_group, open_manipulator_msgs::msg::JointPosition msg);
 
   rclcpp::TimerBase::SharedPtr timer_;
+  rclcpp::TimerBase::SharedPtr timer2_;
 
  private:
 
@@ -106,7 +103,7 @@ class OpenManipulatorXController : public rclcpp::Node
   pthread_t timer_thread_;
   pthread_attr_t attr_;
 
-  // Related robotis_manipulator
+  // Robotis_manipulator related 
   OpenManipulator open_manipulator_;
 
   /*****************************************************************************

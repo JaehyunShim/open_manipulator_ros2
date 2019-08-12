@@ -46,8 +46,8 @@ OpenManipulatorXController::OpenManipulatorXController(std::string usb_port, std
 
   open_manipulator_.initOpenManipulator(using_platform_, usb_port, baud_rate, 0.010f);
 
-  if (using_platform_ == true)       log::info("Succeeded to Initialise OpenManipulate-X Controller");
-  else if (using_platform_ == false) log::info("Ready to simulate OpenManipulate-X on Gazebo");
+  if (using_platform_ == true)       log::info("Succeeded to Initialise OpenManipulator-X Controller");
+  else if (using_platform_ == false) log::info("Ready to Simulate OpenManipulator-X on Gazebo");
 
   // if (using_moveit_ == true)
   // {
@@ -65,10 +65,13 @@ OpenManipulatorXController::OpenManipulatorXController(std::string usb_port, std
   /************************************************************
   ** Start Process and Publish Threads
   ************************************************************/
-  this->startTimerThread();
-
   auto period = std::chrono::milliseconds(10); 
   timer_ = this->create_wall_timer(
+    std::chrono::duration_cast<std::chrono::milliseconds>(period), 
+    std::bind(&OpenManipulatorXController::processCallback, this));
+
+  auto period2 = std::chrono::milliseconds(10); 
+  timer2_ = this->create_wall_timer(
     std::chrono::duration_cast<std::chrono::milliseconds>(period), 
     std::bind(&OpenManipulatorXController::publishCallback, this));
 }
@@ -76,79 +79,8 @@ OpenManipulatorXController::OpenManipulatorXController(std::string usb_port, std
 OpenManipulatorXController::~OpenManipulatorXController()
 {
   timer_thread_state_ = false;
-  pthread_join(timer_thread_, NULL); // Wait for the thread associated with thread_p to complete
   log::info("Shutdown the OpenManipulator-X Controller");
   open_manipulator_.disableAllActuator();
-}
-
-void OpenManipulatorXController::startTimerThread()
-{
-  /************************************************************
-  ** Use Below If You Want to Increase the Priority of Threads
-  ************************************************************/
-  ////////////////////////////////////////////////////////////////////
-  //  pthread_attr_t attr_;
-  //  int error;
-  //  struct sched_param param;
-  //  pthread_attr_init(&attr_);
-
-  //  error = pthread_attr_setschedpolicy(&attr_, SCHED_RR);
-  //  if (error != 0)   log::error("pthread_attr_setschedpolicy error = ", (double)error);
-  //  error = pthread_attr_setinheritsched(&attr_, PTHREAD_EXPLICIT_SCHED);
-  //  if (error != 0)   log::error("pthread_attr_setinheritsched error = ", (double)error);
-
-  //  memset(&param, 0, sizeof(param));
-  //  param.sched_priority = 31;    // RT
-  //  error = pthread_attr_setschedparam(&attr_, &param);
-  //  if (error != 0)   log::error("pthread_attr_setschedparam error = ", (double)error);
-
-  //  if ((error = pthread_create(&this->timer_thread_, &attr_, this->timerThread, this)) != 0)
-  //  {
-  //    log::error("Creating timer thread failed!!", (double)error);
-  //    exit(-1);
-  //  }
-  // timer_thread_state_ = true;
-  ////////////////////////////////////////////////////////////////////
-
-  int error;
-  if ((error = pthread_create(&this->timer_thread_, NULL, this->timerThread, this)) != 0)
-  {
-    log::error("Creating a timer thread failed!!", (double)error);
-    exit(-1);
-  }
-  timer_thread_state_ = true;
-}
-
-void *OpenManipulatorXController::timerThread(void *param)
-{
-  OpenManipulatorXController *controller = (OpenManipulatorXController *) param;
-  static struct timespec next_time;
-  static struct timespec curr_time;
-
-  clock_gettime(CLOCK_MONOTONIC, &next_time);
-
-  while(controller->timer_thread_state_)
-  {
-    next_time.tv_sec += (next_time.tv_nsec + ((int)(controller->getControlPeriod() * 1000)) * 1000000) / 1000000000;
-    next_time.tv_nsec = (next_time.tv_nsec + ((int)(controller->getControlPeriod() * 1000)) * 1000000) % 1000000000;
-
-    double time = next_time.tv_sec + (next_time.tv_nsec*0.000000001);
-    controller->process(time);
-
-    clock_gettime(CLOCK_MONOTONIC, &curr_time);
-    /////
-    double delta_nsec = controller->getControlPeriod() - ((next_time.tv_sec - curr_time.tv_sec) + ((double)(next_time.tv_nsec - curr_time.tv_nsec)*0.000000001));
-    //log::info("control time : ", controller->getControlPeriod() - delta_nsec);
-    if(delta_nsec > controller->getControlPeriod())
-    {
-      //log::warn("Over the control time : ", delta_nsec);
-      next_time = curr_time;
-    }
-    else
-      clock_nanosleep(CLOCK_MONOTONIC, TIMER_ABSTIME, &next_time, NULL);
-    /////
-  }
-  return 0;
 }
 
 /********************************************************************************
@@ -510,18 +442,12 @@ void OpenManipulatorXController::setActuatorStateCallback(
   if(req->set_actuator_state == true) // enable actuators
   {
     log::println("Wait a second for actuator enable", "GREEN");
-    timer_thread_state_ = false;
-    // pthread_join(timer_thread_, NULL); // Wait for the thread associated with thread_p to complete
     open_manipulator_.enableAllActuator();
-    startTimerThread();
   }
   else // disable actuators
   {
     log::println("Wait a second for actuator disable", "GREEN");
-    timer_thread_state_ = false;
-    // pthread_join(timer_thread_, NULL); // Wait for the thread associated with thread_p to complete
     open_manipulator_.disableAllActuator();
-    startTimerThread();
   }
 
   res->is_planned = true;
@@ -578,7 +504,6 @@ void OpenManipulatorXController::goalDrawingTrajectoryCallback(
     res->is_planned = true;
     return;
   }
-  // catch ( ros::Exception &e )    // any alternative...??
   catch (rclcpp::exceptions::RCLError &e)
   {
     log::error("Failed to Create a Custom Trajectory");
@@ -779,7 +704,6 @@ void OpenManipulatorXController::publishKinematicsPose()
 void OpenManipulatorXController::publishJointStates()
 {
   sensor_msgs::msg::JointState msg;
-  // msg.header.stamp = rclcpp::Time.now();
   msg.header.stamp = rclcpp::Clock().now();
 
   auto joints_name = open_manipulator_.getManipulator()->getAllActiveJointComponentName();
@@ -830,8 +754,14 @@ void OpenManipulatorXController::publishGazeboCommand()
   }
 }
 
-// void OpenManipulatorXController::publishCallback(const ros::TimerEvent&)   // any alternative???
-void OpenManipulatorXController::publishCallback()   // any alternative???
+void OpenManipulatorXController::processCallback()   
+{
+  rclcpp::Clock clock(RCL_SYSTEM_TIME);
+  rclcpp::Time present_time = clock.now();
+  this->process(present_time.seconds());
+}
+
+void OpenManipulatorXController::publishCallback()   
 {
   // if (using_platform_ == true)  publishJointStates();
   // else  publishGazeboCommand();
@@ -892,6 +822,9 @@ void OpenManipulatorXController::process(double time)
   open_manipulator_.processOpenManipulator(time);
 }
 
+/*****************************************************************************
+** Main
+*****************************************************************************/
 int main(int argc, char **argv)
 {
   rclcpp::init(argc, argv);
@@ -899,21 +832,14 @@ int main(int argc, char **argv)
   std::string usb_port = "/dev/ttyUSB0";
   std::string baud_rate = "1000000";
 
-  // if (argc < 3)
-  // {
-  //   log::error("Please set '-port_name' and  '-baud_rate' arguments for connected Dynamixels");
-  //   return 0;
-  // }
-  // else
-  // {
-  //   usb_port = argv[1];
-  //   baud_rate = argv[2];
-  // }
-
-  // rclcpp::executors::MultiThreadedExecutor executor;
-  // auto shared_ptr = std::make_shared<open_manipulator_x_controller::OpenManipulatorXController>(usb_port, baud_rate);
-  // executor.add_node(shared_ptr);
-  // executor.spin();
+  if (argc == 3)
+  {
+    usb_port = argv[1];
+    baud_rate = argv[2];
+    printf("port_name and baud_rate are set to %s, %s \n", usb_port.c_str(), baud_rate.c_str());
+  }
+  else
+    printf("port_name and baud_rate are set to %s, %s \n", usb_port.c_str(), baud_rate.c_str());
 
   rclcpp::spin(std::make_unique<open_manipulator_x_controller::OpenManipulatorXController>(usb_port, baud_rate));
 

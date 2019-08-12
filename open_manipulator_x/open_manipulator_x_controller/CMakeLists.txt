@@ -30,7 +30,6 @@ find_package(cmake_modules REQUIRED)
 #find_package(moveit_core REQUIRED)
 #find_package(moveit_ros_planning REQUIRED) 
 #find_package(moveit_ros_planning_interface REQUIRED)
-find_package(Boost REQUIRED)
 
 ################################################################################
 # Setup for python modules and scripts
@@ -61,7 +60,6 @@ ament_export_dependencies(cmake_modules)
 #ament_export_dependencies(moveit_msgs)
 #ament_export_dependencies(moveit_ros_planning)
 #ament_export_dependencies(moveit_ros_planning_interface)
-ament_export_dependencies(Boost)
 
 ################################################################################
 # Build
@@ -80,7 +78,6 @@ include_directories(${rclcpp_INCLUDE_DIRS}
 #                    ${moveit_msgs_INCLUDE_DIRS}
 #                    ${moveit_ros_planning_INCLUDE_DIRS}
 #                    ${moveit_ros_planning_interface_INCLUDE_DIRS}
-include_directories(${Boost_INCLUDE_DIRS})
 
 add_executable(open_manipulator_x_controller src/open_manipulator_x_controller.cpp)
 ament_target_dependencies(open_manipulator_x_controller 
@@ -97,8 +94,7 @@ ament_target_dependencies(open_manipulator_x_controller
 target_link_libraries(open_manipulator_x_controller 
                       ${rclcpp_LIBRARIES}
                       ${robotis_manipulator_LIBRARIES}
-                      ${open_manipulator_x_libs_LIBRARIES}
-                      ${Boost_LIBRARIES})
+                      ${open_manipulator_x_libs_LIBRARIES})
 
 ################################################################################
 # Install
