@@ -66,7 +66,6 @@ OpenManipulatorXController::OpenManipulatorXController(std::string usb_port, std
     std::chrono::duration_cast<std::chrono::milliseconds>(period), 
     std::bind(&OpenManipulatorXController::processCallback, this));
 
-  auto period2 = std::chrono::milliseconds(10); 
   publish_timer = this->create_wall_timer(
     std::chrono::duration_cast<std::chrono::milliseconds>(period), 
     std::bind(&OpenManipulatorXController::publishCallback, this));
@@ -89,7 +88,7 @@ void OpenManipulatorXController::initPublisher()
 
   for (auto const& name:om_tools_name)
   {
-    auto pb = this->create_publisher<open_manipulator_msgs::msg::KinematicsPose>(name + "/kinematics_pose", 10);
+    auto pb = this->create_publisher<open_manipulator_msgs::msg::KinematicsPose>("open_manipulator_x/kinematics_pose", 10);
     open_manipulator_kinematics_pose_pub_.push_back(pb);
   }
 

@@ -34,9 +34,9 @@ OpenManipulatorXTeleopJoystick::OpenManipulatorXTeleopJoystick()
   ** Initialise Subscribers
   *****************************************************************************/
   joint_states_sub_ = this->create_subscription<sensor_msgs::msg::JointState>(
-    "joint_states", 10, std::bind(&OpenManipulatorXTeleopJoystick::jointStatesCallback, this, std::placeholders::_1));
+    "open_manipulator_x/joint_states", 10, std::bind(&OpenManipulatorXTeleopJoystick::jointStatesCallback, this, std::placeholders::_1));
   kinematics_pose_sub_ = this->create_subscription<open_manipulator_msgs::msg::KinematicsPose>(
-    "kinematics_pose", 10, std::bind(&OpenManipulatorXTeleopJoystick::kinematicsPoseCallback, this, std::placeholders::_1));
+    "open_manipulator_x/kinematics_pose", 10, std::bind(&OpenManipulatorXTeleopJoystick::kinematicsPoseCallback, this, std::placeholders::_1));
   joy_command_sub_ = this->create_subscription<sensor_msgs::msg::Joy>(
     "joy", 10, std::bind(&OpenManipulatorXTeleopJoystick::joyCallback, this, std::placeholders::_1));
 

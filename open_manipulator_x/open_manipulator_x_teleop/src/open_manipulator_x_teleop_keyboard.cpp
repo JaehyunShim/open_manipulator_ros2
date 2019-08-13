@@ -34,9 +34,9 @@ OpenManipulatorXTeleopKeyboard::OpenManipulatorXTeleopKeyboard()
   ** Initialise Subscribers
   ********************************************************************************/
   joint_states_sub_ = this->create_subscription<sensor_msgs::msg::JointState>(
-    "joint_states", 10, std::bind(&OpenManipulatorXTeleopKeyboard::jointStatesCallback, this, std::placeholders::_1));
+    "open_manipulator_x/joint_states", 10, std::bind(&OpenManipulatorXTeleopKeyboard::jointStatesCallback, this, std::placeholders::_1));
   kinematics_pose_sub_ = this->create_subscription<open_manipulator_msgs::msg::KinematicsPose>(
-    "kinematics_pose", 10, std::bind(&OpenManipulatorXTeleopKeyboard::kinematicsPoseCallback, this, std::placeholders::_1));
+    "open_manipulator_x/kinematics_pose", 10, std::bind(&OpenManipulatorXTeleopKeyboard::kinematicsPoseCallback, this, std::placeholders::_1));
 
   /********************************************************************************
   ** Initialise Clients
@@ -262,8 +262,13 @@ void OpenManipulatorXTeleopKeyboard::setGoal(char ch)
     joint_name.push_back("joint4"); joint_angle.push_back(0.0);
     setJointSpacePath(joint_name, joint_angle, path_time);
   }
-  else
-    RCLCPP_ERROR(this->get_logger(), "Wrong Input :(");
+  else if(ch == 'q')
+  {
+    printf("Pressed Quit \n");
+    rclcpp::shutdown();
+  }
+  // else
+  //   RCLCPP_ERROR(this->get_logger(), "Wrong Input :(");
 }
 
 bool OpenManipulatorXTeleopKeyboard::setJointSpacePath(std::vector<std::string> joint_name, std::vector<double> joint_angle, double path_time)
@@ -280,7 +285,6 @@ bool OpenManipulatorXTeleopKeyboard::setJointSpacePath(std::vector<std::string> 
   };
   auto future_result = goal_joint_space_path_client_->async_send_request(request, response_received_callback);
 
-  RCLCPP_ERROR(this->get_logger(), "No Response :(");
   return false;
 }
 
@@ -297,7 +301,6 @@ bool OpenManipulatorXTeleopKeyboard::setToolControl(std::vector<double> joint_an
   };
   auto future_result = goal_tool_control_client_->async_send_request(request, response_received_callback);
 
-  RCLCPP_ERROR(this->get_logger(), "No Response :(");
   return false;
 }
 
@@ -317,7 +320,6 @@ bool OpenManipulatorXTeleopKeyboard::setTaskSpacePathFromPresentPositionOnly(std
   };
   auto future_result = goal_task_space_path_from_present_position_only_client_->async_send_request(request, response_received_callback);
 
-  RCLCPP_ERROR(this->get_logger(), "No Response :(");
   return false;
 }
 
@@ -335,7 +337,6 @@ bool OpenManipulatorXTeleopKeyboard::setJointSpacePathFromPresent(std::vector<st
   };
   auto future_result = goal_joint_space_path_from_present_client_->async_send_request(request, response_received_callback);
 
-  RCLCPP_ERROR(this->get_logger(), "No Response :(");
   return false;
 }
 
@@ -381,7 +382,7 @@ void OpenManipulatorXTeleopKeyboard::printText()
          getPresentKinematicsPose().at(0),
          getPresentKinematicsPose().at(1),
          getPresentKinematicsPose().at(2));
-  printf("---------------------------\n");
+  printf("---------------------------\n");  
 }
 
 std::vector<double> OpenManipulatorXTeleopKeyboard::getPresentJointAngle()
@@ -393,24 +394,27 @@ std::vector<double> OpenManipulatorXTeleopKeyboard::getPresentKinematicsPose()
   return present_kinematic_position_;
 }
 
-void OpenManipulatorXTeleopKeyboard::restoreTerminalSettings(void)
+void OpenManipulatorXTeleopKeyboard::restoreTerminalSettings()
 {
-    tcsetattr(0, TCSANOW, &oldt_);  /* Apply saved settings */
+  tcsetattr(0, TCSANOW, &oldt_);  /* Apply saved settings */
 }
 
-void OpenManipulatorXTeleopKeyboard::disableWaitingForEnter(void)
+void OpenManipulatorXTeleopKeyboard::disableWaitingForEnter()
 {
   struct termios newt;
 
   tcgetattr(0, &oldt_);             /* Save terminal settings */
   newt = oldt_;                     /* Init new settings */
   newt.c_lflag &= ~(ICANON | ECHO); /* Change settings */
+  newt.c_cc[VMIN] = 0;
+  newt.c_cc[VTIME] = 0;
   tcsetattr(0, TCSANOW, &newt);     /* Apply settings */
+  
 }
 
-void OpenManipulatorXTeleopKeyboard::displayCallback(void)  
+void OpenManipulatorXTeleopKeyboard::displayCallback()  
 {
-  this->printText();
+  this->printText();  
   
   char ch = std::getchar();
   this->setGoal(ch);
