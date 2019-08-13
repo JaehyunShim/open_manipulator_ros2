@@ -152,6 +152,7 @@ public:
 
 
 } // namespace CUSTOM_TRAJECTORY
+
 #endif // CUSTOM_TRAJECTORY_H_
 
 

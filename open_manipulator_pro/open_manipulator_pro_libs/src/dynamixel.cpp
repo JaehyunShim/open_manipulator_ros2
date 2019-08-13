@@ -16,11 +16,11 @@
 
 /* Authors: Darby Lim, Hye-Jong KIM, Ryan Shim, Yong-Ho Na */
 
-#include "../include/open_manipulator_x_libs/dynamixel.h"
+#include "../include/open_manipulator_pro_libs/dynamixel.h"
 
 using namespace dynamixel;
 using namespace robotis_manipulator;
-
+ 
 /*****************************************************************************
 ** Joint Dynamixel Control Functions
 *****************************************************************************/
@@ -158,12 +158,13 @@ bool JointDynamixel::initialize(std::vector<uint8_t> actuator_id, STRING dxl_dev
       sprintf(str, "Joint Dynamixel ID : %d, Model Name : %s", id, dynamixel_workbench_->getModelName(id));
       log::println(str);
 
-      result = dynamixel_workbench_->setVelocityBasedProfile(id, &log);
-      if(result == false)
-      {
-        log::error(log);
-        log::error("Please check your Dynamixel firmware version (v38~)");
-      }
+      //// PRO Plus DYLs do not use Velocity based profile.
+      // result = dynamixel_workbench_->setVelocityBasedProfile(id, &log);
+      // if(result == false)
+      // {
+      //   log::error(log);
+      //   log::error("Please check your Dynamixel firmware version (v38~)");
+      // }
 
       result = dynamixel_workbench_->writeRegister(id, return_delay_time_char, 0, &log);
       if (result == false)
@@ -831,12 +832,12 @@ bool GripperDynamixel::initialize(uint8_t actuator_id, STRING dxl_device_name, S
     strcat(str, dynamixel_workbench_->getModelName(dynamixel_.id.at(0)));
     log::println(str);
 
-    result = dynamixel_workbench_->setVelocityBasedProfile(dynamixel_.id.at(0), &log);
-    if(result == false)
-    {
-      log::error(log);
-      log::error("Please check your Dynamixel firmware version (v38~)");
-    }
+    // result = dynamixel_workbench_->setVelocityBasedProfile(dynamixel_.id.at(0), &log);
+    // if(result == false)
+    // {
+    //   log::error(log);
+    //   log::error("Please check your Dynamixel firmware version (v38~)");
+    // }
 
     result = dynamixel_workbench_->writeRegister(dynamixel_.id.at(0), return_delay_time_char, 0, &log);
     if (result == false)
@@ -856,7 +857,7 @@ bool GripperDynamixel::setOperatingMode(STRING dynamixel_mode)
 
   const uint32_t velocity = 0;
   const uint32_t acceleration = 0;
-  const uint32_t current = 200;
+  const uint32_t current = 300;
 
   if (dynamixel_mode == "position_mode")
   {

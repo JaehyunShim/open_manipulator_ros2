@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<package format="2">
+  <name>open_manipulator_pro</name>
+  <version>1.0.0</version>
+  <description>
+    ROS2 packages for OpenManipulator-PRO.
+  </description>
+  <license>Apache 2.0</license>
+  <author email="jhshim@robotis.com">Ryan Shim</author>
+  <maintainer email="pyo@robotis.com">Pyo</maintainer>
+  <maintainer email="hjkim@robotis.com">Hye-Jong KIM</maintainer>
+  <url type="website">http://wiki.ros.org/open_manipulator</url>
+  <url type="emanual">http://emanual.robotis.com/docs/en/platform/openmanipulator_pro/overview/</url>
+  <url type="repository">https://github.com/ROBOTIS-GIT/open_manipulator_pro</url>
+  <url type="bugtracker">https://github.com/ROBOTIS-GIT/open_manipulator_pro/issues</url>
+  <buildtool_depend>ament_cmake</buildtool_depend>
+  <exec_depend>open_manipulator_pro_controller</exec_depend>
+  <exec_depend>open_manipulator_pro_description</exec_depend>
+  <exec_depend>open_manipulator_pro_libs</exec_depend>
+  <exec_depend>open_manipulator_pro_teleop</exec_depend>
+  <!-- To be added -->
+  <!-- <exec_depend>open_manipulator_pro_control_gui</exec_depend> -->
+  <!-- <exec_depend>open_manipulator_pro_moveit</exec_depend> -->
+  <export><build_type>ament_cmake</build_type></export>
+</package>
