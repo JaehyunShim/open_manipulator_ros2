@@ -3,7 +3,7 @@
 # Copyright (c) 2017, ROBOTIS CO., LTD.
 
 echo ""
-echo "[Note] Target OS version  >>> Ubuntu 18.04 (Bionic Beaver) or Linux Mint 19.x"
+echo "[Note] OS version  >>> Ubuntu 18.04 (Bionic Beaver) or Linux Mint 19.x"
 echo "[Note] Target ROS version >>> ROS Dashing Diademata"
 echo "[Note] Robotis workspace   >>> $HOME/robotis_ws"
 echo ""
@@ -11,7 +11,7 @@ echo "PRESS [ENTER] TO CONTINUE THE INSTALLATION"
 echo "IF YOU WANT TO CANCEL, PRESS [CTRL] + [C]"
 read
 
-echo "[Set the target OS, ROS version and name of robotis workspace]"
+echo "[Set the target ROS version and name of robotis workspace]"
 name_ros_version=${name_ros_version:="dashing"}
 name_robotis_workspace=${name_robotis_workspace:="robotis_ws"}
 
@@ -24,9 +24,9 @@ curl -s https://raw.githubusercontent.com/ros/rosdistro/master/ros.asc | sudo ap
 sudo sh -c 'echo "deb [arch=amd64,arm64] http://packages.ros.org/ros2/ubuntu `lsb_release -cs` main" > /etc/apt/sources.list.d/ros2-latest.list'
 sudo apt install ros-dashing-desktop
 sudo apt install python3-argcomplete python3-colcon-common-extensions python3-vcstool
-source /opt/ros/$name_ros_version/setup.sh
 
 echo "[Make the robotis workspace and test colcon build]"
+source /opt/ros/$name_ros_version/setup.sh
 mkdir -p $HOME/$name_robotis_workspace/src
 cd $HOME/$name_robotis_workspace/src
 git clone https://github.com/ROBOTIS-Platform/ros2_examples.git
