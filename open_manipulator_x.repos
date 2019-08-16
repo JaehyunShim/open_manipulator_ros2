@@ -1,11 +1,11 @@
 repositories:
   cmake_modules:
     type: git
-    url: https://github.com/bponsler/cmake_modules.git
+    url: https://github.com/rjshim/cmake_modules.git
     version: ros2-devel
   joint_state_publisher:
     type: git
-    url: https://github.com/ros/joint_state_publisher.git
+    url: https://github.com/rjshim/joint_state_publisher.git
     version: ros2-devel
   DynamixelSDK:
     type: git
