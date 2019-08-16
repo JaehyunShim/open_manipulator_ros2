@@ -1,6 +1,6 @@
 #!/bin/bash
 # Apache License 2.0
-# Copyright (c) 2017, ROBOTIS CO., LTD.
+# Copyright (c) 2019, ROBOTIS CO., LTD.
 
 echo ""
 echo "[Note] OS version  >>> Ubuntu 18.04 (Bionic Beaver) or Linux Mint 19.x"
