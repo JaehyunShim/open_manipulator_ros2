@@ -16,7 +16,7 @@
 
 /* Authors: Ryan Shim */
 
-#include "open_manipulator_x_teleop/open_manipulator_x_teleop_joystick.h"
+#include "open_manipulator_x_teleop/open_manipulator_x_teleop_joystick.hpp"
 
 namespace open_manipulator_x_teleop_joystick
 {
@@ -34,11 +34,11 @@ OpenManipulatorXTeleopJoystick::OpenManipulatorXTeleopJoystick()
   ** Initialise Subscribers
   *****************************************************************************/
   joint_states_sub_ = this->create_subscription<sensor_msgs::msg::JointState>(
-    "open_manipulator_x/joint_states", 10, std::bind(&OpenManipulatorXTeleopJoystick::jointStatesCallback, this, std::placeholders::_1));
+    "open_manipulator_x/joint_states", 10, std::bind(&OpenManipulatorXTeleopJoystick::joint_states_callback, this, std::placeholders::_1));
   kinematics_pose_sub_ = this->create_subscription<open_manipulator_msgs::msg::KinematicsPose>(
-    "open_manipulator_x/kinematics_pose", 10, std::bind(&OpenManipulatorXTeleopJoystick::kinematicsPoseCallback, this, std::placeholders::_1));
+    "open_manipulator_x/kinematics_pose", 10, std::bind(&OpenManipulatorXTeleopJoystick::kinematics_pose_callback, this, std::placeholders::_1));
   joy_command_sub_ = this->create_subscription<sensor_msgs::msg::Joy>(
-    "joy", 10, std::bind(&OpenManipulatorXTeleopJoystick::joyCallback, this, std::placeholders::_1));
+    "joy", 10, std::bind(&OpenManipulatorXTeleopJoystick::joy_callback, this, std::placeholders::_1));
 
   /*****************************************************************************
   ** Initialise Clients
@@ -55,7 +55,7 @@ OpenManipulatorXTeleopJoystick::~OpenManipulatorXTeleopJoystick() {}
 /*****************************************************************************
 ** Callback Functions
 *****************************************************************************/
-void OpenManipulatorXTeleopJoystick::jointStatesCallback(const sensor_msgs::msg::JointState::SharedPtr msg)
+void OpenManipulatorXTeleopJoystick::joint_states_callback(const sensor_msgs::msg::JointState::SharedPtr msg)
 {
   std::vector<double> temp_angle;
   temp_angle.resize(NUM_OF_JOINT);
@@ -69,7 +69,7 @@ void OpenManipulatorXTeleopJoystick::jointStatesCallback(const sensor_msgs::msg:
   present_joint_angle_ = temp_angle;
 }
 
-void OpenManipulatorXTeleopJoystick::kinematicsPoseCallback(const open_manipulator_msgs::msg::KinematicsPose::SharedPtr msg)
+void OpenManipulatorXTeleopJoystick::kinematics_pose_callback(const open_manipulator_msgs::msg::KinematicsPose::SharedPtr msg)
 {
   std::vector<double> temp_position;
   temp_position.push_back(msg->pose.position.x);
@@ -78,25 +78,25 @@ void OpenManipulatorXTeleopJoystick::kinematicsPoseCallback(const open_manipulat
   present_kinematic_position_ = temp_position;
 }
 
-void OpenManipulatorXTeleopJoystick::joyCallback(const sensor_msgs::msg::Joy::SharedPtr msg)
+void OpenManipulatorXTeleopJoystick::joy_callback(const sensor_msgs::msg::Joy::SharedPtr msg)
 {
-  if(msg->axes.at(1) >= 0.9) setGoal("x+");
-  else if(msg->axes.at(1) <= -0.9) setGoal("x-");
-  else if(msg->axes.at(0) >=  0.9) setGoal("y+");
-  else if(msg->axes.at(0) <= -0.9) setGoal("y-");
-  else if(msg->buttons.at(3) == 1) setGoal("z+");
-  else if(msg->buttons.at(0) == 1) setGoal("z-");
-  else if(msg->buttons.at(5) == 1) setGoal("home");
-  else if(msg->buttons.at(4) == 1) setGoal("init");
+  if(msg->axes.at(1) >= 0.9) set_goal("x+");
+  else if(msg->axes.at(1) <= -0.9) set_goal("x-");
+  else if(msg->axes.at(0) >=  0.9) set_goal("y+");
+  else if(msg->axes.at(0) <= -0.9) set_goal("y-");
+  else if(msg->buttons.at(3) == 1) set_goal("z+");
+  else if(msg->buttons.at(0) == 1) set_goal("z-");
+  else if(msg->buttons.at(5) == 1) set_goal("home");
+  else if(msg->buttons.at(4) == 1) set_goal("init");
 
-  if(msg->buttons.at(2) == 1) setGoal("gripper close");
-  else if(msg->buttons.at(1) == 1) setGoal("gripper open");
+  if(msg->buttons.at(2) == 1) set_goal("gripper close");
+  else if(msg->buttons.at(1) == 1) set_goal("gripper open");
 }
 
 /*****************************************************************************
 ** Callback Functions and Relevant Functions
 *****************************************************************************/
-void OpenManipulatorXTeleopJoystick::setGoal(const char* str)
+void OpenManipulatorXTeleopJoystick::set_goal(const char* str)
 {
   std::vector<double> goalPose;  goalPose.resize(3,0);
   std::vector<double> goalJoint; goalJoint.resize(4,0);
@@ -105,37 +105,37 @@ void OpenManipulatorXTeleopJoystick::setGoal(const char* str)
   {
     printf("increase(++) x axis in cartesian space\n");
     goalPose.at(0) = DELTA;
-    setTaskSpacePathFromPresentPositionOnly(goalPose, PATH_TIME);
+    set_task_space_path_from_present_position_only(goalPose, PATH_TIME);
   }
   else if(str == "x-")
   {
     printf("decrease(--) x axis in cartesian space\n");
     goalPose.at(0) = -DELTA;
-    setTaskSpacePathFromPresentPositionOnly(goalPose, PATH_TIME);
+    set_task_space_path_from_present_position_only(goalPose, PATH_TIME);
   }
   else if(str == "y+")
   {
     printf("increase(++) y axis in cartesian space\n");
     goalPose.at(1) = DELTA;
-    setTaskSpacePathFromPresentPositionOnly(goalPose, PATH_TIME);
+    set_task_space_path_from_present_position_only(goalPose, PATH_TIME);
   }
   else if(str == "y-")
   {
     printf("decrease(--) y axis in cartesian space\n");
     goalPose.at(1) = -DELTA;
-    setTaskSpacePathFromPresentPositionOnly(goalPose, PATH_TIME);
+    set_task_space_path_from_present_position_only(goalPose, PATH_TIME);
   }
   else if(str == "z+")
   {
     printf("increase(++) z axis in cartesian space\n");
     goalPose.at(2) = DELTA;
-    setTaskSpacePathFromPresentPositionOnly(goalPose, PATH_TIME);
+    set_task_space_path_from_present_position_only(goalPose, PATH_TIME);
   }
   else if(str == "z-")
   {
     printf("decrease(--) z axis in cartesian space\n");
     goalPose.at(2) = -DELTA;
-    setTaskSpacePathFromPresentPositionOnly(goalPose, PATH_TIME);
+    set_task_space_path_from_present_position_only(goalPose, PATH_TIME);
   }
   else if(str == "gripper open")
   {
@@ -143,14 +143,14 @@ void OpenManipulatorXTeleopJoystick::setGoal(const char* str)
     std::vector<double> joint_angle;
 
     joint_angle.push_back(0.01);
-    setToolControl(joint_angle);
+    set_tool_control(joint_angle);
   }
   else if(str == "gripper close")
   {
     printf("close gripper\n");
     std::vector<double> joint_angle;
     joint_angle.push_back(-0.01);
-    setToolControl(joint_angle);
+    set_tool_control(joint_angle);
   }
   else if(str == "home")
   {
@@ -163,7 +163,7 @@ void OpenManipulatorXTeleopJoystick::setGoal(const char* str)
     joint_name.push_back("joint2"); joint_angle.push_back(-1.05);
     joint_name.push_back("joint3"); joint_angle.push_back(0.35);
     joint_name.push_back("joint4"); joint_angle.push_back(0.70);
-    setJointSpacePath(joint_name, joint_angle, path_time);
+    set_joint_space_path(joint_name, joint_angle, path_time);
   }
   else if(str == "init")
   {
@@ -176,11 +176,11 @@ void OpenManipulatorXTeleopJoystick::setGoal(const char* str)
     joint_name.push_back("joint2"); joint_angle.push_back(0.0);
     joint_name.push_back("joint3"); joint_angle.push_back(0.0);
     joint_name.push_back("joint4"); joint_angle.push_back(0.0);
-    setJointSpacePath(joint_name, joint_angle, path_time);
+    set_joint_space_path(joint_name, joint_angle, path_time);
   }
 }
 
-bool OpenManipulatorXTeleopJoystick::setJointSpacePath(std::vector<std::string> joint_name, std::vector<double> joint_angle, double path_time)
+bool OpenManipulatorXTeleopJoystick::set_joint_space_path(std::vector<std::string> joint_name, std::vector<double> joint_angle, double path_time)
 {
   auto request = std::make_shared<open_manipulator_msgs::srv::SetJointPosition::Request>();
   request->joint_position.joint_name = joint_name;
@@ -198,7 +198,7 @@ bool OpenManipulatorXTeleopJoystick::setJointSpacePath(std::vector<std::string> 
   return false;
 }
 
-bool OpenManipulatorXTeleopJoystick::setToolControl(std::vector<double> joint_angle)
+bool OpenManipulatorXTeleopJoystick::set_tool_control(std::vector<double> joint_angle)
 {
   auto request = std::make_shared<open_manipulator_msgs::srv::SetJointPosition::Request>();
   request->joint_position.joint_name.push_back("gripper");
@@ -215,7 +215,7 @@ bool OpenManipulatorXTeleopJoystick::setToolControl(std::vector<double> joint_an
   return false;
 }
 
-bool OpenManipulatorXTeleopJoystick::setTaskSpacePathFromPresentPositionOnly(std::vector<double> kinematics_pose, double path_time)
+bool OpenManipulatorXTeleopJoystick::set_task_space_path_from_present_position_only(std::vector<double> kinematics_pose, double path_time)
 {
   auto request = std::make_shared<open_manipulator_msgs::srv::SetKinematicsPose::Request>();
   request->planning_group = "gripper";

@@ -16,7 +16,7 @@
 
 /* Authors: Ryan Shim */
 
-#include "open_manipulator_x_teleop/open_manipulator_x_teleop_keyboard.h"
+#include "open_manipulator_x_teleop/open_manipulator_x_teleop_keyboard.hpp"
 
 namespace open_manipulator_x_teleop_keyboard
 {
@@ -34,9 +34,9 @@ OpenManipulatorXTeleopKeyboard::OpenManipulatorXTeleopKeyboard()
   ** Initialise Subscribers
   ********************************************************************************/
   joint_states_sub_ = this->create_subscription<sensor_msgs::msg::JointState>(
-    "open_manipulator_x/joint_states", 10, std::bind(&OpenManipulatorXTeleopKeyboard::jointStatesCallback, this, std::placeholders::_1));
+    "open_manipulator_x/joint_states", 10, std::bind(&OpenManipulatorXTeleopKeyboard::joint_states_callback, this, std::placeholders::_1));
   kinematics_pose_sub_ = this->create_subscription<open_manipulator_msgs::msg::KinematicsPose>(
-    "open_manipulator_x/kinematics_pose", 10, std::bind(&OpenManipulatorXTeleopKeyboard::kinematicsPoseCallback, this, std::placeholders::_1));
+    "open_manipulator_x/kinematics_pose", 10, std::bind(&OpenManipulatorXTeleopKeyboard::kinematics_pose_callback, this, std::placeholders::_1));
 
   /********************************************************************************
   ** Initialise Clients
@@ -52,24 +52,24 @@ OpenManipulatorXTeleopKeyboard::OpenManipulatorXTeleopKeyboard()
   ** Display in terminal
   ********************************************************************************/
   printf("OpenManipulator teleoperation using keyboard start");
-  this->disableWaitingForEnter();
+  this->disable_waiting_for_enter();
 
   auto period = std::chrono::milliseconds(10); 
   timer_ = this->create_wall_timer(
     std::chrono::duration_cast<std::chrono::milliseconds>(period), 
-    std::bind(&OpenManipulatorXTeleopKeyboard::displayCallback, this));
+    std::bind(&OpenManipulatorXTeleopKeyboard::display_callback, this));
 }
 
 OpenManipulatorXTeleopKeyboard::~OpenManipulatorXTeleopKeyboard() 
 {
-  this->restoreTerminalSettings();
+  this->restore_terminal_settings();
   RCLCPP_INFO(this->get_logger(), "OpenManipulator Teleop Keyboard Terminated");
 }
 
 /********************************************************************************
 ** Callback Functions
 ********************************************************************************/
-void OpenManipulatorXTeleopKeyboard::jointStatesCallback(const sensor_msgs::msg::JointState::SharedPtr msg)
+void OpenManipulatorXTeleopKeyboard::joint_states_callback(const sensor_msgs::msg::JointState::SharedPtr msg)
 {
   std::vector<double> temp_angle;
   temp_angle.resize(NUM_OF_JOINT);
@@ -83,7 +83,7 @@ void OpenManipulatorXTeleopKeyboard::jointStatesCallback(const sensor_msgs::msg:
   present_joint_angle_ = temp_angle;
 }
 
-void OpenManipulatorXTeleopKeyboard::kinematicsPoseCallback(const open_manipulator_msgs::msg::KinematicsPose::SharedPtr msg)
+void OpenManipulatorXTeleopKeyboard::kinematics_pose_callback(const open_manipulator_msgs::msg::KinematicsPose::SharedPtr msg)
 {
   std::vector<double> temp_position;
   temp_position.push_back(msg->pose.position.x);
@@ -95,7 +95,7 @@ void OpenManipulatorXTeleopKeyboard::kinematicsPoseCallback(const open_manipulat
 /********************************************************************************
 ** Callback Functions and Relevant Functions
 ********************************************************************************/
-void OpenManipulatorXTeleopKeyboard::setGoal(char ch)
+void OpenManipulatorXTeleopKeyboard::set_goal(char ch)
 {
   std::vector<double> goalPose;  goalPose.resize(3, 0.0);
   std::vector<double> goalJoint; goalJoint.resize(4, 0.0);
@@ -104,37 +104,37 @@ void OpenManipulatorXTeleopKeyboard::setGoal(char ch)
   {
     printf("input : w \tincrease(++) x axis in task space\n");
     goalPose.at(0) = DELTA;
-    setTaskSpacePathFromPresentPositionOnly(goalPose, PATH_TIME);
+    set_task_space_path_from_present_position_only(goalPose, PATH_TIME);
   }
   else if(ch == 's' || ch == 'S')
   {
     printf("input : s \tdecrease(--) x axis in task space\n");
     goalPose.at(0) = -DELTA;
-    setTaskSpacePathFromPresentPositionOnly(goalPose, PATH_TIME);
+    set_task_space_path_from_present_position_only(goalPose, PATH_TIME);
   }
   else if(ch == 'a' || ch == 'A')
   {
     printf("input : a \tincrease(++) y axis in task space\n");
     goalPose.at(1) = DELTA;
-    setTaskSpacePathFromPresentPositionOnly(goalPose, PATH_TIME);
+    set_task_space_path_from_present_position_only(goalPose, PATH_TIME);
   }
   else if(ch == 'd' || ch == 'D')
   {
     printf("input : d \tdecrease(--) y axis in task space\n");
     goalPose.at(1) = -DELTA;
-    setTaskSpacePathFromPresentPositionOnly(goalPose, PATH_TIME);
+    set_task_space_path_from_present_position_only(goalPose, PATH_TIME);
   }
   else if(ch == 'z' || ch == 'Z')
   {
     printf("input : z \tincrease(++) z axis in task space\n");
     goalPose.at(2) = DELTA;
-    setTaskSpacePathFromPresentPositionOnly(goalPose, PATH_TIME);
+    set_task_space_path_from_present_position_only(goalPose, PATH_TIME);
   }
   else if(ch == 'x' || ch == 'X')
   {
     printf("input : x \tdecrease(--) z axis in task space\n");
     goalPose.at(2) = -DELTA;
-    setTaskSpacePathFromPresentPositionOnly(goalPose, PATH_TIME);
+    set_task_space_path_from_present_position_only(goalPose, PATH_TIME);
   }
   else if(ch == 'y' || ch == 'Y')
   {
@@ -144,7 +144,7 @@ void OpenManipulatorXTeleopKeyboard::setGoal(char ch)
     joint_name.push_back("joint2");
     joint_name.push_back("joint3");
     joint_name.push_back("joint4");
-    setJointSpacePathFromPresent(joint_name, goalJoint, PATH_TIME);
+    set_joint_space_path_from_present(joint_name, goalJoint, PATH_TIME);
   }
   else if(ch == 'h' || ch == 'H')
   {
@@ -154,7 +154,7 @@ void OpenManipulatorXTeleopKeyboard::setGoal(char ch)
     joint_name.push_back("joint2");
     joint_name.push_back("joint3");
     joint_name.push_back("joint4");
-    setJointSpacePathFromPresent(joint_name, goalJoint, PATH_TIME);
+    set_joint_space_path_from_present(joint_name, goalJoint, PATH_TIME);
   }
 
   else if(ch == 'u' || ch == 'U')
@@ -165,7 +165,7 @@ void OpenManipulatorXTeleopKeyboard::setGoal(char ch)
     joint_name.push_back("joint2"); goalJoint.at(1) = JOINT_DELTA;
     joint_name.push_back("joint3");
     joint_name.push_back("joint4");
-    setJointSpacePathFromPresent(joint_name, goalJoint, PATH_TIME);
+    set_joint_space_path_from_present(joint_name, goalJoint, PATH_TIME);
   }
   else if(ch == 'j' || ch == 'J')
   {
@@ -175,7 +175,7 @@ void OpenManipulatorXTeleopKeyboard::setGoal(char ch)
     joint_name.push_back("joint2"); goalJoint.at(1) = -JOINT_DELTA;
     joint_name.push_back("joint3");
     joint_name.push_back("joint4");
-    setJointSpacePathFromPresent(joint_name, goalJoint, PATH_TIME);
+    set_joint_space_path_from_present(joint_name, goalJoint, PATH_TIME);
   }
 
   else if(ch == 'i' || ch == 'I')
@@ -186,7 +186,7 @@ void OpenManipulatorXTeleopKeyboard::setGoal(char ch)
     joint_name.push_back("joint2");
     joint_name.push_back("joint3"); goalJoint.at(2) = JOINT_DELTA;
     joint_name.push_back("joint4");
-    setJointSpacePathFromPresent(joint_name, goalJoint, PATH_TIME);
+    set_joint_space_path_from_present(joint_name, goalJoint, PATH_TIME);
   }
   else if(ch == 'k' || ch == 'K')
   {
@@ -196,7 +196,7 @@ void OpenManipulatorXTeleopKeyboard::setGoal(char ch)
     joint_name.push_back("joint2");
     joint_name.push_back("joint3"); goalJoint.at(2) = -JOINT_DELTA;
     joint_name.push_back("joint4");
-    setJointSpacePathFromPresent(joint_name, goalJoint, PATH_TIME);
+    set_joint_space_path_from_present(joint_name, goalJoint, PATH_TIME);
   }
 
   else if(ch == 'o' || ch == 'O')
@@ -207,7 +207,7 @@ void OpenManipulatorXTeleopKeyboard::setGoal(char ch)
     joint_name.push_back("joint2");
     joint_name.push_back("joint3");
     joint_name.push_back("joint4"); goalJoint.at(3) = JOINT_DELTA;
-    setJointSpacePathFromPresent(joint_name, goalJoint, PATH_TIME);
+    set_joint_space_path_from_present(joint_name, goalJoint, PATH_TIME);
   }
   else if(ch == 'l' || ch == 'L')
   {
@@ -217,7 +217,7 @@ void OpenManipulatorXTeleopKeyboard::setGoal(char ch)
     joint_name.push_back("joint2");
     joint_name.push_back("joint3");
     joint_name.push_back("joint4"); goalJoint.at(3) = -JOINT_DELTA;
-    setJointSpacePathFromPresent(joint_name, goalJoint, PATH_TIME);
+    set_joint_space_path_from_present(joint_name, goalJoint, PATH_TIME);
   }
 
   else if(ch == 'g' || ch == 'G')
@@ -226,14 +226,14 @@ void OpenManipulatorXTeleopKeyboard::setGoal(char ch)
     std::vector<double> joint_angle;
 
     joint_angle.push_back(0.01);
-    setToolControl(joint_angle);
+    set_tool_control(joint_angle);
   }
   else if(ch == 'f' || ch == 'F')
   {
     printf("input : f \tclose gripper\n");
     std::vector<double> joint_angle;
     joint_angle.push_back(-0.01);
-    setToolControl(joint_angle);
+    set_tool_control(joint_angle);
   }
 
   else if(ch == '2')
@@ -247,7 +247,7 @@ void OpenManipulatorXTeleopKeyboard::setGoal(char ch)
     joint_name.push_back("joint2"); joint_angle.push_back(-1.05);
     joint_name.push_back("joint3"); joint_angle.push_back(0.35);
     joint_name.push_back("joint4"); joint_angle.push_back(0.70);
-    setJointSpacePath(joint_name, joint_angle, path_time);
+    set_joint_space_path(joint_name, joint_angle, path_time);
   }
   else if(ch == '1')
   {
@@ -260,7 +260,7 @@ void OpenManipulatorXTeleopKeyboard::setGoal(char ch)
     joint_name.push_back("joint2"); joint_angle.push_back(0.0);
     joint_name.push_back("joint3"); joint_angle.push_back(0.0);
     joint_name.push_back("joint4"); joint_angle.push_back(0.0);
-    setJointSpacePath(joint_name, joint_angle, path_time);
+    set_joint_space_path(joint_name, joint_angle, path_time);
   }
   else if(ch == 'q')
   {
@@ -271,7 +271,7 @@ void OpenManipulatorXTeleopKeyboard::setGoal(char ch)
   //   RCLCPP_ERROR(this->get_logger(), "Wrong Input :(");
 }
 
-bool OpenManipulatorXTeleopKeyboard::setJointSpacePath(std::vector<std::string> joint_name, std::vector<double> joint_angle, double path_time)
+bool OpenManipulatorXTeleopKeyboard::set_joint_space_path(std::vector<std::string> joint_name, std::vector<double> joint_angle, double path_time)
 {
   auto request = std::make_shared<open_manipulator_msgs::srv::SetJointPosition::Request>();
   request->joint_position.joint_name = joint_name;
@@ -288,7 +288,7 @@ bool OpenManipulatorXTeleopKeyboard::setJointSpacePath(std::vector<std::string> 
   return false;
 }
 
-bool OpenManipulatorXTeleopKeyboard::setToolControl(std::vector<double> joint_angle)
+bool OpenManipulatorXTeleopKeyboard::set_tool_control(std::vector<double> joint_angle)
 {
   auto request = std::make_shared<open_manipulator_msgs::srv::SetJointPosition::Request>();
   request->joint_position.joint_name.push_back("gripper");
@@ -304,7 +304,7 @@ bool OpenManipulatorXTeleopKeyboard::setToolControl(std::vector<double> joint_an
   return false;
 }
 
-bool OpenManipulatorXTeleopKeyboard::setTaskSpacePathFromPresentPositionOnly(std::vector<double> kinematics_pose, double path_time)
+bool OpenManipulatorXTeleopKeyboard::set_task_space_path_from_present_position_only(std::vector<double> kinematics_pose, double path_time)
 {
   auto request = std::make_shared<open_manipulator_msgs::srv::SetKinematicsPose::Request>();
   request->planning_group = "gripper";
@@ -323,7 +323,7 @@ bool OpenManipulatorXTeleopKeyboard::setTaskSpacePathFromPresentPositionOnly(std
   return false;
 }
 
-bool OpenManipulatorXTeleopKeyboard::setJointSpacePathFromPresent(std::vector<std::string> joint_name, std::vector<double> joint_angle, double path_time)
+bool OpenManipulatorXTeleopKeyboard::set_joint_space_path_from_present(std::vector<std::string> joint_name, std::vector<double> joint_angle, double path_time)
 {
   auto request = std::make_shared<open_manipulator_msgs::srv::SetJointPosition::Request>();
   request->joint_position.joint_name = joint_name;
@@ -343,7 +343,7 @@ bool OpenManipulatorXTeleopKeyboard::setJointSpacePathFromPresent(std::vector<st
 /********************************************************************************
 ** Other Functions
 ********************************************************************************/
-void OpenManipulatorXTeleopKeyboard::printText()
+void OpenManipulatorXTeleopKeyboard::print_text()
 {
   printf("\n");
   printf("---------------------------\n");
@@ -374,32 +374,32 @@ void OpenManipulatorXTeleopKeyboard::printText()
   printf("q to quit\n");
   printf("---------------------------\n");
   printf("Present Joint Angle J1: %.3lf J2: %.3lf J3: %.3lf J4: %.3lf\n",
-         getPresentJointAngle().at(0),
-         getPresentJointAngle().at(1),
-         getPresentJointAngle().at(2),
-         getPresentJointAngle().at(3));
+         get_present_joint_angle().at(0),
+         get_present_joint_angle().at(1),
+         get_present_joint_angle().at(2),
+         get_present_joint_angle().at(3));
   printf("Present Kinematics Position X: %.3lf Y: %.3lf Z: %.3lf\n",
-         getPresentKinematicsPose().at(0),
-         getPresentKinematicsPose().at(1),
-         getPresentKinematicsPose().at(2));
+         get_present_kinematics_pose().at(0),
+         get_present_kinematics_pose().at(1),
+         get_present_kinematics_pose().at(2));
   printf("---------------------------\n");  
 }
 
-std::vector<double> OpenManipulatorXTeleopKeyboard::getPresentJointAngle()
+std::vector<double> OpenManipulatorXTeleopKeyboard::get_present_joint_angle()
 {
   return present_joint_angle_;
 }
-std::vector<double> OpenManipulatorXTeleopKeyboard::getPresentKinematicsPose()
+std::vector<double> OpenManipulatorXTeleopKeyboard::get_present_kinematics_pose()
 {
   return present_kinematic_position_;
 }
 
-void OpenManipulatorXTeleopKeyboard::restoreTerminalSettings()
+void OpenManipulatorXTeleopKeyboard::restore_terminal_settings()
 {
   tcsetattr(0, TCSANOW, &oldt_);  /* Apply saved settings */
 }
 
-void OpenManipulatorXTeleopKeyboard::disableWaitingForEnter()
+void OpenManipulatorXTeleopKeyboard::disable_waiting_for_enter()
 {
   struct termios newt;
 
@@ -412,12 +412,12 @@ void OpenManipulatorXTeleopKeyboard::disableWaitingForEnter()
   
 }
 
-void OpenManipulatorXTeleopKeyboard::displayCallback()  
+void OpenManipulatorXTeleopKeyboard::display_callback()  
 {
-  this->printText();  
+  this->print_text();  
   
   char ch = std::getchar();
-  this->setGoal(ch);
+  this->set_goal(ch);
 }
 
 }  // namespace open_manipulator_x_teleop_keyboard

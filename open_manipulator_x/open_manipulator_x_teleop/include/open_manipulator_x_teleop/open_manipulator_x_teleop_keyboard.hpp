@@ -16,8 +16,8 @@
 
 /* Authors: Ryan Shim */
 
-#ifndef OPEN_MANIPULATOR_X_TELEOP_KEYBOARD_H
-#define OPEN_MANIPULATOR_X_TELEOP_KEYBOARD_H
+#ifndef OPEN_MANIPULATOR_X_TELEOP_KEYBOARD_HPP
+#define OPEN_MANIPULATOR_X_TELEOP_KEYBOARD_HPP
 
 #include <rclcpp/rclcpp.hpp>
 #include <termios.h>
@@ -41,19 +41,6 @@ public:
   OpenManipulatorXTeleopKeyboard();
   virtual ~OpenManipulatorXTeleopKeyboard();
 
-  /*****************************************************************************
-  ** Others
-  *****************************************************************************/
-  void setGoal(char ch);
-  void printText();
-  std::vector<double> getPresentJointAngle();
-  std::vector<double> getPresentKinematicsPose();
-  struct termios oldt_;
-  void restoreTerminalSettings();
-  void disableWaitingForEnter();
-  rclcpp::TimerBase::SharedPtr timer_;
-  void displayCallback(); 
-
 private:
   /*****************************************************************************
   ** Position in Joint Space and Task Space
@@ -67,13 +54,13 @@ private:
   rclcpp::Subscription<sensor_msgs::msg::JointState>::SharedPtr joint_states_sub_;
   rclcpp::Subscription<open_manipulator_msgs::msg::KinematicsPose>::SharedPtr kinematics_pose_sub_;
 
-  void jointStatesCallback(const sensor_msgs::msg::JointState::SharedPtr msg);
-  void kinematicsPoseCallback(const open_manipulator_msgs::msg::KinematicsPose::SharedPtr msg);
+  void joint_states_callback(const sensor_msgs::msg::JointState::SharedPtr msg);
+  void kinematics_pose_callback(const open_manipulator_msgs::msg::KinematicsPose::SharedPtr msg);
 
-  bool setJointSpacePath(std::vector<std::string> joint_name, std::vector<double> joint_angle, double path_time);
-  bool setTaskSpacePathFromPresentPositionOnly(std::vector<double> kinematics_pose, double path_time);
-  bool setToolControl(std::vector<double> joint_angle);
-  bool setJointSpacePathFromPresent(std::vector<std::string> joint_name, std::vector<double> joint_angle, double path_time);
+  bool set_joint_space_path(std::vector<std::string> joint_name, std::vector<double> joint_angle, double path_time);
+  bool set_task_space_path_from_present_position_only(std::vector<double> kinematics_pose, double path_time);
+  bool set_tool_control(std::vector<double> joint_angle);
+  bool set_joint_space_path_from_present(std::vector<std::string> joint_name, std::vector<double> joint_angle, double path_time);
 
   /*****************************************************************************
   ** ROS  Clients
@@ -82,8 +69,21 @@ private:
   rclcpp::Client<open_manipulator_msgs::srv::SetJointPosition>::SharedPtr goal_tool_control_client_;
   rclcpp::Client<open_manipulator_msgs::srv::SetKinematicsPose>::SharedPtr goal_task_space_path_from_present_position_only_client_;
   rclcpp::Client<open_manipulator_msgs::srv::SetJointPosition>::SharedPtr goal_joint_space_path_from_present_client_;
+
+  /*****************************************************************************
+  ** Others
+  *****************************************************************************/
+  void set_goal(char ch);
+  void print_text();
+  std::vector<double> get_present_joint_angle();
+  std::vector<double> get_present_kinematics_pose();
+  struct termios oldt_;
+  void restore_terminal_settings();
+  void disable_waiting_for_enter();
+  rclcpp::TimerBase::SharedPtr timer_;
+  void display_callback(); 
 };
 
 }  // namespace open_manipulator_x_teleop_keyboard
 
-#endif  // OPEN_MANIPULATOR_X_TELEOP_KEYBOARD_H
+#endif  // OPEN_MANIPULATOR_X_TELEOP_KEYBOARD_HPP

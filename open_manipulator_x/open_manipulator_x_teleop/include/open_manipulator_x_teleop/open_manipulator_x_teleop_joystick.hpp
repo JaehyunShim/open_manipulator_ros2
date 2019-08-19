@@ -16,8 +16,8 @@
 
 /* Authors: Ryan Shim */
 
-#ifndef OPEN_MANIPULATOR_X_TELEOP_JOYSTICK_H
-#define OPEN_MANIPULATOR_X_TELEOP_JOYSTICK_H
+#ifndef OPEN_MANIPULATOR_X_TELEOP_JOYSTICK_HPP
+#define OPEN_MANIPULATOR_X_TELEOP_JOYSTICK_HPP
 
 #include <rclcpp/rclcpp.hpp>
 #include <sensor_msgs/msg/joy.hpp>
@@ -54,14 +54,14 @@ private:
   rclcpp::Subscription<open_manipulator_msgs::msg::KinematicsPose>::SharedPtr kinematics_pose_sub_;
   rclcpp::Subscription<sensor_msgs::msg::Joy>::SharedPtr joy_command_sub_;
 
-  void jointStatesCallback(const sensor_msgs::msg::JointState::SharedPtr msg);
-  void kinematicsPoseCallback(const open_manipulator_msgs::msg::KinematicsPose::SharedPtr msg);
-  void joyCallback(const sensor_msgs::msg::Joy::SharedPtr msg);
+  void joint_states_callback(const sensor_msgs::msg::JointState::SharedPtr msg);
+  void kinematics_pose_callback(const open_manipulator_msgs::msg::KinematicsPose::SharedPtr msg);
+  void joy_callback(const sensor_msgs::msg::Joy::SharedPtr msg);
 
-  void setGoal(const char *str);
-  bool setJointSpacePath(std::vector<std::string> joint_name, std::vector<double> joint_angle, double path_time);
-  bool setTaskSpacePathFromPresentPositionOnly(std::vector<double> kinematics_pose, double path_time);
-  bool setToolControl(std::vector<double> joint_angle);
+  void set_goal(const char *str);
+  bool set_joint_space_path(std::vector<std::string> joint_name, std::vector<double> joint_angle, double path_time);
+  bool set_task_space_path_from_present_position_only(std::vector<double> kinematics_pose, double path_time);
+  bool set_tool_control(std::vector<double> joint_angle);
 
   /*****************************************************************************
   ** ROS Clients
@@ -73,4 +73,4 @@ private:
 
 }  // namespace open_manipulator_x_teleop_joystick
 
-#endif  // OPEN_MANIPULATOR_X_TELEOP_JOYSTICK_H
+#endif  // OPEN_MANIPULATOR_X_TELEOP_JOYSTICK_HPP
