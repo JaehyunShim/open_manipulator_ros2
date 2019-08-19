@@ -34,20 +34,15 @@
   <RefLink ref="link5"/>
 
   <!-- gripper_link -->
-  <RefLink ref="gripper_link"/>
+  <RefLink ref="link6"/>
 
   <!-- gripper_link_sub -->
-  <RefLink ref="gripper_link_sub"/>
-
-  <!-- end effector link -->
-  <gazebo reference="end_effector_link">
-    <material>Gazebo/Red</material>
-  </gazebo>
+  <RefLink ref="end_link"/>
 
   <!-- ros_control plugin -->
   <gazebo>
     <plugin name="gazebo_ros_control" filename="libgazebo_ros_control.so">
-      <robotNamespace>open_manipulator_x</robotNamespace>
+      <robotNamespace>open_manipulator_pro</robotNamespace>
       <controlPeriod>0.001</controlPeriod>
       <robotSimType>gazebo_ros_control/DefaultRobotHWSim</robotSimType>
     </plugin>

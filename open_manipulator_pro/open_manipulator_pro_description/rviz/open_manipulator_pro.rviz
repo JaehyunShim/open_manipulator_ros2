@@ -5,8 +5,7 @@ Panels:
     Property Tree Widget:
       Expanded:
         - /Global Options1
-        - /Status1
-        - /RobotModel1/Links1
+        - /RobotModel1
         - /TF1
       Splitter Ratio: 0.5
     Tree Height: 552
@@ -30,7 +29,7 @@ Visualization Manager:
     - Alpha: 0.5
       Cell Size: 1
       Class: rviz_default_plugins/Grid
-      Color: 160; 160; 160
+      Color: 160; 160; 164
       Enabled: true
       Line Style:
         Line Width: 0.029999999329447746
@@ -57,18 +56,8 @@ Visualization Manager:
         Expand Joint Details: false
         Expand Link Details: false
         Expand Tree: false
-        Link Tree Style: ""
-        end_effector_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        gripper_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        gripper_link_sub:
+        Link Tree Style: Links in Alphabetic Order
+        end_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
@@ -94,6 +83,11 @@ Visualization Manager:
           Show Trail: false
           Value: true
         link5:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        link6:
           Alpha: 1
           Show Axes: false
           Show Trail: false
@@ -113,11 +107,7 @@ Visualization Manager:
       Frame Timeout: 15
       Frames:
         All Enabled: true
-        end_effector_link:
-          Value: true
-        gripper_link:
-          Value: true
-        gripper_link_sub:
+        end_link:
           Value: true
         link1:
           Value: true
@@ -129,11 +119,13 @@ Visualization Manager:
           Value: true
         link5:
           Value: true
+        link6:
+          Value: true
         world:
           Value: true
-      Marker Scale: 0.30000001192092896
+      Marker Scale: 1
       Name: TF
-      Show Arrows: false
+      Show Arrows: true
       Show Axes: true
       Show Names: false
       Tree:
@@ -143,12 +135,9 @@ Visualization Manager:
               link3:
                 link4:
                   link5:
-                    end_effector_link:
-                      {}
-                    gripper_link:
-                      {}
-                    gripper_link_sub:
-                      {}
+                    link6:
+                      end_link:
+                        {}
       Update Interval: 0
       Value: true
   Enabled: true
@@ -177,25 +166,25 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz_default_plugins/Orbit
-      Distance: 0.820521891117096
+      Distance: 1.3844661712646484
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.05999999865889549
         Stereo Focal Distance: 1
         Swap Stereo Eyes: false
         Value: false
       Focal Point:
-        X: 0.026659635826945305
-        Y: 0.10458234697580338
-        Z: 0.06186971813440323
+        X: 0.024250304326415062
+        Y: 0.18526047468185425
+        Z: 0.12112817913293839
       Focal Shape Fixed Size: true
       Focal Shape Size: 0.05000000074505806
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.009999999776482582
-      Pitch: 0.5453979969024658
+      Pitch: 0.7303980588912964
       Target Frame: <Fixed Frame>
       Value: Orbit (rviz)
-      Yaw: 5.553577899932861
+      Yaw: 5.5035810470581055
     Saved: ~
 Window Geometry:
   Displays:
@@ -211,5 +200,5 @@ Window Geometry:
   Views:
     collapsed: false
   Width: 1548
-  X: 342
-  Y: 86
+  X: 724
+  Y: 188
