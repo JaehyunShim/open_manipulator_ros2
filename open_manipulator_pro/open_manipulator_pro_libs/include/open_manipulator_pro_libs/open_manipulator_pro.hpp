@@ -16,12 +16,12 @@
 
 /* Authors: Darby Lim, Hye-Jong KIM, Ryan Shim, Yong-Ho Na */
 
-#ifndef OPEN_MANIPULTOR_H_
-#define OPEN_MANIPULTOR_H_
+#ifndef OPEN_MANIPULTOR_PRO_HPP
+#define OPEN_MANIPULTOR_PRO_HPP
 
-#include "dynamixel.h"
-#include "custom_trajectory.h"
-#include "kinematics.h"
+#include "dynamixel.hpp"
+#include "custom_trajectory.hpp"
+#include "kinematics.hpp"
 
 #define CUSTOM_TRAJECTORY_SIZE 4
 #define CUSTOM_TRAJECTORY_LINE    "custom_trajectory_line"
@@ -55,4 +55,4 @@ public:
   JointWaypoint angleToDistance(JointWaypoint angle);
 };
 
-#endif // OPEN_MANIPULTOR_H_
+#endif // OPEN_MANIPULTOR_PRO_HPP

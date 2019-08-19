@@ -16,7 +16,7 @@
 
 /* Authors: Darby Lim, Hye-Jong KIM, Ryan Shim, Yong-Ho Na */
 
-#include "../include/open_manipulator_pro_libs/open_manipulator_pro.h"
+#include "../include/open_manipulator_pro_libs/open_manipulator_pro.hpp"
 
 OpenManipulator::OpenManipulator()
 {}

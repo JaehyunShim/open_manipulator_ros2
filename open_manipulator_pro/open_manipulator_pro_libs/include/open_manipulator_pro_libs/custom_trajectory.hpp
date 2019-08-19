@@ -16,8 +16,8 @@
 
 /* Authors: Darby Lim, Hye-Jong KIM, Ryan Shim, Yong-Ho Na */
 
-#ifndef CUSTOM_TRAJECTORY_H_
-#define CUSTOM_TRAJECTORY_H_
+#ifndef CUSTOM_TRAJECTORY_HPP
+#define CUSTOM_TRAJECTORY_HPP
 
 #if defined(__OPENCR__)
   #include <RobotisManipulator.h>
@@ -153,7 +153,7 @@ public:
 
 } // namespace CUSTOM_TRAJECTORY
 
-#endif // CUSTOM_TRAJECTORY_H_
+#endif // CUSTOM_TRAJECTORY_HPP
 
 
 

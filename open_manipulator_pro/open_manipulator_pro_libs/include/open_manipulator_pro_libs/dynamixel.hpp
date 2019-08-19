@@ -16,8 +16,8 @@
 
 /* Authors: Darby Lim, Hye-Jong KIM, Ryan Shim, Yong-Ho Na */
 
-#ifndef DYNAMIXEL_H_
-#define DYNAMIXEL_H_
+#ifndef DYNAMIXEL_HPP
+#define DYNAMIXEL_HPP
 
 #if defined(__OPENCR__)
   #include <RobotisManipulator.h>
@@ -181,8 +181,8 @@ class GripperDynamixel : public robotis_manipulator::ToolActuator
   double receiveDynamixelValue();
 };
 
-} // namespace DYNAMIXEL
-#endif // DYNAMIXEL_H_
+} // namespace dynamixel
+#endif // DYNAMIXEL_HPP
 
 
 

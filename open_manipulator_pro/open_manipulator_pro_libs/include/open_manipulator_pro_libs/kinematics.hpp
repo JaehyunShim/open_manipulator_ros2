@@ -16,8 +16,8 @@
 
 /* Authors: Darby Lim, Hye-Jong KIM, Ryan Shim, Yong-Ho Na */
 
-#ifndef KINEMATICS_H_
-#define KINEMATICS_H_
+#ifndef KINEMATICS_HPP
+#define KINEMATICS_HPP
 
 #if defined(__OPENCR__)
   #include <RobotisManipulator.h>
@@ -136,7 +136,7 @@ public:
 };
 
 
-} // namespace KINEMATICS
+} // namespace kinematics
 
 
-#endif // KINEMATICS_H_
+#endif // KINEMATICS_HPP

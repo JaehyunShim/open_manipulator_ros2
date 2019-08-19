@@ -16,8 +16,8 @@
 
 /* Authors: Darby Lim, Hye-Jong KIM, Ryan Shim, Yong-Ho Na */
 
-#ifndef OPEN_MANIPULTOR_HPP
-#define OPEN_MANIPULTOR_HPP
+#ifndef OPEN_MANIPULTOR_X_HPP
+#define OPEN_MANIPULTOR_X_HPP
 
 #include "dynamixel.hpp"
 #include "custom_trajectory.hpp"
@@ -53,4 +53,4 @@ public:
   void process_open_manipulator_x(double present_time);
 };
 
-#endif // OPEN_MANIPULTOR_HPP
+#endif // OPEN_MANIPULTOR_X_HPP

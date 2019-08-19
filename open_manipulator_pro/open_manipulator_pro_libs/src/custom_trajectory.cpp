@@ -16,7 +16,7 @@
 
 /* Authors: Darby Lim, Hye-Jong KIM, Ryan Shim, Yong-Ho Na */
 
-#include "../include/open_manipulator_pro_libs/custom_trajectory.h"
+#include "../include/open_manipulator_pro_libs/custom_trajectory.hpp"
 
 using namespace custom_trajectory;
 using namespace Eigen;
