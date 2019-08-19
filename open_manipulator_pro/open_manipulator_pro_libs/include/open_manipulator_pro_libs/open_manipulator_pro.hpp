@@ -36,7 +36,7 @@
 #define Y_AXIS robotis_manipulator::math::vector3(0.0, 1.0, 0.0)
 #define Z_AXIS robotis_manipulator::math::vector3(0.0, 0.0, 1.0)
 
-class OpenManipulator : public robotis_manipulator::RobotisManipulator
+class OpenManipulatorPro : public robotis_manipulator::RobotisManipulator
 {
 
 private:
@@ -46,8 +46,8 @@ private:
   robotis_manipulator::CustomTaskTrajectory *custom_trajectory_[CUSTOM_TRAJECTORY_SIZE];
 
 public:
-  OpenManipulator();
-  virtual ~OpenManipulator();
+  OpenManipulatorPro();
+  virtual ~OpenManipulatorPro();
 
   void init_open_manipulator_pro(bool using_actual_robot_state, STRING usb_port = "/dev/ttyUSB0", STRING baud_rate = "1000000", float control_loop_time = 0.010, bool with_gripper = false);
   void process_open_manipulator_pro(double present_time, bool using_actual_robot_state, bool with_gripper = false);

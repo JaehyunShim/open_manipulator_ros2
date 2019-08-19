@@ -1,0 +1,10 @@
+﻿open_manipulator_x_controller:
+    ros__parameters:
+        use_robot_name: "open_manipulator_pro"
+        dynamixel_usb_port: "/dev/ttyUSB0"
+        dynamixel_baud_rate: 1000000
+        control_period: 0.010
+        use_platform: true
+        use_moveit: false
+        planning_group_name: "arm"
+        moveit_sample_duration: 0.050

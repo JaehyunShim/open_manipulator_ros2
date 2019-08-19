@@ -18,9 +18,9 @@
 
 #include "../include/open_manipulator_pro_libs/open_manipulator_pro.hpp"
 
-OpenManipulator::OpenManipulator()
+OpenManipulatorPro::OpenManipulatorPro()
 {}
-OpenManipulator::~OpenManipulator()
+OpenManipulatorPro::~OpenManipulatorPro()
 {
   delete kinematics_;
   delete actuator_;
@@ -29,7 +29,7 @@ OpenManipulator::~OpenManipulator()
     delete custom_trajectory_[index];
 }
 
-void OpenManipulator::init_open_manipulator_pro(bool using_actual_robot_state, STRING usb_port, STRING baud_rate, float control_loop_time, bool with_gripper)
+void OpenManipulatorPro::init_open_manipulator_pro(bool using_actual_robot_state, STRING usb_port, STRING baud_rate, float control_loop_time, bool with_gripper)
 {
   /*****************************************************************************
   ** Initialize Manipulator Parameter
@@ -247,7 +247,7 @@ void OpenManipulator::init_open_manipulator_pro(bool using_actual_robot_state, S
   addCustomTrajectory(CUSTOM_TRAJECTORY_HEART, custom_trajectory_[3]);
 }
 
-void OpenManipulator::process_open_manipulator_pro(double present_time, bool using_actual_robot_state, bool with_gripper)
+void OpenManipulatorPro::process_open_manipulator_pro(double present_time, bool using_actual_robot_state, bool with_gripper)
 {
  
   JointWaypoint goal_joint_value = getJointGoalValueFromTrajectory(present_time);
@@ -286,7 +286,7 @@ void OpenManipulator::process_open_manipulator_pro(double present_time, bool usi
   solveForwardKinematics();
 }
 
-JointWaypoint OpenManipulator::distance_to_angle(JointWaypoint distance)
+JointWaypoint OpenManipulatorPro::distance_to_angle(JointWaypoint distance)
 {
   // distance (m) -> angle (rad) 
   double angle = 1.135 - distance.at(0).position; // / 0.109 * 1.135;
@@ -300,7 +300,7 @@ JointWaypoint OpenManipulator::distance_to_angle(JointWaypoint distance)
   return result_vector;
 }
 
-JointWaypoint OpenManipulator::angle_to_distance(JointWaypoint angle)
+JointWaypoint OpenManipulatorPro::angle_to_distance(JointWaypoint angle)
 {
   // angle (rad) -> distance (m) 
   double distance = (1.135 - angle.at(0).position); /// 1.135 * 0.109;
