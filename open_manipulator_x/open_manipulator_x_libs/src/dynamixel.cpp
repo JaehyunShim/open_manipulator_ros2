@@ -16,7 +16,7 @@
 
 /* Authors: Darby Lim, Hye-Jong KIM, Ryan Shim, Yong-Ho Na */
 
-#include "../include/open_manipulator_x_libs/dynamixel.h"
+#include "../include/open_manipulator_x_libs/dynamixel.hpp"
 
 using namespace dynamixel;
 using namespace robotis_manipulator;
@@ -43,17 +43,17 @@ void JointDynamixel::setMode(std::vector<uint8_t> actuator_id, const void *arg)
 
   if (get_arg_[0] == "position_mode" || get_arg_[0] == "current_based_position_mode")
   {
-    result = JointDynamixel::setOperatingMode(actuator_id, get_arg_[0]);
+    result = JointDynamixel::set_operating_mode(actuator_id, get_arg_[0]);
     if (result == false)
       return;
 
-    result = JointDynamixel::setSDKHandler(actuator_id.at(0));
+    result = JointDynamixel::set_sdk_handler(actuator_id.at(0));
     if (result == false)
       return;
   }
   else
   {
-    result = JointDynamixel::writeProfileValue(actuator_id, get_arg_[0], std::atoi(get_arg_[1].c_str()));
+    result = JointDynamixel::write_profile_value(actuator_id, get_arg_[0], std::atoi(get_arg_[1].c_str()));
     if (result == false)
       return;
   }
@@ -106,7 +106,7 @@ bool JointDynamixel::sendJointActuatorValue(std::vector<uint8_t> actuator_id, st
   {
     radian_vector.push_back(value_vector.at(index).position);
   }
-  result = JointDynamixel::writeGoalPosition(actuator_id, radian_vector);
+  result = JointDynamixel::write_goal_position(actuator_id, radian_vector);
   if (result == false)
     return false;
 
@@ -115,7 +115,7 @@ bool JointDynamixel::sendJointActuatorValue(std::vector<uint8_t> actuator_id, st
 
 std::vector<robotis_manipulator::ActuatorValue> JointDynamixel::receiveJointActuatorValue(std::vector<uint8_t> actuator_id)
 {
-  return JointDynamixel::receiveAllDynamixelValue(actuator_id);
+  return JointDynamixel::receive_all_dynamixel_value(actuator_id);
 }
 
 
@@ -176,7 +176,7 @@ bool JointDynamixel::initialize(std::vector<uint8_t> actuator_id, STRING dxl_dev
   return true;
 }
 
-bool JointDynamixel::setOperatingMode(std::vector<uint8_t> actuator_id, STRING dynamixel_mode)
+bool JointDynamixel::set_operating_mode(std::vector<uint8_t> actuator_id, STRING dynamixel_mode)
 {
   const char* log = NULL;
   bool result = false;
@@ -222,7 +222,7 @@ bool JointDynamixel::setOperatingMode(std::vector<uint8_t> actuator_id, STRING d
   return true;
 }
 
-bool JointDynamixel::setSDKHandler(uint8_t actuator_id)
+bool JointDynamixel::set_sdk_handler(uint8_t actuator_id)
 {
   bool result = false;
   const char* log = NULL;
@@ -244,7 +244,7 @@ bool JointDynamixel::setSDKHandler(uint8_t actuator_id)
   return true;
 }
 
-bool JointDynamixel::writeProfileValue(std::vector<uint8_t> actuator_id, STRING profile_mode, uint32_t value)
+bool JointDynamixel::write_profile_value(std::vector<uint8_t> actuator_id, STRING profile_mode, uint32_t value)
 {
   const char* log = NULL;
   bool result = false;
@@ -263,7 +263,7 @@ bool JointDynamixel::writeProfileValue(std::vector<uint8_t> actuator_id, STRING 
   return true;
 }
 
-bool JointDynamixel::writeGoalPosition(std::vector<uint8_t> actuator_id, std::vector<double> radian_vector)
+bool JointDynamixel::write_goal_position(std::vector<uint8_t> actuator_id, std::vector<double> radian_vector)
 {
   bool result = false;
   const char* log = NULL;
@@ -286,7 +286,7 @@ bool JointDynamixel::writeGoalPosition(std::vector<uint8_t> actuator_id, std::ve
   return true;
 }
 
-std::vector<robotis_manipulator::ActuatorValue> JointDynamixel::receiveAllDynamixelValue(std::vector<uint8_t> actuator_id)
+std::vector<robotis_manipulator::ActuatorValue> JointDynamixel::receive_all_dynamixel_value(std::vector<uint8_t> actuator_id)
 {
   bool result = false;
   const char* log = NULL;
@@ -387,17 +387,17 @@ void JointDynamixelProfileControl::setMode(std::vector<uint8_t> actuator_id, con
 
   if (get_arg_[0] == "position_mode" || get_arg_[0] == "current_based_position_mode")
   {
-    result = JointDynamixelProfileControl::setOperatingMode(actuator_id, get_arg_[0]);
+    result = JointDynamixelProfileControl::set_operating_mode(actuator_id, get_arg_[0]);
     if (result == false)
       return;
 
-    result = JointDynamixelProfileControl::setSDKHandler(actuator_id.at(0));
+    result = JointDynamixelProfileControl::set_sdk_handler(actuator_id.at(0));
     if (result == false)
       return;
   }
   else
   {
-    result = JointDynamixelProfileControl::writeProfileValue(actuator_id, get_arg_[0], std::atoi(get_arg_[1].c_str()));
+    result = JointDynamixelProfileControl::write_profile_value(actuator_id, get_arg_[0], std::atoi(get_arg_[1].c_str()));
     if (result == false)
       return;
   }
@@ -445,7 +445,7 @@ bool JointDynamixelProfileControl::sendJointActuatorValue(std::vector<uint8_t> a
 {
   bool result = false;
 
-  result = JointDynamixelProfileControl::writeGoalProfilingControlValue(actuator_id, value_vector);
+  result = JointDynamixelProfileControl::write_goal_profiling_control_value(actuator_id, value_vector);
   if (result == false)
     return false;
 
@@ -454,7 +454,7 @@ bool JointDynamixelProfileControl::sendJointActuatorValue(std::vector<uint8_t> a
 
 std::vector<robotis_manipulator::ActuatorValue> JointDynamixelProfileControl::receiveJointActuatorValue(std::vector<uint8_t> actuator_id)
 {
-  return JointDynamixelProfileControl::receiveAllDynamixelValue(actuator_id);
+  return JointDynamixelProfileControl::receive_all_dynamixel_value(actuator_id);
 }
 
 
@@ -515,7 +515,7 @@ bool JointDynamixelProfileControl::initialize(std::vector<uint8_t> actuator_id, 
   return true;
 }
 
-bool JointDynamixelProfileControl::setOperatingMode(std::vector<uint8_t> actuator_id, STRING dynamixel_mode)
+bool JointDynamixelProfileControl::set_operating_mode(std::vector<uint8_t> actuator_id, STRING dynamixel_mode)
 {
   const char* log = NULL;
   bool result = false;
@@ -561,7 +561,7 @@ bool JointDynamixelProfileControl::setOperatingMode(std::vector<uint8_t> actuato
   return true;
 }
 
-bool JointDynamixelProfileControl::setSDKHandler(uint8_t actuator_id)
+bool JointDynamixelProfileControl::set_sdk_handler(uint8_t actuator_id)
 {
   bool result = false;
   const char* log = NULL;
@@ -583,7 +583,7 @@ bool JointDynamixelProfileControl::setSDKHandler(uint8_t actuator_id)
   return true;
 }
 
-bool JointDynamixelProfileControl::writeProfileValue(std::vector<uint8_t> actuator_id, STRING profile_mode, uint32_t value)
+bool JointDynamixelProfileControl::write_profile_value(std::vector<uint8_t> actuator_id, STRING profile_mode, uint32_t value)
 {
   const char* log = NULL;
   bool result = false;
@@ -601,7 +601,7 @@ bool JointDynamixelProfileControl::writeProfileValue(std::vector<uint8_t> actuat
   return true;
 }
 
-bool JointDynamixelProfileControl::writeGoalProfilingControlValue(std::vector<uint8_t> actuator_id, std::vector<robotis_manipulator::ActuatorValue> value_vector)
+bool JointDynamixelProfileControl::write_goal_profiling_control_value(std::vector<uint8_t> actuator_id, std::vector<robotis_manipulator::ActuatorValue> value_vector)
 {
   bool result = false;
   const char* log = NULL;
@@ -636,7 +636,7 @@ bool JointDynamixelProfileControl::writeGoalProfilingControlValue(std::vector<ui
   return true;
 }
 
-std::vector<robotis_manipulator::ActuatorValue> JointDynamixelProfileControl::receiveAllDynamixelValue(std::vector<uint8_t> actuator_id)
+std::vector<robotis_manipulator::ActuatorValue> JointDynamixelProfileControl::receive_all_dynamixel_value(std::vector<uint8_t> actuator_id)
 {
   bool result = false;
   const char* log = NULL;
@@ -732,18 +732,18 @@ void GripperDynamixel::setMode(const void *arg)
 
   if (get_arg_[0] == "position_mode" || get_arg_[0] == "current_based_position_mode")
   {
-    result = GripperDynamixel::setOperatingMode(get_arg_[0]);
+    result = GripperDynamixel::set_operating_mode(get_arg_[0]);
     if (result == false)
       return;
   }
   else
   {
-    result = GripperDynamixel::writeProfileValue(get_arg_[0], std::atoi(get_arg_[1].c_str()));
+    result = GripperDynamixel::write_profile_value(get_arg_[0], std::atoi(get_arg_[1].c_str()));
     if (result == false)
       return;
   }
 
-  result = GripperDynamixel::setSDKHandler();
+  result = GripperDynamixel::set_sdk_handler();
   if (result == false)
     return;
 }
@@ -781,13 +781,13 @@ void GripperDynamixel::disable()
 
 bool GripperDynamixel::sendToolActuatorValue(robotis_manipulator::ActuatorValue value)
 {
-  return GripperDynamixel::writeGoalPosition(value.position);
+  return GripperDynamixel::write_goal_position(value.position);
 }
 
 robotis_manipulator::ActuatorValue GripperDynamixel::receiveToolActuatorValue()
 {
   robotis_manipulator::ActuatorValue result;
-  result.position = GripperDynamixel::receiveDynamixelValue();
+  result.position = GripperDynamixel::receive_dynamixel_value();
   result.velocity = 0.0;
   result.acceleration = 0.0;
   result.effort = 0.0;
@@ -849,7 +849,7 @@ bool GripperDynamixel::initialize(uint8_t actuator_id, STRING dxl_device_name, S
   return true;
 }
 
-bool GripperDynamixel::setOperatingMode(STRING dynamixel_mode)
+bool GripperDynamixel::set_operating_mode(STRING dynamixel_mode)
 {
   const char* log = NULL;
   bool result = false;
@@ -886,7 +886,7 @@ bool GripperDynamixel::setOperatingMode(STRING dynamixel_mode)
   return true;
 }
 
-bool GripperDynamixel::writeProfileValue(STRING profile_mode, uint32_t value)
+bool GripperDynamixel::write_profile_value(STRING profile_mode, uint32_t value)
 {
   const char* log = NULL;
   bool result = false;
@@ -902,7 +902,7 @@ bool GripperDynamixel::writeProfileValue(STRING profile_mode, uint32_t value)
   return true;
 }
 
-bool GripperDynamixel::setSDKHandler()
+bool GripperDynamixel::set_sdk_handler()
 {
   bool result = false;
   const char* log = NULL;
@@ -924,7 +924,7 @@ bool GripperDynamixel::setSDKHandler()
   return true;
 }
 
-bool GripperDynamixel::writeGoalPosition(double radian)
+bool GripperDynamixel::write_goal_position(double radian)
 {
   bool result = false;
   const char* log = NULL;
@@ -942,7 +942,7 @@ bool GripperDynamixel::writeGoalPosition(double radian)
   return true;
 }
 
-double GripperDynamixel::receiveDynamixelValue()
+double GripperDynamixel::receive_dynamixel_value()
 {
   bool result = false;
   const char* log = NULL;

@@ -52,7 +52,7 @@
 #include "open_manipulator_msgs/srv/get_kinematics_pose.hpp"
 #include "open_manipulator_msgs/msg/open_manipulator_state.hpp"
 
-#include "open_manipulator_x_libs/open_manipulator_x.h"
+#include "open_manipulator_x_libs/open_manipulator_x.hpp"
 
 namespace open_manipulator_x_controller
 {
@@ -94,7 +94,7 @@ class OpenManipulatorXController : public rclcpp::Node
   // bool moveit_plan_only_;
 
   // Robotis_manipulator related 
-  OpenManipulator open_manipulator_;
+  OpenManipulatorX open_manipulator_x_;
 
   /*****************************************************************************
   ** Init Functions
@@ -106,13 +106,13 @@ class OpenManipulatorXController : public rclcpp::Node
   /*****************************************************************************
   ** ROS Publishers, Callback Functions and Relevant Functions
   *****************************************************************************/
-  rclcpp::Publisher<open_manipulator_msgs::msg::OpenManipulatorState>::SharedPtr open_manipulator_states_pub_;
-  std::vector<rclcpp::Publisher<open_manipulator_msgs::msg::KinematicsPose>::SharedPtr> open_manipulator_kinematics_pose_pub_;
-  rclcpp::Publisher<sensor_msgs::msg::JointState>::SharedPtr open_manipulator_joint_states_pub_;
+  rclcpp::Publisher<open_manipulator_msgs::msg::OpenManipulatorState>::SharedPtr open_manipulator_x_states_pub_;
+  std::vector<rclcpp::Publisher<open_manipulator_msgs::msg::KinematicsPose>::SharedPtr> open_manipulator_x_kinematics_pose_pub_;
+  rclcpp::Publisher<sensor_msgs::msg::JointState>::SharedPtr open_manipulator_x_joint_states_pub_;
   std::vector<rclcpp::Publisher<std_msgs::msg::Float64>::SharedPtr> gazebo_goal_joint_position_pub_;
   // rclcpp::Publisher<????>::SharedPtr moveit_update_start_state_pub_;
 
-  void publish_open_manipulator_states();
+  void publish_open_manipulator_x_states();
   void publish_kinematics_pose();
   void publish_joint_states();
   void publish_gazebo_command();
@@ -120,12 +120,12 @@ class OpenManipulatorXController : public rclcpp::Node
   /*****************************************************************************
   ** ROS Subscribers and Callback Functions
   *****************************************************************************/
-  rclcpp::Subscription<std_msgs::msg::String>::SharedPtr open_manipulator_option_sub_;
+  rclcpp::Subscription<std_msgs::msg::String>::SharedPtr open_manipulator_x_option_sub_;
   // rclcpp::Subscription<moveit_msgs::msg::DisplayTrajectory>::SharedPtr display_planned_path_sub_;
   // rclcpp::Subscription<moveit_msgs::msg::MoveGroupActionGoal>::SharedPtr move_group_goal_sub_;
   // rclcpp::Subscription<moveit_msgs::msg::ExecuteTrajectoryActionGoal>::SharedPtr execute_traj_goal_sub_;
 
-  void open_manipulator_option_callback(const std_msgs::msg::String::SharedPtr msg);
+  void open_manipulator_x_option_callback(const std_msgs::msg::String::SharedPtr msg);
   // void displayPlannedPathCallback(const moveit_msgs::msg::DisplayTrajectory::SharedPtr msg);
   // void moveGroupGoalCallback(const moveit_msgs::msg::MoveGroupActionGoal::SharedPtr msg);
   // void executeTrajGoalCallback(const moveit_msgs::msg::ExecuteTrajectoryActionGoal::SharedPtr msg);

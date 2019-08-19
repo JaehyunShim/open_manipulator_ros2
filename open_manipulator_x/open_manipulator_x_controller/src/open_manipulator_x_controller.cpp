@@ -40,7 +40,7 @@ OpenManipulatorXController::OpenManipulatorXController(std::string usb_port, std
   // std::string planning_group_name;
   // this->get_parameter_or("planning_group_name", planning_group_name, "arm");
 
-  open_manipulator_.initOpenManipulator(using_platform_, usb_port, baud_rate, 0.010);
+  open_manipulator_x_.init_open_manipulator_x(using_platform_, usb_port, baud_rate, 0.010);
 
   if (using_platform_ == true)       log::info("Succeeded to Initialise OpenManipulator-X Controller");
   else if (using_platform_ == false) log::info("Ready to Simulate OpenManipulator-X on Gazebo");
@@ -74,7 +74,7 @@ OpenManipulatorXController::OpenManipulatorXController(std::string usb_port, std
 OpenManipulatorXController::~OpenManipulatorXController()
 {
   log::info("Shutdown the OpenManipulator-X Controller");
-  open_manipulator_.disableAllActuator();
+  open_manipulator_x_.disableAllActuator();
 }
 
 /********************************************************************************
@@ -82,23 +82,23 @@ OpenManipulatorXController::~OpenManipulatorXController()
 ********************************************************************************/
 void OpenManipulatorXController::init_publisher()
 {
-  auto om_tools_name = open_manipulator_.getManipulator()->getAllToolComponentName();
+  auto om_tools_name = open_manipulator_x_.getManipulator()->getAllToolComponentName();
 
-  open_manipulator_states_pub_ = this->create_publisher<open_manipulator_msgs::msg::OpenManipulatorState>("states", 10);
+  open_manipulator_x_states_pub_ = this->create_publisher<open_manipulator_msgs::msg::OpenManipulatorState>("states", 10);
 
   for (auto const& name:om_tools_name)
   {
     auto pb = this->create_publisher<open_manipulator_msgs::msg::KinematicsPose>("open_manipulator_x/kinematics_pose", 10);
-    open_manipulator_kinematics_pose_pub_.push_back(pb);
+    open_manipulator_x_kinematics_pose_pub_.push_back(pb);
   }
 
   if(using_platform_ == true)
   {
-    open_manipulator_joint_states_pub_ = this->create_publisher<sensor_msgs::msg::JointState>("open_manipulator_x/joint_states", 10);
+    open_manipulator_x_joint_states_pub_ = this->create_publisher<sensor_msgs::msg::JointState>("open_manipulator_x/joint_states", 10);
   }
   else
   {
-  //   auto gazebo_joints_name = open_manipulator_.getManipulator()->getAllActiveJointComponentName();
+  //   auto gazebo_joints_name = open_manipulator_x_.getManipulator()->getAllActiveJointComponentName();
   //   gazebo_joints_name.reserve(gazebo_joints_name.size() + om_tools_name.size());
   //   gazebo_joints_name.insert(gazebo_joints_name.end(), om_tools_name.begin(), om_tools_name.end());
 
@@ -116,8 +116,8 @@ void OpenManipulatorXController::init_publisher()
 
 void OpenManipulatorXController::init_subscriber()
 {
-  open_manipulator_option_sub_ = this->create_subscription<std_msgs::msg::String>(
-    "option", 10, std::bind(&OpenManipulatorXController::open_manipulator_option_callback, this, _1));
+  open_manipulator_x_option_sub_ = this->create_subscription<std_msgs::msg::String>(
+    "option", 10, std::bind(&OpenManipulatorXController::open_manipulator_x_option_callback, this, _1));
 
   // if (using_moveit_ == true)
   // {
@@ -177,10 +177,10 @@ void OpenManipulatorXController::init_server()
 /*****************************************************************************
 ** Callback Functions for ROS Subscribers
 *****************************************************************************/
-void OpenManipulatorXController::open_manipulator_option_callback(const std_msgs::msg::String::SharedPtr msg)
+void OpenManipulatorXController::open_manipulator_x_option_callback(const std_msgs::msg::String::SharedPtr msg)
 {
   if(msg->data == "print_open_manipulator_setting")
-    open_manipulator_.printManipulatorSetting();
+    open_manipulator_x_.printManipulatorSetting();
 }
 
 // void OpenManipulatorXController::displayPlannedPathCallback(const moveit_msgs::DisplayTrajectory::ConstPtr &msg)
@@ -222,7 +222,7 @@ void OpenManipulatorXController::goal_joint_space_path_callback(
   for(int i = 0; i < req->joint_position.joint_name.size(); i ++)
     target_angle.push_back(req->joint_position.position.at(i));
 
-  open_manipulator_.makeJointTrajectory(target_angle, req->path_time);
+  open_manipulator_x_.makeJointTrajectory(target_angle, req->path_time);
 
   res->is_planned = true;
   return;
@@ -245,7 +245,7 @@ void OpenManipulatorXController::goal_joint_space_path_to_kinematics_pose_callba
 
   target_pose.orientation = math::convertQuaternionToRotationMatrix(q);
 
-  open_manipulator_.makeJointTrajectory(req->end_effector_name, target_pose, req->path_time);
+  open_manipulator_x_.makeJointTrajectory(req->end_effector_name, target_pose, req->path_time);
 
   res->is_planned = true;
   return;
@@ -261,7 +261,7 @@ void OpenManipulatorXController::goal_joint_space_path_to_kinematics_position_ca
   target_pose.position[1] = req->kinematics_pose.pose.position.y;
   target_pose.position[2] = req->kinematics_pose.pose.position.z;
 
-  open_manipulator_.makeJointTrajectory(req->end_effector_name, target_pose.position, req->path_time);
+  open_manipulator_x_.makeJointTrajectory(req->end_effector_name, target_pose.position, req->path_time);
 
   res->is_planned = true;
   return;
@@ -281,7 +281,7 @@ void OpenManipulatorXController::goal_joint_space_path_to_kinematics_orientation
 
   target_pose.orientation = math::convertQuaternionToRotationMatrix(q);
 
-  open_manipulator_.makeJointTrajectory(req->end_effector_name, target_pose.orientation, req->path_time);
+  open_manipulator_x_.makeJointTrajectory(req->end_effector_name, target_pose.orientation, req->path_time);
 
   res->is_planned = true;
   return;
@@ -303,7 +303,7 @@ void OpenManipulatorXController::goal_task_space_path_callback(
                        req->kinematics_pose.pose.orientation.z);
 
   target_pose.orientation = math::convertQuaternionToRotationMatrix(q);
-  open_manipulator_.makeTaskTrajectory(req->end_effector_name, target_pose, req->path_time);
+  open_manipulator_x_.makeTaskTrajectory(req->end_effector_name, target_pose, req->path_time);
 
   res->is_planned = true;
   return;
@@ -319,7 +319,7 @@ void OpenManipulatorXController::goal_task_space_path_position_only_callback(
   position[1] = req->kinematics_pose.pose.position.y;
   position[2] = req->kinematics_pose.pose.position.z;
 
-  open_manipulator_.makeTaskTrajectory(req->end_effector_name, position, req->path_time);
+  open_manipulator_x_.makeTaskTrajectory(req->end_effector_name, position, req->path_time);
 
   res->is_planned = true;
   return;
@@ -337,7 +337,7 @@ void OpenManipulatorXController::goal_task_space_path_orientation_only_callback(
 
   Eigen::Matrix3d orientation = math::convertQuaternionToRotationMatrix(q);
 
-  open_manipulator_.makeTaskTrajectory(req->end_effector_name, orientation, req->path_time);
+  open_manipulator_x_.makeTaskTrajectory(req->end_effector_name, orientation, req->path_time);
 
   res->is_planned = true;
   return;
@@ -353,7 +353,7 @@ void OpenManipulatorXController::goal_joint_space_path_from_present_callback(
   for(int i = 0; i < req->joint_position.joint_name.size(); i ++)
     target_angle.push_back(req->joint_position.position.at(i));
 
-  open_manipulator_.makeJointTrajectoryFromPresentPosition(target_angle, req->path_time);
+  open_manipulator_x_.makeJointTrajectoryFromPresentPosition(target_angle, req->path_time);
 
   res->is_planned = true;
   return;
@@ -376,7 +376,7 @@ void OpenManipulatorXController::goal_task_space_path_from_present_callback(
 
   target_pose.orientation = math::convertQuaternionToRotationMatrix(q);
 
-  open_manipulator_.makeTaskTrajectoryFromPresentPose(req->planning_group, target_pose, req->path_time);
+  open_manipulator_x_.makeTaskTrajectoryFromPresentPose(req->planning_group, target_pose, req->path_time);
 
   res->is_planned = true;
   return;
@@ -392,7 +392,7 @@ void OpenManipulatorXController::goal_task_space_path_from_present_position_only
   position[1] = req->kinematics_pose.pose.position.y;
   position[2] = req->kinematics_pose.pose.position.z;
 
-  open_manipulator_.makeTaskTrajectoryFromPresentPose(req->planning_group, position, req->path_time);
+  open_manipulator_x_.makeTaskTrajectoryFromPresentPose(req->planning_group, position, req->path_time);
 
   res->is_planned = true;
   return;
@@ -410,7 +410,7 @@ void OpenManipulatorXController::goal_task_space_path_from_present_orientation_o
 
   Eigen::Matrix3d orientation = math::convertQuaternionToRotationMatrix(q);
 
-  open_manipulator_.makeTaskTrajectoryFromPresentPose(req->planning_group, orientation, req->path_time);
+  open_manipulator_x_.makeTaskTrajectoryFromPresentPose(req->planning_group, orientation, req->path_time);
 
   res->is_planned = true;
   return;
@@ -422,7 +422,7 @@ void OpenManipulatorXController::goal_tool_control_callback(
   const std::shared_ptr<open_manipulator_msgs::srv::SetJointPosition::Response> res)
 {
   for(int i = 0; i < req->joint_position.joint_name.size(); i ++)
-    open_manipulator_.makeToolTrajectory(req->joint_position.joint_name.at(i), req->joint_position.position.at(i));
+    open_manipulator_x_.makeToolTrajectory(req->joint_position.joint_name.at(i), req->joint_position.position.at(i));
 
   res->is_planned = true;
   return;
@@ -436,12 +436,12 @@ void OpenManipulatorXController::set_actuator_state_callback(
   if(req->set_actuator_state == true) // enable actuators
   {
     log::println("Wait a second for actuator enable", "GREEN");
-    open_manipulator_.enableAllActuator();
+    open_manipulator_x_.enableAllActuator();
   }
   else // disable actuators
   {
     log::println("Wait a second for actuator disable", "GREEN");
-    open_manipulator_.disableAllActuator();
+    open_manipulator_x_.disableAllActuator();
   }
 
   res->is_planned = true;
@@ -463,7 +463,7 @@ void OpenManipulatorXController::goal_drawing_trajectory_callback(
       draw_circle_arg[2] = req->param[2];  // start angle position (rad)
       void* p_draw_circle_arg = &draw_circle_arg;
 
-      open_manipulator_.makeCustomTrajectory(CUSTOM_TRAJECTORY_CIRCLE, req->end_effector_name, p_draw_circle_arg, req->path_time);
+      open_manipulator_x_.makeCustomTrajectory(CUSTOM_TRAJECTORY_CIRCLE, req->end_effector_name, p_draw_circle_arg, req->path_time);
     }
     else if(req->drawing_trajectory_name == "line")
     {
@@ -473,7 +473,7 @@ void OpenManipulatorXController::goal_drawing_trajectory_callback(
       draw_line_arg.kinematic.position(2) = req->param[2]; // z axis (m)
       void *p_draw_line_arg = &draw_line_arg;
 
-      open_manipulator_.makeCustomTrajectory(CUSTOM_TRAJECTORY_LINE, req->end_effector_name, p_draw_line_arg, req->path_time);
+      open_manipulator_x_.makeCustomTrajectory(CUSTOM_TRAJECTORY_LINE, req->end_effector_name, p_draw_line_arg, req->path_time);
     }
     else if(req->drawing_trajectory_name == "rhombus")
     {
@@ -483,7 +483,7 @@ void OpenManipulatorXController::goal_drawing_trajectory_callback(
       draw_rhombus_arg[2] = req->param[2];  // start angle position (rad)
       void* p_draw_rhombus_arg = &draw_rhombus_arg;
 
-      open_manipulator_.makeCustomTrajectory(CUSTOM_TRAJECTORY_RHOMBUS, req->end_effector_name, p_draw_rhombus_arg, req->path_time);
+      open_manipulator_x_.makeCustomTrajectory(CUSTOM_TRAJECTORY_RHOMBUS, req->end_effector_name, p_draw_rhombus_arg, req->path_time);
     }
     else if(req->drawing_trajectory_name == "heart")
     {
@@ -493,7 +493,7 @@ void OpenManipulatorXController::goal_drawing_trajectory_callback(
       draw_heart_arg[2] = req->param[2];  // start angle position (rad)
       void* p_draw_heart_arg = &draw_heart_arg;
 
-      open_manipulator_.makeCustomTrajectory(CUSTOM_TRAJECTORY_HEART, req->end_effector_name, p_draw_heart_arg, req->path_time);
+      open_manipulator_x_.makeCustomTrajectory(CUSTOM_TRAJECTORY_HEART, req->end_effector_name, p_draw_heart_arg, req->path_time);
     }
     res->is_planned = true;
     return;
@@ -582,7 +582,7 @@ bool OpenManipulatorXController::calc_planned_path(const std::string planning_gr
 
   // moveit::planning_interface::MoveGroupInterface::Plan my_plan;
 
-  if (open_manipulator_.getMovingState() == false)
+  if (open_manipulator_x_.getMovingState() == false)
   {
     // bool success = (move_group_->plan(my_plan) == moveit::planning_interface::MoveItErrorCode::SUCCESS);
 
@@ -632,7 +632,7 @@ bool OpenManipulatorXController::calc_planned_path(const std::string planning_gr
 
 //   // moveit::planning_interface::MoveGroupInterface::Plan my_plan;
 
-//   if (open_manipulator_.getMovingState() == false)
+//   if (open_manipulator_x_.getMovingState() == false)
 //   {
 //     // bool success = (move_group_->plan(my_plan) == moveit::planning_interface::MoveItErrorCode::SUCCESS);
 
@@ -669,7 +669,7 @@ void OpenManipulatorXController::process_callback()
 void OpenManipulatorXController::process(double time)
 {
   // moveitTimer(time);
-  open_manipulator_.processOpenManipulator(time);
+  open_manipulator_x_.process_open_manipulator_x(time);
 }
 
 // void OpenManipulatorXController::moveitTimer(double present_time)
@@ -693,7 +693,7 @@ void OpenManipulatorXController::process(double time)
 //         temp.acceleration = joint_trajectory_.points[step_cnt].accelerations.at(i);
 //         target.push_back(temp);
 //       }
-//       open_manipulator_.makeJointTrajectory(target, path_time);
+//       open_manipulator_x_.makeJointTrajectory(target, path_time);
 
 //       step_cnt++;
 //       priv_time = present_time;
@@ -725,35 +725,35 @@ void OpenManipulatorXController::publish_callback()
   if (using_platform_ == true)  publish_joint_states();
   // else  publish_gazebo_command();
 
-  publish_open_manipulator_states();
+  publish_open_manipulator_x_states();
   publish_kinematics_pose();
 }
 
-void OpenManipulatorXController::publish_open_manipulator_states()
+void OpenManipulatorXController::publish_open_manipulator_x_states()
 {
   open_manipulator_msgs::msg::OpenManipulatorState msg;
-  if(open_manipulator_.getMovingState())
+  if(open_manipulator_x_.getMovingState())
     msg.open_manipulator_moving_state = msg.IS_MOVING;
   else
     msg.open_manipulator_moving_state = msg.STOPPED;
 
-  if(open_manipulator_.getActuatorEnabledState(JOINT_DYNAMIXEL))
+  if(open_manipulator_x_.getActuatorEnabledState(JOINT_DYNAMIXEL))
     msg.open_manipulator_actuator_state = msg.ACTUATOR_ENABLED;
   else
     msg.open_manipulator_actuator_state = msg.ACTUATOR_DISABLED;
 
-  open_manipulator_states_pub_->publish(msg);
+  open_manipulator_x_states_pub_->publish(msg);
 }
 
 void OpenManipulatorXController::publish_kinematics_pose()
 {
   open_manipulator_msgs::msg::KinematicsPose msg;
-  auto om_tools_name = open_manipulator_.getManipulator()->getAllToolComponentName();
+  auto om_tools_name = open_manipulator_x_.getManipulator()->getAllToolComponentName();
 
   uint8_t index = 0;
   for (auto const& tools:om_tools_name)
   {
-    KinematicPose pose = open_manipulator_.getKinematicPose(tools);
+    KinematicPose pose = open_manipulator_x_.getKinematicPose(tools);
     msg.pose.position.x = pose.position[0];
     msg.pose.position.y = pose.position[1];
     msg.pose.position.z = pose.position[2];
@@ -763,7 +763,7 @@ void OpenManipulatorXController::publish_kinematics_pose()
     msg.pose.orientation.y = orientation.y();
     msg.pose.orientation.z = orientation.z();
 
-    open_manipulator_kinematics_pose_pub_.at(index)->publish(msg);
+    open_manipulator_x_kinematics_pose_pub_.at(index)->publish(msg);
     index++;
   }
 }
@@ -773,11 +773,11 @@ void OpenManipulatorXController::publish_joint_states()
   sensor_msgs::msg::JointState msg;
   msg.header.stamp = rclcpp::Clock().now();
 
-  auto joints_name = open_manipulator_.getManipulator()->getAllActiveJointComponentName();
-  auto tool_name = open_manipulator_.getManipulator()->getAllToolComponentName();
+  auto joints_name = open_manipulator_x_.getManipulator()->getAllActiveJointComponentName();
+  auto tool_name = open_manipulator_x_.getManipulator()->getAllToolComponentName();
 
-  auto joint_value = open_manipulator_.getAllActiveJointValue();
-  auto tool_value = open_manipulator_.getAllToolValue();
+  auto joint_value = open_manipulator_x_.getAllActiveJointValue();
+  auto tool_value = open_manipulator_x_.getAllToolValue();
 
   for(uint8_t i = 0; i < joints_name.size(); i ++)
   {
@@ -796,13 +796,13 @@ void OpenManipulatorXController::publish_joint_states()
     msg.velocity.push_back(0.0f);
     msg.effort.push_back(0.0f);
   }
-  open_manipulator_joint_states_pub_->publish(msg);
+  open_manipulator_x_joint_states_pub_->publish(msg);
 }
 
 void OpenManipulatorXController::publish_gazebo_command()
 {
-  JointWaypoint joint_value = open_manipulator_.getAllActiveJointValue();
-  JointWaypoint tool_value = open_manipulator_.getAllToolValue();
+  JointWaypoint joint_value = open_manipulator_x_.getAllActiveJointValue();
+  JointWaypoint tool_value = open_manipulator_x_.getAllToolValue();
 
   for(uint8_t i = 0; i < joint_value.size(); i ++)
   {

@@ -16,8 +16,8 @@
 
 /* Authors: Darby Lim, Hye-Jong KIM, Ryan Shim, Yong-Ho Na */
 
-#ifndef KINEMATICS_H_
-#define KINEMATICS_H_
+#ifndef KINEMATICS_HPP
+#define KINEMATICS_HPP
 
 #if defined(__OPENCR__)
   #include <RobotisManipulator.h>
@@ -39,8 +39,8 @@ namespace kinematics
 class SolverUsingCRAndJacobian : public robotis_manipulator::Kinematics
 {
 private:
-  void forwardSolverUsingChainRule(Manipulator *manipulator, Name component_name);
-  bool inverseSolverUsingJacobian(Manipulator *manipulator, Name tool_name, Pose target_pose, std::vector<JointValue>* goal_joint_value);
+  void forward_solver_using_chain_rule(Manipulator *manipulator, Name component_name);
+  bool inverse_solver_using_jacobian(Manipulator *manipulator, Name tool_name, Pose target_pose, std::vector<JointValue>* goal_joint_value);
 
 public:
   SolverUsingCRAndJacobian(){}
@@ -59,8 +59,8 @@ public:
 class SolverUsingCRAndSRJacobian : public robotis_manipulator::Kinematics
 {
 private:
-  void forwardSolverUsingChainRule(Manipulator *manipulator, Name component_name);
-  bool inverseSolverUsingSRJacobian(Manipulator *manipulator, Name tool_name, Pose target_pose, std::vector<JointValue>* goal_joint_value);
+  void forward_solver_using_chain_rule(Manipulator *manipulator, Name component_name);
+  bool inverse_solver_using_sr_jacobian(Manipulator *manipulator, Name tool_name, Pose target_pose, std::vector<JointValue>* goal_joint_value);
 
 public:
   SolverUsingCRAndSRJacobian(){}
@@ -79,8 +79,8 @@ public:
 class SolverUsingCRAndSRPositionOnlyJacobian : public robotis_manipulator::Kinematics
 {
 private:
-  void forwardSolverUsingChainRule(Manipulator *manipulator, Name component_name);
-  bool inverseSolverUsingPositionOnlySRJacobian(Manipulator *manipulator, Name tool_name, Pose target_pose, std::vector<JointValue>* goal_joint_value);
+  void forward_solver_using_chain_rule(Manipulator *manipulator, Name component_name);
+  bool inverse_solver_using_position_only_sr_jacobian(Manipulator *manipulator, Name tool_name, Pose target_pose, std::vector<JointValue>* goal_joint_value);
 
 public:
   SolverUsingCRAndSRPositionOnlyJacobian(){}
@@ -99,8 +99,8 @@ public:
 class SolverCustomizedforOMChain : public robotis_manipulator::Kinematics
 {
 private:
-  void forwardSolverUsingChainRule(Manipulator *manipulator, Name component_name);
-  bool chainCustomInverseKinematics(Manipulator *manipulator, Name tool_name, Pose target_pose, std::vector<JointValue>* goal_joint_value);
+  void forward_solver_using_chain_rule(Manipulator *manipulator, Name component_name);
+  bool chain_custom_inverse_kinematics(Manipulator *manipulator, Name tool_name, Pose target_pose, std::vector<JointValue>* goal_joint_value);
 
 public:
   SolverCustomizedforOMChain(){}
@@ -115,4 +115,4 @@ public:
 } // namespace KINEMATICS
 
 
-#endif // KINEMATICS_H_
+#endif // KINEMATICS_HPP

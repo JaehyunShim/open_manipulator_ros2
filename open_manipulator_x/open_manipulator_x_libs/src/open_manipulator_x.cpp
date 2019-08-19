@@ -16,11 +16,11 @@
 
 /* Authors: Darby Lim, Hye-Jong KIM, Ryan Shim, Yong-Ho Na */
 
-#include "../include/open_manipulator_x_libs/open_manipulator_x.h"
+#include "../include/open_manipulator_x_libs/open_manipulator_x.hpp"
 
-OpenManipulator::OpenManipulator()
+OpenManipulatorX::OpenManipulatorX()
 {}
-OpenManipulator::~OpenManipulator()
+OpenManipulatorX::~OpenManipulatorX()
 {
   delete kinematics_;
   delete actuator_;
@@ -29,7 +29,7 @@ OpenManipulator::~OpenManipulator()
     delete custom_trajectory_[index];
 }
 
-void OpenManipulator::initOpenManipulator(bool using_actual_robot_state, STRING usb_port, STRING baud_rate, float control_loop_time)
+void OpenManipulatorX::init_open_manipulator_x(bool using_actual_robot_state, STRING usb_port, STRING baud_rate, float control_loop_time)
 {
   /*****************************************************************************
     ** Initialize Manipulator Parameter
@@ -199,7 +199,7 @@ void OpenManipulator::initOpenManipulator(bool using_actual_robot_state, STRING 
   addCustomTrajectory(CUSTOM_TRAJECTORY_HEART, custom_trajectory_[3]);
 }
 
-void OpenManipulator::processOpenManipulator(double present_time)
+void OpenManipulatorX::process_open_manipulator_x(double present_time)
 {
   JointWaypoint goal_joint_value = getJointGoalValueFromTrajectory(present_time);
   JointWaypoint goal_tool_value  = getToolGoalValue();

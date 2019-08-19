@@ -16,8 +16,8 @@
 
 /* Authors: Darby Lim, Hye-Jong KIM, Ryan Shim, Yong-Ho Na */
 
-#ifndef CUSTOM_TRAJECTORY_H_
-#define CUSTOM_TRAJECTORY_H_
+#ifndef CUSTOM_TRAJECTORY_HPP
+#define CUSTOM_TRAJECTORY_HPP
 
 #if defined(__OPENCR__)
   #include <RobotisManipulator.h>
@@ -55,8 +55,8 @@ public:
 	Line() {}
 	virtual ~Line() {}
 
-  void initLine(double move_time, TaskWaypoint start, TaskWaypoint delta);
-  TaskWaypoint drawLine(double time_var);
+  void init_line(double move_time, TaskWaypoint start, TaskWaypoint delta);
+  TaskWaypoint draw_line(double time_var);
 
   virtual void setOption(const void *arg);
   virtual void makeTaskTrajectory(double move_time, TaskWaypoint start, const void *arg);
@@ -84,8 +84,8 @@ public:
 	Circle() {}
 	virtual ~Circle() {}
 
-  void initCircle(double move_time, TaskWaypoint start, double radius, double revolution, double start_angular_position);
-  TaskWaypoint drawCircle(double time_var);
+  void init_circle(double move_time, TaskWaypoint start, double radius, double revolution, double start_angular_position);
+  TaskWaypoint draw_circle(double time_var);
 
   virtual void setOption(const void *arg);
   virtual void makeTaskTrajectory(double move_time, TaskWaypoint start, const void *arg);
@@ -113,8 +113,8 @@ public:
 	Rhombus() {}
 	virtual ~Rhombus() {}
 
-  void initRhombus(double move_time, TaskWaypoint start, double radius, double revolution, double start_angular_position);
-  TaskWaypoint drawRhombus(double time_var);
+  void init_rhombus(double move_time, TaskWaypoint start, double radius, double revolution, double start_angular_position);
+  TaskWaypoint draw_rhombus(double time_var);
 
   virtual void setOption(const void *arg);
   virtual void makeTaskTrajectory(double move_time, TaskWaypoint start, const void *arg);
@@ -142,8 +142,8 @@ public:
 	Heart() {}
 	virtual ~Heart() {}
 
-  void initHeart(double move_time, TaskWaypoint start, double radius, double revolution, double start_angular_position);
-  TaskWaypoint drawHeart(double tick);
+  void init_heart(double move_time, TaskWaypoint start, double radius, double revolution, double start_angular_position);
+  TaskWaypoint draw_heart(double tick);
 
   virtual void setOption(const void *arg);
   virtual void makeTaskTrajectory(double move_time, TaskWaypoint start, const void *arg);
@@ -151,8 +151,8 @@ public:
 };
 
 
-} // namespace CUSTOM_TRAJECTORY
-#endif // CUSTOM_TRAJECTORY_H_
+} // namespace custom_trajectory
+#endif // CUSTOM_TRAJECTORY_HPP
 
 
 
