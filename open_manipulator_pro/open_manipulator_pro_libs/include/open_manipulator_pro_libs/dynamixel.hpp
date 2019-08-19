@@ -100,11 +100,11 @@ public:
   ** Functions called in Joint Dynamixel Control Functions
   *****************************************************************************/
   bool initialize(std::vector<uint8_t> actuator_id, STRING dxl_device_name, STRING dxl_baud_rate);
-  bool setOperatingMode(std::vector<uint8_t> actuator_id, STRING dynamixel_mode = "position_mode");
-  bool setSDKHandler(uint8_t actuator_id);
-  bool writeProfileValue(std::vector<uint8_t> actuator_id, STRING profile_mode, uint32_t value);
-  bool writeGoalPosition(std::vector<uint8_t> actuator_id, std::vector<double> radian_vector);
-  std::vector<robotis_manipulator::ActuatorValue> receiveAllDynamixelValue(std::vector<uint8_t> actuator_id);
+  bool set_operating_mode(std::vector<uint8_t> actuator_id, STRING dynamixel_mode = "position_mode");
+  bool set_sdk_handler(uint8_t actuator_id);
+  bool write_profile_value(std::vector<uint8_t> actuator_id, STRING profile_mode, uint32_t value);
+  bool write_goal_position(std::vector<uint8_t> actuator_id, std::vector<double> radian_vector);
+  std::vector<robotis_manipulator::ActuatorValue> receive_all_dynamixel_value(std::vector<uint8_t> actuator_id);
 };
 
 class JointDynamixelProfileControl : public robotis_manipulator::JointActuator
@@ -138,11 +138,11 @@ public:
   ** Functions called in Joint Dynamixel Profile Control Functions
   *****************************************************************************/
   bool initialize(std::vector<uint8_t> actuator_id, STRING dxl_device_name, STRING dxl_baud_rate);
-  bool setOperatingMode(std::vector<uint8_t> actuator_id, STRING dynamixel_mode = "position_mode");
-  bool setSDKHandler(uint8_t actuator_id);
-  bool writeProfileValue(std::vector<uint8_t> actuator_id, STRING profile_mode, uint32_t value);
-  bool writeGoalProfilingControlValue(std::vector<uint8_t> actuator_id, std::vector<robotis_manipulator::ActuatorValue> value_vector);
-  std::vector<robotis_manipulator::ActuatorValue> receiveAllDynamixelValue(std::vector<uint8_t> actuator_id);
+  bool set_operating_mode(std::vector<uint8_t> actuator_id, STRING dynamixel_mode = "position_mode");
+  bool set_sdk_handler(uint8_t actuator_id);
+  bool write_profile_value(std::vector<uint8_t> actuator_id, STRING profile_mode, uint32_t value);
+  bool write_goal_profiling_control_value(std::vector<uint8_t> actuator_id, std::vector<robotis_manipulator::ActuatorValue> value_vector);
+  std::vector<robotis_manipulator::ActuatorValue> receive_all_dynamixel_value(std::vector<uint8_t> actuator_id);
 };
 
 class GripperDynamixel : public robotis_manipulator::ToolActuator
@@ -174,11 +174,11 @@ class GripperDynamixel : public robotis_manipulator::ToolActuator
   ** Functions called in Tool Dynamixel Profile Control Functions
   *****************************************************************************/
   bool initialize(uint8_t actuator_id, STRING dxl_device_name, STRING dxl_baud_rate);
-  bool setOperatingMode(STRING dynamixel_mode = "position_mode");
-  bool writeProfileValue(STRING profile_mode, uint32_t value);
-  bool setSDKHandler();
-  bool writeGoalPosition(double radian);
-  double receiveDynamixelValue();
+  bool set_operating_mode(STRING dynamixel_mode = "position_mode");
+  bool set_sdk_handler();
+  bool write_profile_value(STRING profile_mode, uint32_t value);
+  bool write_goal_position(double radian);
+  double receive_dynamixel_value();
 };
 
 } // namespace dynamixel

@@ -21,7 +21,6 @@
 using namespace robotis_manipulator;
 using namespace kinematics;
 
-
 /*****************************************************************************
 ** Kinematics Solver Using Chain Rule and Jacobian
 *****************************************************************************/
@@ -74,17 +73,17 @@ Eigen::MatrixXd SolverUsingCRAndJacobian::jacobian(Manipulator *manipulator, Nam
 
 void SolverUsingCRAndJacobian::solveForwardKinematics(Manipulator *manipulator)
 {
-  forwardSolverUsingChainRule(manipulator, manipulator->getWorldChildName());
+  forward_solver_using_chain_rule(manipulator, manipulator->getWorldChildName());
 }
 
 bool SolverUsingCRAndJacobian::solveInverseKinematics(Manipulator *manipulator, Name tool_name, Pose target_pose, std::vector<JointValue> *goal_joint_value)
 {
-  return inverseSolverUsingJacobian(manipulator, tool_name, target_pose, goal_joint_value);
+  return inverse_solver_using_jacobian(manipulator, tool_name, target_pose, goal_joint_value);
 }
 
 
 //private
-void SolverUsingCRAndJacobian::forwardSolverUsingChainRule(Manipulator *manipulator, Name component_name)
+void SolverUsingCRAndJacobian::forward_solver_using_chain_rule(Manipulator *manipulator, Name component_name)
 {
   Name my_name = component_name;
   Name parent_name = manipulator->getComponentParentName(my_name);
@@ -122,11 +121,11 @@ void SolverUsingCRAndJacobian::forwardSolverUsingChainRule(Manipulator *manipula
   for (int8_t index = 0; index < number_of_child; index++)
   {
     Name child_name = manipulator->getComponentChildName(my_name).at(index);
-    forwardSolverUsingChainRule(manipulator, child_name);
+    forward_solver_using_chain_rule(manipulator, child_name);
   }
 }
 
-bool SolverUsingCRAndJacobian::inverseSolverUsingJacobian(Manipulator *manipulator, Name tool_name, Pose target_pose, std::vector<JointValue> *goal_joint_value)
+bool SolverUsingCRAndJacobian::inverse_solver_using_jacobian(Manipulator *manipulator, Name tool_name, Pose target_pose, std::vector<JointValue> *goal_joint_value)
 {
   const double lambda = 0.7;
   const int8_t iteration = 10;
@@ -139,17 +138,17 @@ bool SolverUsingCRAndJacobian::inverseSolverUsingJacobian(Manipulator *manipulat
   Eigen::VectorXd delta_angle = Eigen::VectorXd::Zero(_manipulator.getDOF());
 
   for (int8_t count = 0; count < iteration; count++)
-  { 
-    // Forward kinematics solve
+  {
+    //Forward kinematics solve
     solveForwardKinematics(&_manipulator);
-    // Get jacobian
+    //Get jacobian
     jacobian = this->jacobian(&_manipulator, tool_name);
 
-    // Pose Difference
+    //Pose Difference
     pose_changed = math::poseDifference(target_pose.kinematic.position, _manipulator.getComponentPositionFromWorld(tool_name),
                                            target_pose.kinematic.orientation, _manipulator.getComponentOrientationFromWorld(tool_name));
 
-    // Pose sovler success
+    //pose sovler success
     if (pose_changed.norm() < 1E-6)
     {
       *goal_joint_value = _manipulator.getAllActiveJointValue();
@@ -162,11 +161,11 @@ bool SolverUsingCRAndJacobian::inverseSolverUsingJacobian(Manipulator *manipulat
       return true;
     }
 
-    // Get delta angle
+    //get delta angle
     ColPivHouseholderQR<MatrixXd> dec(jacobian);
     delta_angle = lambda * dec.solve(pose_changed);
 
-    // Set changed angle
+    //set changed angle
     std::vector<double> changed_angle;
     for(int8_t index = 0; index < _manipulator.getDOF(); index++)
       changed_angle.push_back(_manipulator.getAllActiveJointPosition().at(index) + delta_angle(index));
@@ -229,17 +228,17 @@ Eigen::MatrixXd SolverUsingCRAndSRJacobian::jacobian(Manipulator *manipulator, N
 
 void SolverUsingCRAndSRJacobian::solveForwardKinematics(Manipulator *manipulator)
 {
-  forwardSolverUsingChainRule(manipulator, manipulator->getWorldChildName());
+  forward_solver_using_chain_rule(manipulator, manipulator->getWorldChildName());
 }
 
 bool SolverUsingCRAndSRJacobian::solveInverseKinematics(Manipulator *manipulator, Name tool_name, Pose target_pose, std::vector<JointValue> *goal_joint_value)
 {
-  return inverseSolverUsingSRJacobian(manipulator, tool_name, target_pose, goal_joint_value);
+  return inverse_solver_using_sr_jacobian(manipulator, tool_name, target_pose, goal_joint_value);
 }
 
 
-// Private
-void SolverUsingCRAndSRJacobian::forwardSolverUsingChainRule(Manipulator *manipulator, Name component_name)
+//private
+void SolverUsingCRAndSRJacobian::forward_solver_using_chain_rule(Manipulator *manipulator, Name component_name)
 {
   Name my_name = component_name;
   Name parent_name = manipulator->getComponentParentName(my_name);
@@ -248,7 +247,7 @@ void SolverUsingCRAndSRJacobian::forwardSolverUsingChainRule(Manipulator *manipu
   Pose parent_pose_value;
   Pose my_pose_value;
 
-  // Get Parent Pose
+  //Get Parent Pose
   if (parent_name == manipulator->getWorldName())
   {
     parent_pose_value = manipulator->getWorldPose();
@@ -258,18 +257,18 @@ void SolverUsingCRAndSRJacobian::forwardSolverUsingChainRule(Manipulator *manipu
     parent_pose_value = manipulator->getComponentPoseFromWorld(parent_name);
   }
 
-  // Position
+  //position
   my_pose_value.kinematic.position = parent_pose_value.kinematic.position
                                    + (parent_pose_value.kinematic.orientation * manipulator->getComponentRelativePositionFromParent(my_name));
-  // Orientation
+  //orientation
   my_pose_value.kinematic.orientation = parent_pose_value.kinematic.orientation * math::rodriguesRotationMatrix(manipulator->getAxis(my_name), manipulator->getJointPosition(my_name));
-  // Linear velocity
+  //linear velocity
   my_pose_value.dynamic.linear.velocity = math::vector3(0.0, 0.0, 0.0);
-  // Angular velocity
+  //angular velocity
   my_pose_value.dynamic.angular.velocity = math::vector3(0.0, 0.0, 0.0);
-  // Linear acceleration
+  //linear acceleration
   my_pose_value.dynamic.linear.acceleration = math::vector3(0.0, 0.0, 0.0);
-  // Angular acceleration
+  //angular acceleration
   my_pose_value.dynamic.angular.acceleration = math::vector3(0.0, 0.0, 0.0);
 
   manipulator->setComponentPoseFromWorld(my_name, my_pose_value);
@@ -277,11 +276,11 @@ void SolverUsingCRAndSRJacobian::forwardSolverUsingChainRule(Manipulator *manipu
   for (int8_t index = 0; index < number_of_child; index++)
   {
     Name child_name = manipulator->getComponentChildName(my_name).at(index);
-    forwardSolverUsingChainRule(manipulator, child_name);
+    forward_solver_using_chain_rule(manipulator, child_name);
   }
 }
 
-bool SolverUsingCRAndSRJacobian::inverseSolverUsingSRJacobian(Manipulator *manipulator, Name tool_name, Pose target_pose, std::vector<JointValue> *goal_joint_value)
+bool SolverUsingCRAndSRJacobian::inverse_solver_using_sr_jacobian(Manipulator *manipulator, Name tool_name, Pose target_pose, std::vector<JointValue> *goal_joint_value)
 {
   //manipulator
   Manipulator _manipulator = *manipulator;
@@ -289,7 +288,7 @@ bool SolverUsingCRAndSRJacobian::inverseSolverUsingSRJacobian(Manipulator *manip
   //solver parameter
   double lambda = 0.0;
   const double param = 0.002;
-  const int8_t iteration = 5;
+  const int8_t iteration = 10;
 
   const double gamma = 0.5;             //rollback delta
 
@@ -497,17 +496,17 @@ Eigen::MatrixXd SolverUsingCRAndSRPositionOnlyJacobian::jacobian(Manipulator *ma
 
 void SolverUsingCRAndSRPositionOnlyJacobian::solveForwardKinematics(Manipulator *manipulator)
 {
-  forwardSolverUsingChainRule(manipulator, manipulator->getWorldChildName());
+  forward_solver_using_chain_rule(manipulator, manipulator->getWorldChildName());
 }
 
 bool SolverUsingCRAndSRPositionOnlyJacobian::solveInverseKinematics(Manipulator *manipulator, Name tool_name, Pose target_pose, std::vector<JointValue> *goal_joint_value)
 {
-  return inverseSolverUsingPositionOnlySRJacobian(manipulator, tool_name, target_pose, goal_joint_value);
+  return inverse_solver_using_position_only_sr_jacobian(manipulator, tool_name, target_pose, goal_joint_value);
 }
 
 
 //private
-void SolverUsingCRAndSRPositionOnlyJacobian::forwardSolverUsingChainRule(Manipulator *manipulator, Name component_name)
+void SolverUsingCRAndSRPositionOnlyJacobian::forward_solver_using_chain_rule(Manipulator *manipulator, Name component_name)
 {
   Name my_name = component_name;
   Name parent_name = manipulator->getComponentParentName(my_name);
@@ -545,11 +544,11 @@ void SolverUsingCRAndSRPositionOnlyJacobian::forwardSolverUsingChainRule(Manipul
   for (int8_t index = 0; index < number_of_child; index++)
   {
     Name child_name = manipulator->getComponentChildName(my_name).at(index);
-    forwardSolverUsingChainRule(manipulator, child_name);
+    forward_solver_using_chain_rule(manipulator, child_name);
   }
 }
 
-bool SolverUsingCRAndSRPositionOnlyJacobian::inverseSolverUsingPositionOnlySRJacobian(Manipulator *manipulator, Name tool_name, Pose target_pose, std::vector<JointValue> *goal_joint_value)
+bool SolverUsingCRAndSRPositionOnlyJacobian::inverse_solver_using_position_only_sr_jacobian(Manipulator *manipulator, Name tool_name, Pose target_pose, std::vector<JointValue> *goal_joint_value)
 {
   //manipulator
   Manipulator _manipulator = *manipulator;
@@ -765,17 +764,17 @@ Eigen::MatrixXd SolverCustomizedforOMChain::jacobian(Manipulator *manipulator, N
 
 void SolverCustomizedforOMChain::solveForwardKinematics(Manipulator *manipulator)
 {
-  forwardSolverUsingChainRule(manipulator, manipulator->getWorldChildName());
+  forward_solver_using_chain_rule(manipulator, manipulator->getWorldChildName());
 }
 
 bool SolverCustomizedforOMChain::solveInverseKinematics(Manipulator *manipulator, Name tool_name, Pose target_pose, std::vector<JointValue> *goal_joint_value)
 {
-  return chainCustomInverseKinematics(manipulator, tool_name, target_pose, goal_joint_value);
+  return chain_custom_inverse_kinematics(manipulator, tool_name, target_pose, goal_joint_value);
 }
 
 
 //private
-void SolverCustomizedforOMChain::forwardSolverUsingChainRule(Manipulator *manipulator, Name component_name)
+void SolverCustomizedforOMChain::forward_solver_using_chain_rule(Manipulator *manipulator, Name component_name)
 {
   Name my_name = component_name;
   Name parent_name = manipulator->getComponentParentName(my_name);
@@ -813,11 +812,10 @@ void SolverCustomizedforOMChain::forwardSolverUsingChainRule(Manipulator *manipu
   for (int8_t index = 0; index < number_of_child; index++)
   {
     Name child_name = manipulator->getComponentChildName(my_name).at(index);
-    forwardSolverUsingChainRule(manipulator, child_name);
+    forward_solver_using_chain_rule(manipulator, child_name);
   }
 }
-
-bool SolverCustomizedforOMChain::chainCustomInverseKinematics(Manipulator *manipulator, Name tool_name, Pose target_pose, std::vector<JointValue> *goal_joint_value)
+bool SolverCustomizedforOMChain::chain_custom_inverse_kinematics(Manipulator *manipulator, Name tool_name, Pose target_pose, std::vector<JointValue> *goal_joint_value)
 {
   //manipulator
   Manipulator _manipulator = *manipulator;
@@ -1011,17 +1009,17 @@ Eigen::MatrixXd SolverUsingCRAndGeometry::jacobian(Manipulator *manipulator, Nam
 
 void SolverUsingCRAndGeometry::solveForwardKinematics(Manipulator *manipulator)
 {
-  forwardSolverUsingChainRule(manipulator, manipulator->getWorldChildName());
+  forward_solver_using_chain_rule(manipulator, manipulator->getWorldChildName());
 }
 
 bool SolverUsingCRAndGeometry::solveInverseKinematics(Manipulator *manipulator, Name tool_name, Pose target_pose, std::vector<JointValue> *goal_joint_value)
 {
-  return inverseSolverUsingGeometry(manipulator, tool_name, target_pose, goal_joint_value);
+  return inverse_solver_using_geometry(manipulator, tool_name, target_pose, goal_joint_value);
 }
 
 
 //private
-void SolverUsingCRAndGeometry::forwardSolverUsingChainRule(Manipulator *manipulator, Name component_name)
+void SolverUsingCRAndGeometry::forward_solver_using_chain_rule(Manipulator *manipulator, Name component_name)
 {
   Name my_name = component_name;
   Name parent_name = manipulator->getComponentParentName(my_name);
@@ -1059,11 +1057,11 @@ void SolverUsingCRAndGeometry::forwardSolverUsingChainRule(Manipulator *manipula
   for (int8_t index = 0; index < number_of_child; index++)
   {
     Name child_name = manipulator->getComponentChildName(my_name).at(index);
-    forwardSolverUsingChainRule(manipulator, child_name);
+    forward_solver_using_chain_rule(manipulator, child_name);
   }
 }
 
-bool SolverUsingCRAndGeometry::inverseSolverUsingGeometry(Manipulator *manipulator, Name tool_name, Pose target_pose, std::vector<JointValue> *goal_joint_value)
+bool SolverUsingCRAndGeometry::inverse_solver_using_geometry(Manipulator *manipulator, Name tool_name, Pose target_pose, std::vector<JointValue> *goal_joint_value)
 {
   Manipulator _manipulator = *manipulator;
   JointValue target_angle[6];
