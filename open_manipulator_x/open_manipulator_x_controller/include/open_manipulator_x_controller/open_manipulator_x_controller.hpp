@@ -16,8 +16,8 @@
 
 /* Authors: Ryan Shim */
 
-#ifndef OPEN_MANIPULATOR_X_CONTROLLER_H
-#define OPEN_MANIPULATOR_X_CONTROLLER_H
+#ifndef OPEN_MANIPULATOR_X_CONTROLLER_HPP
+#define OPEN_MANIPULATOR_X_CONTROLLER_HPP
 
 #include <rclcpp/rclcpp.hpp>
 #include "sensor_msgs/msg/joint_state.hpp"
@@ -64,15 +64,15 @@ class OpenManipulatorXController : public rclcpp::Node
   OpenManipulatorXController(std::string usb_port, std::string baud_rate);
   ~OpenManipulatorXController();
 
-  void processCallback(); 
-  void publishCallback();  
-  double getControlPeriod(void){return control_period_;}
+  void process_callback(); 
+  void publish_callback();  
+  double get_control_period(void){return control_period_;}
 
-  // void moveitTimer(double present_time);
+  // void moveit_timer(double present_time);
   void process(double time);
 
-  bool calcPlannedPath(const std::string planning_group, open_manipulator_msgs::msg::KinematicsPose msg);
-  bool calcPlannedPath(const std::string planning_group, open_manipulator_msgs::msg::JointPosition msg);
+  bool calc_planned_path(const std::string planning_group, open_manipulator_msgs::msg::KinematicsPose msg);
+  bool calc_planned_path(const std::string planning_group, open_manipulator_msgs::msg::JointPosition msg);
 
   rclcpp::TimerBase::SharedPtr process_timer;
   rclcpp::TimerBase::SharedPtr publish_timer;
@@ -99,9 +99,9 @@ class OpenManipulatorXController : public rclcpp::Node
   /*****************************************************************************
   ** Init Functions
   *****************************************************************************/
-  void initPublisher();
-  void initSubscriber();
-  void initServer();
+  void init_publisher();
+  void init_subscriber();
+  void init_server();
 
   /*****************************************************************************
   ** ROS Publishers, Callback Functions and Relevant Functions
@@ -112,10 +112,10 @@ class OpenManipulatorXController : public rclcpp::Node
   std::vector<rclcpp::Publisher<std_msgs::msg::Float64>::SharedPtr> gazebo_goal_joint_position_pub_;
   // rclcpp::Publisher<????>::SharedPtr moveit_update_start_state_pub_;
 
-  void publishOpenManipulatorStates();
-  void publishKinematicsPose();
-  void publishJointStates();
-  void publishGazeboCommand();
+  void publish_open_manipulator_states();
+  void publish_kinematics_pose();
+  void publish_joint_states();
+  void publish_gazebo_command();
 
   /*****************************************************************************
   ** ROS Subscribers and Callback Functions
@@ -125,7 +125,7 @@ class OpenManipulatorXController : public rclcpp::Node
   // rclcpp::Subscription<moveit_msgs::msg::MoveGroupActionGoal>::SharedPtr move_group_goal_sub_;
   // rclcpp::Subscription<moveit_msgs::msg::ExecuteTrajectoryActionGoal>::SharedPtr execute_traj_goal_sub_;
 
-  void openManipulatorOptionCallback(const std_msgs::msg::String::SharedPtr msg);
+  void open_manipulator_option_callback(const std_msgs::msg::String::SharedPtr msg);
   // void displayPlannedPathCallback(const moveit_msgs::msg::DisplayTrajectory::SharedPtr msg);
   // void moveGroupGoalCallback(const moveit_msgs::msg::MoveGroupActionGoal::SharedPtr msg);
   // void executeTrajGoalCallback(const moveit_msgs::msg::ExecuteTrajectoryActionGoal::SharedPtr msg);
@@ -152,80 +152,80 @@ class OpenManipulatorXController : public rclcpp::Node
   rclcpp::Service<open_manipulator_msgs::srv::SetJointPosition>::SharedPtr set_joint_position_server_;
   rclcpp::Service<open_manipulator_msgs::srv::SetKinematicsPose>::SharedPtr set_kinematics_pose_server_;
 
-  void goalJointSpacePathCallback(
+  void goal_joint_space_path_callback(
     const std::shared_ptr<rmw_request_id_t> request_header,
     const std::shared_ptr<open_manipulator_msgs::srv::SetJointPosition::Request>  req,
     const std::shared_ptr<open_manipulator_msgs::srv::SetJointPosition::Response> res);
-  void goalJointSpacePathToKinematicsPoseCallback(
+  void goal_joint_space_path_to_kinematics_pose_callback(
     const std::shared_ptr<rmw_request_id_t> request_header,
     const std::shared_ptr<open_manipulator_msgs::srv::SetKinematicsPose::Request>  req,
     const std::shared_ptr<open_manipulator_msgs::srv::SetKinematicsPose::Response> res);
-  void goalJointSpacePathToKinematicsPositionCallback(
+  void goal_joint_space_path_to_kinematics_position_callback(
     const std::shared_ptr<rmw_request_id_t> request_header,
     const std::shared_ptr<open_manipulator_msgs::srv::SetKinematicsPose::Request>  req,
     const std::shared_ptr<open_manipulator_msgs::srv::SetKinematicsPose::Response> res);
-  void goalJointSpacePathToKinematicsOrientationCallback(
+  void goal_joint_space_path_to_kinematics_orientation_callback(
     const std::shared_ptr<rmw_request_id_t> request_header,
     const std::shared_ptr<open_manipulator_msgs::srv::SetKinematicsPose::Request>  req,
     const std::shared_ptr<open_manipulator_msgs::srv::SetKinematicsPose::Response> res);
-  void goalTaskSpacePathCallback(
+  void goal_task_space_path_callback(
     const std::shared_ptr<rmw_request_id_t> request_header,
     const std::shared_ptr<open_manipulator_msgs::srv::SetKinematicsPose::Request>  req,
     const std::shared_ptr<open_manipulator_msgs::srv::SetKinematicsPose::Response> res);
-  void goalTaskSpacePathPositionOnlyCallback(
+  void goal_task_space_path_position_only_callback(
     const std::shared_ptr<rmw_request_id_t> request_header,
     const std::shared_ptr<open_manipulator_msgs::srv::SetKinematicsPose::Request>  req,
     const std::shared_ptr<open_manipulator_msgs::srv::SetKinematicsPose::Response> res);
-  void goalTaskSpacePathOrientationOnlyCallback(
+  void goal_task_space_path_orientation_only_callback(
     const std::shared_ptr<rmw_request_id_t> request_header,
     const std::shared_ptr<open_manipulator_msgs::srv::SetKinematicsPose::Request>  req,
     const std::shared_ptr<open_manipulator_msgs::srv::SetKinematicsPose::Response> res);
-  void goalJointSpacePathFromPresentCallback(
+  void goal_joint_space_path_from_present_callback(
     const std::shared_ptr<rmw_request_id_t> request_header,
     const std::shared_ptr<open_manipulator_msgs::srv::SetJointPosition::Request>  req,
     const std::shared_ptr<open_manipulator_msgs::srv::SetJointPosition::Response> res);
-  void goalTaskSpacePathFromPresentCallback(
+  void goal_task_space_path_from_present_callback(
     const std::shared_ptr<rmw_request_id_t> request_header,
     const std::shared_ptr<open_manipulator_msgs::srv::SetKinematicsPose::Request>  req,
     const std::shared_ptr<open_manipulator_msgs::srv::SetKinematicsPose::Response> res);
-  void goalTaskSpacePathFromPresentPositionOnlyCallback(
+  void goal_task_space_path_from_present_position_only_callback(
     const std::shared_ptr<rmw_request_id_t> request_header,
     const std::shared_ptr<open_manipulator_msgs::srv::SetKinematicsPose::Request>  req,
     const std::shared_ptr<open_manipulator_msgs::srv::SetKinematicsPose::Response> res);
-  void goalTaskSpacePathFromPresentOrientationOnlyCallback(
+  void goal_task_space_path_from_present_orientation_only_callback(
     const std::shared_ptr<rmw_request_id_t> request_header,
     const std::shared_ptr<open_manipulator_msgs::srv::SetKinematicsPose::Request>  req,
     const std::shared_ptr<open_manipulator_msgs::srv::SetKinematicsPose::Response> res);
-  void goalToolControlCallback(
+  void goal_tool_control_callback(
     const std::shared_ptr<rmw_request_id_t> request_header,
     const std::shared_ptr<open_manipulator_msgs::srv::SetJointPosition::Request>  req,
     const std::shared_ptr<open_manipulator_msgs::srv::SetJointPosition::Response> res);
-  void setActuatorStateCallback(
+  void set_actuator_state_callback(
     const std::shared_ptr<rmw_request_id_t> request_header,
     const std::shared_ptr<open_manipulator_msgs::srv::SetActuatorState::Request>  req,
     const std::shared_ptr<open_manipulator_msgs::srv::SetActuatorState::Response> res);
-  void goalDrawingTrajectoryCallback(
+  void goal_drawing_trajectory_callback(
     const std::shared_ptr<rmw_request_id_t> request_header,
     const std::shared_ptr<open_manipulator_msgs::srv::SetDrawingTrajectory::Request>  req,
     const std::shared_ptr<open_manipulator_msgs::srv::SetDrawingTrajectory::Response> res);
-  void setJointPositionMsgCallback(
-    const std::shared_ptr<rmw_request_id_t> request_header,
-    const std::shared_ptr<open_manipulator_msgs::srv::SetJointPosition::Request>  req,
-    const std::shared_ptr<open_manipulator_msgs::srv::SetJointPosition::Response> res);
-  void setKinematicsPoseMsgCallback(
-    const std::shared_ptr<rmw_request_id_t> request_header,
-    const std::shared_ptr<open_manipulator_msgs::srv::SetKinematicsPose::Request>  req,
-    const std::shared_ptr<open_manipulator_msgs::srv::SetKinematicsPose::Response> res);
-  void getJointPositionMsgCallback(
+  void get_joint_position_msg_callback(
     const std::shared_ptr<rmw_request_id_t> request_header,
     const std::shared_ptr<open_manipulator_msgs::srv::GetJointPosition::Request>  req,
     const std::shared_ptr<open_manipulator_msgs::srv::GetJointPosition::Response> res);
-  void getKinematicsPoseMsgCallback(
+  void get_kinematics_pose_msg_callback(
     const std::shared_ptr<rmw_request_id_t> request_header,
     const std::shared_ptr<open_manipulator_msgs::srv::GetKinematicsPose::Request>  req,
     const std::shared_ptr<open_manipulator_msgs::srv::GetKinematicsPose::Response> res);
+  void set_joint_position_msg_callback(
+    const std::shared_ptr<rmw_request_id_t> request_header,
+    const std::shared_ptr<open_manipulator_msgs::srv::SetJointPosition::Request>  req,
+    const std::shared_ptr<open_manipulator_msgs::srv::SetJointPosition::Response> res);
+  void set_kinematics_pose_msg_callback(
+    const std::shared_ptr<rmw_request_id_t> request_header,
+    const std::shared_ptr<open_manipulator_msgs::srv::SetKinematicsPose::Request>  req,
+    const std::shared_ptr<open_manipulator_msgs::srv::SetKinematicsPose::Response> res);
 };
 
 }  // namespace open_manipulator_x_controller
 
-#endif //OPEN_MANIPULATOR_X_CONTROLLER_H
+#endif //OPEN_MANIPULATOR_X_CONTROLLER_HPP
