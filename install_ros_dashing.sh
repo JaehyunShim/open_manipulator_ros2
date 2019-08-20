@@ -43,7 +43,5 @@ sh -c "echo \"alias cr='cd ~/$name_robotis_workspace && rm -R build install log'
 sh -c "echo \"source /opt/ros/$name_ros_version/setup.bash\" >> ~/.bashrc"
 sh -c "echo \"source ~/$name_robotis_workspace/install/local_setup.bash\" >> ~/.bashrc"
 
-source ~/.bashrc
-
 echo "[Complete!!!]"
 exit 0
