@@ -209,7 +209,6 @@ bool OpenManipulatorProTeleopJoystick::set_joint_space_path(std::vector<std::str
   };
   auto future_result = goal_joint_space_path_client_->async_send_request(request, response_received_callback);
 
-  RCLCPP_ERROR(this->get_logger(), "No Response :(");
   return false;
 }
 
@@ -226,7 +225,6 @@ bool OpenManipulatorProTeleopJoystick::set_tool_control(std::vector<double> join
   };
   auto future_result = goal_tool_control_client_->async_send_request(request, response_received_callback);
 
-  RCLCPP_ERROR(this->get_logger(), "No Response :(");
   return false;
 }
 
@@ -247,7 +245,6 @@ bool OpenManipulatorProTeleopJoystick::set_task_space_path_from_present_position
   };
   auto future_result = goal_task_space_path_from_present_position_only_client_->async_send_request(request, response_received_callback);
 
-  RCLCPP_ERROR(this->get_logger(), "No Response :(");
   return false;
 }
 
