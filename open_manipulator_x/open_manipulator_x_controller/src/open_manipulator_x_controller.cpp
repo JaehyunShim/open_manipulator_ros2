@@ -117,7 +117,7 @@ void OpenManipulatorXController::init_publisher()
 void OpenManipulatorXController::init_subscriber()
 {
   open_manipulator_x_option_sub_ = this->create_subscription<std_msgs::msg::String>(
-    "option", 10, std::bind(&OpenManipulatorXController::open_manipulator_x_option_callback, this, _1));
+    "open_manipulator_x/option", 10, std::bind(&OpenManipulatorXController::open_manipulator_x_option_callback, this, _1));
 
   // if (using_moveit_ == true)
   // {
@@ -179,8 +179,9 @@ void OpenManipulatorXController::init_server()
 *****************************************************************************/
 void OpenManipulatorXController::open_manipulator_x_option_callback(const std_msgs::msg::String::SharedPtr msg)
 {
-  if(msg->data == "print_open_manipulator_setting")
+  if(msg->data == "print_open_manipulator_x_setting")
     open_manipulator_x_.printManipulatorSetting();
+
 }
 
 // void OpenManipulatorXController::displayPlannedPathCallback(const moveit_msgs::DisplayTrajectory::ConstPtr &msg)

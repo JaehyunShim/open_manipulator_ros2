@@ -118,7 +118,7 @@ void OpenManipulatorProController::init_publisher()
 void OpenManipulatorProController::init_subscriber()
 {
   open_manipulator_pro_option_sub_ = this->create_subscription<std_msgs::msg::String>(
-    "option", 10, std::bind(&OpenManipulatorProController::open_manipulator_pro_option_callback, this, _1));
+    "open_manipulator_pro/option", 10, std::bind(&OpenManipulatorProController::open_manipulator_pro_option_callback, this, _1));
 
   // if (using_moveit_ == true)
   // {
@@ -180,7 +180,7 @@ void OpenManipulatorProController::init_server()
 *****************************************************************************/
 void OpenManipulatorProController::open_manipulator_pro_option_callback(const std_msgs::msg::String::SharedPtr msg)
 {
-  if(msg->data == "print_open_manipulator_setting")
+  if(msg->data == "print_open_manipulator_pro_setting")
     open_manipulator_pro_.printManipulatorSetting();
 }
 
