@@ -28,8 +28,6 @@ sudo apt install -y python3-argcomplete python3-colcon-common-extensions python3
 echo "[Make the robotis workspace folder and test colcon build]"
 source /opt/ros/$name_ros_version/setup.sh
 mkdir -p $HOME/$name_robotis_workspace/src
-cd $HOME/$name_robotis_workspace/src
-git clone https://github.com/ROBOTIS-Platform/ros2_examples.git
 cd $HOME/$name_robotis_workspace
 colcon build --symlink-install
 
