@@ -20,16 +20,20 @@ sudo locale-gen en_US en_US.UTF-8
 sudo update-locale LC_ALL=en_US.UTF-8 LANG=en_US.UTF-8
 export LANG=en_US.UTF-8
 sudo apt update && sudo apt install curl gnupg2 lsb-release
+wait
 curl -s https://raw.githubusercontent.com/ros/rosdistro/master/ros.asc | sudo apt-key add -
 sudo sh -c 'echo "deb [arch=amd64,arm64] http://packages.ros.org/ros2/ubuntu `lsb_release -cs` main" > /etc/apt/sources.list.d/ros2-latest.list'
+wait
 sudo apt install ros-$name_ros_version-desktop
 sudo apt install python3-argcomplete python3-colcon-common-extensions python3-vcstool
+wait
 
 echo "[Make the robotis workspace folder and test colcon build]"
 source /opt/ros/$name_ros_version/setup.sh
 mkdir -p $HOME/$name_robotis_workspace/src
 cd $HOME/$name_robotis_workspace/src
 git clone https://github.com/ROBOTIS-Platform/ros2_examples.git
+wait
 cd $HOME/$name_robotis_workspace
 colcon build --symlink-install
 
