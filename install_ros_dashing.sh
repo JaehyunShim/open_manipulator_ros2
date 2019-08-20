@@ -27,15 +27,16 @@ sudo sh -c 'echo "deb [arch=amd64,arm64] http://packages.ros.org/ros2/ubuntu `ls
 wait && echo "a3"
 
 sudo apt install ros-$name_ros_version-desktop
-sudo apt install python3-argcomplete python3-colcon-common-extensions python3-vcstool
 wait && echo "a4"
+sudo apt install python3-argcomplete python3-colcon-common-extensions python3-vcstool
+wait && echo "a5"
 
 echo "[Make the robotis workspace folder and test colcon build]"
 source /opt/ros/$name_ros_version/setup.sh
 mkdir -p $HOME/$name_robotis_workspace/src
 cd $HOME/$name_robotis_workspace/src
 git clone https://github.com/ROBOTIS-Platform/ros2_examples.git
-wait && echo "a5"
+wait && echo "a6"
 cd $HOME/$name_robotis_workspace
 colcon build --symlink-install
 
