@@ -6,9 +6,9 @@
   <description>
     Gazebo configurations package for OpenManipulator-X
   </description>
-  <license>Apache 2.0</license>
   <author email="jhshim@robotis.com">Ryan Shim</author>
   <maintainer email="hjkim@robotis.com">Hye-Jong KIM</maintainer>
+  <license>Apache 2.0</license>
   <url type="website">http://wiki.ros.org/open_manipulator_gazebo</url>
   <url type="emanual">http://emanual.robotis.com/docs/en/platform/openmanipulator</url>
   <url type="repository">https://github.com/ROBOTIS-GIT/open_manipulator_simulations</url>
@@ -19,5 +19,7 @@
   <depend>gazebo_ros_pkgs</depend>
   <depend>urdf</depend>
   <depend>launch</depend>
-  <export><build_type>ament_cmake</build_type></export>
+  <export>
+    <build_type>ament_cmake</build_type>
+  </export>
 </package>
