@@ -44,7 +44,7 @@ OpenManipulatorXController::OpenManipulatorXController(std::string usb_port, std
 
   if (using_platform_ == true) 
     log::info("Succeeded to Initialise OpenManipulator-X Controller");
-  else (using_platform_ == false) 
+  else if (using_platform_ == false) 
     log::info("Ready to Simulate OpenManipulator-X on Gazebo");
 
   // if (using_moveit_ == true)
@@ -65,12 +65,10 @@ OpenManipulatorXController::OpenManipulatorXController(std::string usb_port, std
   ************************************************************/
   auto period = std::chrono::milliseconds(10); 
   process_timer = this->create_wall_timer(
-    std::chrono::duration_cast<std::chrono::milliseconds>(period), 
-    std::bind(&OpenManipulatorXController::process_callback, this));
+    period, std::bind(&OpenManipulatorXController::process_callback, this));
 
   publish_timer = this->create_wall_timer(
-    std::chrono::duration_cast<std::chrono::milliseconds>(period), 
-    std::bind(&OpenManipulatorXController::publish_callback, this));
+    period, std::bind(&OpenManipulatorXController::publish_callback, this));
 }
 
 OpenManipulatorXController::~OpenManipulatorXController()

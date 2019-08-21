@@ -67,12 +67,10 @@ OpenManipulatorProController::OpenManipulatorProController(std::string usb_port,
   ************************************************************/
   auto period = std::chrono::milliseconds(10); 
   process_timer = this->create_wall_timer(
-    std::chrono::duration_cast<std::chrono::milliseconds>(period), 
-    std::bind(&OpenManipulatorProController::process_callback, this));
+    period, std::bind(&OpenManipulatorProController::process_callback, this));
 
   publish_timer = this->create_wall_timer(
-    std::chrono::duration_cast<std::chrono::milliseconds>(period), 
-    std::bind(&OpenManipulatorProController::publish_callback, this));
+    period, std::bind(&OpenManipulatorProController::publish_callback, this));
 }
 
 OpenManipulatorProController::~OpenManipulatorProController()
