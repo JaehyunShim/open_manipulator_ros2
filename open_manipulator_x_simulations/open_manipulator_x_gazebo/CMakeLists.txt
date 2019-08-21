@@ -4,7 +4,6 @@
 cmake_minimum_required(VERSION 3.5)
 project(open_manipulator_x_gazebo)
 
-# Default to C++14
 if(NOT CMAKE_CXX_STANDARD)
   set(CMAKE_CXX_STANDARD 14)
 endif()
@@ -14,24 +13,16 @@ if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
 endif()
 
 ################################################################################
-# Find ament packages and libraries for ament and system dependencies
+# Find and load build settings from external packages
 ################################################################################
 find_package(ament_cmake REQUIRED)
+find_package(gazebo_ros_pkgs REQUIRED)
 find_package(rclcpp REQUIRED)
 find_package(std_msgs REQUIRED)
-find_package(gazebo_ros_pkgs REQUIRED)
 find_package(urdf REQUIRED)
 
 ################################################################################
-# Setup for python modules and scripts
-################################################################################
-
-################################################################################
 # Declare ROS messages, services and actions
-################################################################################
-
-################################################################################
-# Declare ROS dynamic reconfigure parameters
 ################################################################################
 
 ################################################################################
@@ -57,8 +48,9 @@ install(
 # Test
 ################################################################################
 if(BUILD_TESTING)
+  find_package(ament_cmake_gtest REQUIRED)
+  find_package(ament_cmake_pytest REQUIRED)
   find_package(ament_lint_auto REQUIRED)
-  set(ament_cmake_copyright_FOUND TRUE)
   ament_lint_auto_find_test_dependencies()
 endif()
 

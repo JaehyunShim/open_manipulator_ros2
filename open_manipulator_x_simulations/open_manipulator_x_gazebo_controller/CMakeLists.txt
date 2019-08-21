@@ -4,7 +4,6 @@
 cmake_minimum_required(VERSION 3.5)
 project(open_manipulator_x_gazebo_controller)
 
-# Default to C++14
 if(NOT CMAKE_CXX_STANDARD)
   set(CMAKE_CXX_STANDARD 14)
 endif()
@@ -14,7 +13,7 @@ if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
 endif()
 
 ################################################################################
-# Find ament packages and libraries for ament and system dependencies
+# Find and load build settings from external packages
 ################################################################################
 find_package(ament_cmake REQUIRED)
 find_package(rclcpp REQUIRED)
@@ -24,26 +23,8 @@ find_package(gazebo_msgs REQUIRED)
 find_package(open_manipulator_x_libs REQUIRED)
 
 ################################################################################
-# Setup for python modules and scripts
-################################################################################
-
-################################################################################
 # Declare ROS messages, services and actions
 ################################################################################
-
-################################################################################
-# Declare ROS dynamic reconfigure parameters
-################################################################################
-
-################################################################################
-# Declare ament specific configuration to be passed to dependent projects
-################################################################################
-ament_export_include_directories(include)
-ament_export_dependencies(rclcpp)
-ament_export_dependencies(sensor_msgs)
-ament_export_dependencies(trajectory_msgs)
-ament_export_dependencies(gazebo_msgs)
-ament_export_dependencies(open_manipulator_x_libs)
 
 ################################################################################
 # Build
@@ -92,4 +73,10 @@ install(
 ################################################################################
 # Macro for ament package
 ################################################################################
+ament_export_include_directories(include)
+ament_export_dependencies(rclcpp)
+ament_export_dependencies(sensor_msgs)
+ament_export_dependencies(trajectory_msgs)
+ament_export_dependencies(gazebo_msgs)
+ament_export_dependencies(open_manipulator_x_libs)
 ament_package()

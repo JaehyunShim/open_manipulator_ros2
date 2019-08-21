@@ -4,7 +4,6 @@
 cmake_minimum_required(VERSION 3.5)
 project(open_manipulator_x_description)
 
-# Default to C++14
 if(NOT CMAKE_CXX_STANDARD)
   set(CMAKE_CXX_STANDARD 14)
 endif()
@@ -14,24 +13,12 @@ if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
 endif()
 
 ################################################################################
-# Find ament packages and libraries for ament and system dependencies
+# Find and load build settings from external packages
 ################################################################################
 find_package(ament_cmake REQUIRED)
 
 ################################################################################
-# Setup for python modules and scripts
-################################################################################
-
-################################################################################
 # Declare ROS messages, services and actions
-################################################################################
-
-################################################################################
-# Declare ROS dynamic reconfigure parameters
-################################################################################
-
-################################################################################
-# Declare ament specific configuration to be passed to dependent projects
 ################################################################################
 
 ################################################################################
@@ -41,8 +28,7 @@ find_package(ament_cmake REQUIRED)
 ################################################################################
 # Install
 ################################################################################
-install(
-  DIRECTORY launch meshes rviz urdf
+install(DIRECTORY launch meshes rviz urdf
   DESTINATION share/${PROJECT_NAME}
 )
 
