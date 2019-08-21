@@ -30,28 +30,18 @@ using namespace Eigen;
 
 namespace custom_trajectory
 {
-  
 enum AXIS{
 	X_AXIS,
 	Y_AXIS,
 	Z_AXIS,
 };
 
-
 /*****************************************************************************
 ** Line
 *****************************************************************************/
 class Line : public robotis_manipulator::CustomTaskTrajectory
 {
-private:
-  TaskWaypoint start_pose_;
-  TaskWaypoint goal_pose_;
-
-  double acc_dec_time_;
-  double move_time_;
-  std::vector<double> vel_max_;
-
-public:
+ public:
 	Line() {}
 	virtual ~Line() {}
 
@@ -61,26 +51,22 @@ public:
   virtual void setOption(const void *arg);
   virtual void makeTaskTrajectory(double move_time, TaskWaypoint start, const void *arg);
   virtual TaskWaypoint getTaskWaypoint(double tick);
-};
 
+ private:
+  TaskWaypoint start_pose_;
+  TaskWaypoint goal_pose_;
+
+  double acc_dec_time_;
+  double move_time_;
+  std::vector<double> vel_max_;
+};
 
 /*****************************************************************************
 ** Circle
 *****************************************************************************/
 class Circle : public robotis_manipulator::CustomTaskTrajectory
 {
-private:
-  robotis_manipulator::MinimumJerk path_generator_;
-  VectorXd coefficient_;
-
-  TaskWaypoint start_pose_;
-  TaskWaypoint goal_pose_;
-
-  double radius_;
-  double start_angular_position_;
-  double revolution_;
-
-public:
+ public:
 	Circle() {}
 	virtual ~Circle() {}
 
@@ -90,15 +76,8 @@ public:
   virtual void setOption(const void *arg);
   virtual void makeTaskTrajectory(double move_time, TaskWaypoint start, const void *arg);
   virtual TaskWaypoint getTaskWaypoint(double tick);
-};
 
-
-/*****************************************************************************
-** Rhombus
-*****************************************************************************/
-class Rhombus : public robotis_manipulator::CustomTaskTrajectory
-{
-private:
+ private:
   robotis_manipulator::MinimumJerk path_generator_;
   VectorXd coefficient_;
 
@@ -108,8 +87,15 @@ private:
   double radius_;
   double start_angular_position_;
   double revolution_;
+};
 
-public:
+
+/*****************************************************************************
+** Rhombus
+*****************************************************************************/
+class Rhombus : public robotis_manipulator::CustomTaskTrajectory
+{
+ public:
 	Rhombus() {}
 	virtual ~Rhombus() {}
 
@@ -119,15 +105,8 @@ public:
   virtual void setOption(const void *arg);
   virtual void makeTaskTrajectory(double move_time, TaskWaypoint start, const void *arg);
   virtual TaskWaypoint getTaskWaypoint(double tick);
-};
 
-
-/*****************************************************************************
-** Heart
-*****************************************************************************/
-class Heart : public robotis_manipulator::CustomTaskTrajectory
-{
-private:
+ private:
   robotis_manipulator::MinimumJerk path_generator_;
   VectorXd coefficient_;
 
@@ -137,8 +116,15 @@ private:
   double radius_;
   double start_angular_position_;
   double revolution_;
+};
 
-public:
+
+/*****************************************************************************
+** Heart
+*****************************************************************************/
+class Heart : public robotis_manipulator::CustomTaskTrajectory
+{
+ public:
 	Heart() {}
 	virtual ~Heart() {}
 
@@ -148,9 +134,18 @@ public:
   virtual void setOption(const void *arg);
   virtual void makeTaskTrajectory(double move_time, TaskWaypoint start, const void *arg);
   virtual TaskWaypoint getTaskWaypoint(double tick);
+
+ private:
+  robotis_manipulator::MinimumJerk path_generator_;
+  VectorXd coefficient_;
+
+  TaskWaypoint start_pose_;
+  TaskWaypoint goal_pose_;
+
+  double radius_;
+  double start_angular_position_;
+  double revolution_;
 };
-
-
 } // namespace custom_trajectory
 #endif // CUSTOM_TRAJECTORY_HPP
 

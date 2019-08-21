@@ -33,15 +33,13 @@
 
 namespace open_manipulator_x_teleop_keyboard
 {
-
 class OpenManipulatorXTeleopKeyboard : public rclcpp::Node
 {
-
-public:
+ public:
   OpenManipulatorXTeleopKeyboard();
   virtual ~OpenManipulatorXTeleopKeyboard();
 
-private:
+ private:
   /*****************************************************************************
   ** Position in Joint Space and Task Space
   *****************************************************************************/
@@ -83,7 +81,5 @@ private:
   rclcpp::TimerBase::SharedPtr timer_;
   void display_callback(); 
 };
-
 }  // namespace open_manipulator_x_teleop_keyboard
-
 #endif  // OPEN_MANIPULATOR_X_TELEOP_KEYBOARD_HPP

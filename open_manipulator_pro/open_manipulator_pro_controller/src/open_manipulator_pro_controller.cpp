@@ -24,6 +24,7 @@ using namespace std::placeholders;
 OpenManipulatorProController::OpenManipulatorProController(std::string usb_port, std::string baud_rate)
 : Node("open_manipulator_pro_controller"),
   control_period_(0.010),
+  using_platform_(false),
   with_gripper_(false)
   // moveit_plan_state_(false),
   // using_moveit_(false),
@@ -43,8 +44,10 @@ OpenManipulatorProController::OpenManipulatorProController(std::string usb_port,
 
   open_manipulator_pro_.init_open_manipulator_pro(using_platform_, usb_port, baud_rate, 0.010, with_gripper_);
 
-  if (using_platform_ == true)       log::info("Succeeded to Initialise OpenManipulator-PRO Controller");
-  else if (using_platform_ == false) log::info("Ready to Simulate OpenManipulator-PRO on Gazebo");
+  if (using_platform_ == true)       
+    log::info("Succeeded to Initialise OpenManipulator-PRO Controller");
+  else if (using_platform_ == false) 
+    log::info("Ready to Simulate OpenManipulator-PRO on Gazebo");
 
   // if (using_moveit_ == true)
   // {

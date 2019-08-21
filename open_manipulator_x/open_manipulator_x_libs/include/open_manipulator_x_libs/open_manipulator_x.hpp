@@ -38,19 +38,17 @@
 
 class OpenManipulatorX : public robotis_manipulator::RobotisManipulator
 {
-  
-private:
-  robotis_manipulator::Kinematics *kinematics_;
-  robotis_manipulator::JointActuator *actuator_;
-  robotis_manipulator::ToolActuator *tool_;
-  robotis_manipulator::CustomTaskTrajectory *custom_trajectory_[CUSTOM_TRAJECTORY_SIZE];
-
-public:
+ public:
   OpenManipulatorX();
   virtual ~OpenManipulatorX();
 
   void init_open_manipulator_x(bool using_actual_robot_state, STRING usb_port = "/dev/ttyUSB0", STRING baud_rate = "1000000", float control_loop_time = 0.010);
   void process_open_manipulator_x(double present_time);
-};
 
+ private:
+  robotis_manipulator::Kinematics *kinematics_;
+  robotis_manipulator::JointActuator *actuator_;
+  robotis_manipulator::ToolActuator *tool_;
+  robotis_manipulator::CustomTaskTrajectory *custom_trajectory_[CUSTOM_TRAJECTORY_SIZE];
+};
 #endif // OPEN_MANIPULTOR_X_HPP

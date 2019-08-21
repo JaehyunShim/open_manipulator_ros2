@@ -29,7 +29,6 @@
 
 namespace dynamixel
 {
-
 #define SYNC_WRITE_HANDLER 0
 #define SYNC_READ_HANDLER_FOR_PRESENT_POSITION_VELOCITY_CURRENT 0
 
@@ -45,7 +44,6 @@ namespace dynamixel
 #define ADDR_PROFILE_VELOCITY_2 112
 #define ADDR_GOAL_POSITION_2 116
 
-
 #define LENGTH_PRESENT_CURRENT_2 2
 #define LENGTH_PRESENT_VELOCITY_2 4
 #define LENGTH_PRESENT_POSITION_2 4
@@ -54,7 +52,6 @@ namespace dynamixel
 #define LENGTH_PROFILE_ACCELERATION_2 4
 #define LENGTH_PROFILE_VELOCITY_2 4
 #define LENGTH_GOAL_POSITION_2 4
-
 
 // Protocol 1.0
 #define ADDR_PRESENT_CURRENT_1 = 40;
@@ -73,14 +70,9 @@ typedef struct
 
 class JointDynamixel : public robotis_manipulator::JointActuator
 {
-private:
-  DynamixelWorkbench *dynamixel_workbench_;
-  Joint dynamixel_;
-
-public:
+ public:
   JointDynamixel(){}
   virtual ~JointDynamixel(){}
-
 
   /*****************************************************************************
   ** Joint Dynamixel Control Functions
@@ -95,7 +87,6 @@ public:
   virtual bool sendJointActuatorValue(std::vector<uint8_t> actuator_id, std::vector<robotis_manipulator::ActuatorValue> value_vector);
   virtual std::vector<robotis_manipulator::ActuatorValue> receiveJointActuatorValue(std::vector<uint8_t> actuator_id);
 
-
   /*****************************************************************************
   ** Functions called in Joint Dynamixel Control Functions
   *****************************************************************************/
@@ -105,20 +96,17 @@ public:
   bool write_profile_value(std::vector<uint8_t> actuator_id, STRING profile_mode, uint32_t value);
   bool write_goal_position(std::vector<uint8_t> actuator_id, std::vector<double> radian_vector);
   std::vector<robotis_manipulator::ActuatorValue> receive_all_dynamixel_value(std::vector<uint8_t> actuator_id);
+
+ private:
+  DynamixelWorkbench *dynamixel_workbench_;
+  Joint dynamixel_;
 };
 
 class JointDynamixelProfileControl : public robotis_manipulator::JointActuator
 {
-private:
-  DynamixelWorkbench *dynamixel_workbench_;
-  Joint dynamixel_;
-  float control_loop_time_; // unit: ms
-  std::map<uint8_t, robotis_manipulator::ActuatorValue> previous_goal_value_;
-
-public:
+ public:
   JointDynamixelProfileControl(float control_loop_time = 0.010);
   virtual ~JointDynamixelProfileControl(){}
-
 
   /*****************************************************************************
   ** Joint Dynamixel Profile Control Functions
@@ -133,7 +121,6 @@ public:
   virtual bool sendJointActuatorValue(std::vector<uint8_t> actuator_id, std::vector<robotis_manipulator::ActuatorValue> value_vector);
   virtual std::vector<robotis_manipulator::ActuatorValue> receiveJointActuatorValue(std::vector<uint8_t> actuator_id);
 
-
   /*****************************************************************************
   ** Functions called in Joint Dynamixel Profile Control Functions
   *****************************************************************************/
@@ -143,18 +130,19 @@ public:
   bool write_profile_value(std::vector<uint8_t> actuator_id, STRING profile_mode, uint32_t value);
   bool write_goal_profiling_control_value(std::vector<uint8_t> actuator_id, std::vector<robotis_manipulator::ActuatorValue> value_vector);
   std::vector<robotis_manipulator::ActuatorValue> receive_all_dynamixel_value(std::vector<uint8_t> actuator_id);
+
+ private:
+  DynamixelWorkbench *dynamixel_workbench_;
+  Joint dynamixel_;
+  float control_loop_time_; // unit: ms
+  std::map<uint8_t, robotis_manipulator::ActuatorValue> previous_goal_value_;
 };
 
 class GripperDynamixel : public robotis_manipulator::ToolActuator
 {
- private:
-  DynamixelWorkbench *dynamixel_workbench_;
-  Joint dynamixel_;
-
  public:
   GripperDynamixel() {}
   virtual ~GripperDynamixel() {}
-
 
   /*****************************************************************************
   ** Tool Dynamixel Control Functions
@@ -169,7 +157,6 @@ class GripperDynamixel : public robotis_manipulator::ToolActuator
   virtual bool sendToolActuatorValue(robotis_manipulator::ActuatorValue value);
   virtual robotis_manipulator::ActuatorValue receiveToolActuatorValue();
 
-
   /*****************************************************************************
   ** Functions called in Tool Dynamixel Profile Control Functions
   *****************************************************************************/
@@ -179,9 +166,12 @@ class GripperDynamixel : public robotis_manipulator::ToolActuator
   bool write_profile_value(STRING profile_mode, uint32_t value);
   bool write_goal_position(double radian);
   double receive_dynamixel_value();
-};
 
-} // namespace DYNAMIXEL
+ private:
+  DynamixelWorkbench *dynamixel_workbench_;
+  Joint dynamixel_;
+};
+}  // namespace DYNAMIXEL
 #endif // DYNAMIXEL_HPP
 
 

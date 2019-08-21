@@ -59,7 +59,6 @@ namespace open_manipulator_x_controller
 
 class OpenManipulatorXController : public rclcpp::Node
 {
-
  public:
   OpenManipulatorXController(std::string usb_port, std::string baud_rate);
   ~OpenManipulatorXController();
@@ -78,7 +77,6 @@ class OpenManipulatorXController : public rclcpp::Node
   rclcpp::TimerBase::SharedPtr publish_timer;
 
  private:
-
   /*****************************************************************************
   ** Parameters
   *****************************************************************************/
@@ -225,7 +223,5 @@ class OpenManipulatorXController : public rclcpp::Node
     const std::shared_ptr<open_manipulator_msgs::srv::SetKinematicsPose::Request>  req,
     const std::shared_ptr<open_manipulator_msgs::srv::SetKinematicsPose::Response> res);
 };
-
 }  // namespace open_manipulator_x_controller
-
 #endif //OPEN_MANIPULATOR_X_CONTROLLER_HPP

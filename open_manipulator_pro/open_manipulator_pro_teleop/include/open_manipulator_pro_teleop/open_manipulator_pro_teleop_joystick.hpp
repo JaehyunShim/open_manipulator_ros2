@@ -33,15 +33,13 @@
 
 namespace open_manipulator_pro_teleop_joystick
 {
-
 class OpenManipulatorProTeleopJoystick : public rclcpp::Node
 {
-
-public:
+ public:
   OpenManipulatorProTeleopJoystick();
   virtual ~OpenManipulatorProTeleopJoystick();
 
-private:
+ private:
   /*****************************************************************************
   ** Position in Joint Space and Task Space, and Whether with Gripper
   *****************************************************************************/
@@ -72,7 +70,5 @@ private:
   rclcpp::Client<open_manipulator_msgs::srv::SetJointPosition>::SharedPtr goal_tool_control_client_;
   rclcpp::Client<open_manipulator_msgs::srv::SetKinematicsPose>::SharedPtr goal_task_space_path_from_present_position_only_client_;
 };
-
 }  // namespace open_manipulator_pro_teleop_joystick
-
 #endif  // OPEN_MANIPULATOR_PRO_TELEOP_JOYSTICK_HPP

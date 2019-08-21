@@ -42,8 +42,10 @@ OpenManipulatorXController::OpenManipulatorXController(std::string usb_port, std
 
   open_manipulator_x_.init_open_manipulator_x(using_platform_, usb_port, baud_rate, 0.010);
 
-  if (using_platform_ == true)       log::info("Succeeded to Initialise OpenManipulator-X Controller");
-  else if (using_platform_ == false) log::info("Ready to Simulate OpenManipulator-X on Gazebo");
+  if (using_platform_ == true) 
+    log::info("Succeeded to Initialise OpenManipulator-X Controller");
+  else (using_platform_ == false) 
+    log::info("Ready to Simulate OpenManipulator-X on Gazebo");
 
   // if (using_moveit_ == true)
   // {

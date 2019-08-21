@@ -59,7 +59,6 @@ namespace open_manipulator_pro_controller
 
 class OpenManipulatorProController : public rclcpp::Node
 {
-
  public:
   OpenManipulatorProController(std::string usb_port, std::string baud_rate);
   ~OpenManipulatorProController();
@@ -78,7 +77,6 @@ class OpenManipulatorProController : public rclcpp::Node
   rclcpp::TimerBase::SharedPtr publish_timer;
 
  private:
-
   /*****************************************************************************
   ** Parameters
   *****************************************************************************/
@@ -226,7 +224,5 @@ class OpenManipulatorProController : public rclcpp::Node
     const std::shared_ptr<open_manipulator_msgs::srv::SetKinematicsPose::Request>  req,
     const std::shared_ptr<open_manipulator_msgs::srv::SetKinematicsPose::Response> res);
 };
-
 }  // namespace open_manipulator_pro_controller
-
 #endif //OPEN_MANIPULATOR_PRO_CONTROLLER_HPP

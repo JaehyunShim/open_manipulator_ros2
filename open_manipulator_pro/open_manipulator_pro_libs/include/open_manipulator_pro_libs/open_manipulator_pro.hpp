@@ -38,14 +38,7 @@
 
 class OpenManipulatorPro : public robotis_manipulator::RobotisManipulator
 {
-
-private:
-  robotis_manipulator::Kinematics *kinematics_;
-  robotis_manipulator::JointActuator *actuator_;
-  robotis_manipulator::ToolActuator *tool_;
-  robotis_manipulator::CustomTaskTrajectory *custom_trajectory_[CUSTOM_TRAJECTORY_SIZE];
-
-public:
+ public:
   OpenManipulatorPro();
   virtual ~OpenManipulatorPro();
 
@@ -53,6 +46,11 @@ public:
   void process_open_manipulator_pro(double present_time, bool using_actual_robot_state, bool with_gripper = false);
   JointWaypoint distance_to_angle(JointWaypoint distance);
   JointWaypoint angle_to_distance(JointWaypoint angle);
-};
 
+ private:
+  robotis_manipulator::Kinematics *kinematics_;
+  robotis_manipulator::JointActuator *actuator_;
+  robotis_manipulator::ToolActuator *tool_;
+  robotis_manipulator::CustomTaskTrajectory *custom_trajectory_[CUSTOM_TRAJECTORY_SIZE];
+};
 #endif // OPEN_MANIPULTOR_PRO_HPP
