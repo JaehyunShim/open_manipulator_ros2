@@ -19,7 +19,7 @@ find_package(ament_cmake REQUIRED)
 find_package(cmake_modules REQUIRED)
 find_package(geometry_msgs REQUIRED)
 find_package(open_manipulator_msgs REQUIRED)
-find_package(open_manipulator_pro_libs REQUIRED)
+find_package(open_manipulator_x_libs REQUIRED)
 find_package(rclcpp REQUIRED)
 find_package(robotis_manipulator REQUIRED)
 find_package(std_msgs REQUIRED)
@@ -45,7 +45,7 @@ set(dependencies
   "cmake_modules"
   "geometry_msgs" 
   "open_manipulator_msgs"
-  "open_manipulator_pro_libs" 
+  "open_manipulator_x_libs" 
   "rclcpp" 
   "robotis_manipulator" 
   "sensor_msgs" 
@@ -53,19 +53,15 @@ set(dependencies
   "trajectory_msgs" 
 )
 
-set(EXECUTABLE_NAME "open_manipulator_x_controller")
+set(EXEC_NAME "open_manipulator_x_controller")
 
-add_executable(${EXECUTABLE_NAME} src/open_manipulator_x_controller.cpp)
-ament_target_dependencies(${EXECUTABLE_NAME} ${dependencies})
-target_link_libraries(${EXECUTABLE_NAME} 
-                      ${rclcpp_LIBRARIES}
-                      ${robotis_manipulator_LIBRARIES}
-                      ${open_manipulator_x_libs_LIBRARIES})
+add_executable(${EXEC_NAME} src/open_manipulator_x_controller.cpp)
+ament_target_dependencies(${EXEC_NAME} ${dependencies})
 
 ################################################################################
 # Install
 ################################################################################
-install(TARGETS ${EXECUTABLE_NAME}
+install(TARGETS ${EXEC_NAME}
   DESTINATION lib/${PROJECT_NAME}
 )
 
@@ -79,10 +75,6 @@ install(DIRECTORY launch param
 
 install(PROGRAMS scripts/create_udev_rules
   DESTINATION lib/${PROJECT_NAME}
-)
-
-install(DIRECTORY include/${PROJECT_NAME}/
-  DESTINATION include/${PROJECT_NAME}
 )
 
 ################################################################################

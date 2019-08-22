@@ -15,12 +15,12 @@ endif()
 ################################################################################
 # Find and load build settings from external packages
 ################################################################################
+find_package(Eigen3 REQUIRED)
 find_package(ament_cmake REQUIRED)
 find_package(cmake_modules REQUIRED)
 find_package(dynamixel_workbench_toolbox REQUIRED)
 find_package(rclcpp REQUIRED)
 find_package(robotis_manipulator REQUIRED)
-find_package(Eigen3 REQUIRED)
 
 ################################################################################
 # Declare ROS messages, services and actions
@@ -35,37 +35,33 @@ include_directories(
 include_directories(${EIGEN3_INCLUDE_DIRS})
 
 set(dependencies_lib
+  "EIGEN3"
   "cmake_modules"
   "dynamixel_workbench_toolbox"
   "rclcpp"
   "robotis_manipulator"
-  "EIGEN3"
 )
 
-add_library(open_manipulator_pro_libs
+add_library(open_manipulator_pro_libs SHARED
   "src/custom_trajectory.cpp"
   "src/dynamixel.cpp"
   "src/kinematics.cpp"
   "src/open_manipulator_pro.cpp"
 )
 ament_target_dependencies(open_manipulator_pro_libs ${dependencies_lib})
-target_link_libraries(open_manipulator_pro_libs 
-  ${rclcpp_manipulator_LIBRARIES}
-  ${robotis_manipulator_LIBRARIES}
-  ${dynamixel_workbench_toolbox_LIBRARIES}
-  ${Eigen3_LIBRARIES})
+target_link_libraries(open_manipulator_pro_libs ${Eigen3_LIBRARIES})
 
 ################################################################################
 # Install
 ################################################################################
-install(DIRECTORY include/${PROJECT_NAME}
-  DESTINATION include/${PROJECT_NAME}
-)
-
 install(TARGETS open_manipulator_pro_libs
   ARCHIVE DESTINATION lib
   LIBRARY DESTINATION lib
-  RUNTIME DESTINATION bin
+  RUNTIME DESTINATION bin/${PROJECT_NAME}
+)
+
+install(DIRECTORY include/
+  DESTINATION include/
 )
 
 ################################################################################
@@ -81,11 +77,11 @@ endif()
 ################################################################################
 # Macro for ament package
 ################################################################################
-ament_export_include_directories(include/${PROJECT_NAME})
+ament_export_include_directories(include)
+ament_export_dependencies(Eigen3)
 ament_export_dependencies(cmake_modules)
 ament_export_dependencies(dynamixel_workbench_toolbox)
 ament_export_dependencies(rclcpp)
 ament_export_dependencies(robotis_manipulator)
-ament_export_dependencies(Eigen3)
 ament_export_libraries(open_manipulator_pro_libs)
 ament_package()

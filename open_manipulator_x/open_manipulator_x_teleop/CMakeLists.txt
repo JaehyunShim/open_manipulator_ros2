@@ -37,23 +37,20 @@ set(dependencies
   "sensor_msgs"
 )
 
-add_executable(open_manipulator_x_teleop_joystick src/open_manipulator_x_teleop_joystick.cpp)
-ament_target_dependencies(open_manipulator_x_teleop_joystick ${dependencies})
-target_link_libraries(open_manipulator_x_teleop_joystick ${rclcpp_LIBRARIES})
+set(JOYSTICK_EXEC_NAME "open_manipulator_x_teleop_joystick")
+set(KEYBOARD_EXEC_NAME "open_manipulator_x_teleop_keyboard")
 
-add_executable(open_manipulator_x_teleop_keyboard src/open_manipulator_x_teleop_keyboard.cpp)
-ament_target_dependencies(open_manipulator_x_teleop_keyboard ${dependencies})
-target_link_libraries(open_manipulator_x_teleop_keyboard ${rclcpp_LIBRARIES})
+add_executable(${JOYSTICK_EXEC_NAME} src/open_manipulator_x_teleop_joystick.cpp)
+ament_target_dependencies(${JOYSTICK_EXEC_NAME} ${dependencies})
+
+add_executable(${KEYBOARD_EXEC_NAME} src/open_manipulator_x_teleop_keyboard.cpp)
+ament_target_dependencies(${KEYBOARD_EXEC_NAME} ${dependencies})
 
 ################################################################################
 # Install
 ################################################################################
-install(TARGETS open_manipulator_x_teleop_joystick open_manipulator_x_teleop_keyboard
+install(TARGETS ${JOYSTICK_EXEC_NAME} ${KEYBOARD_EXEC_NAME}
   DESTINATION lib/${PROJECT_NAME} 
-)
-
-install(DIRECTORY include/${PROJECT_NAME}
-  DESTINATION include/${PROJECT_NAME}
 )
 
 install(DIRECTORY launch 
@@ -73,7 +70,7 @@ endif()
 ################################################################################
 # Macro for ament package
 ################################################################################
-ament_export_include_directories(include/${PROJECT_NAME})
+ament_export_include_directories(include)
 ament_export_dependencies(open_manipulator_msgs)
 ament_export_dependencies(rclcpp)
 ament_export_dependencies(sensor_msgs)
