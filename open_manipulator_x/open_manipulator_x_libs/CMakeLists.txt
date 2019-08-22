@@ -42,19 +42,21 @@ set(dependencies_lib
   "robotis_manipulator"
 )
 
-add_library(open_manipulator_x_libs SHARED
+set(LIB_NAME "open_manipulator_x_libs")
+
+add_library(${LIB_NAME} SHARED
   "src/custom_trajectory.cpp"
   "src/dynamixel.cpp"
   "src/kinematics.cpp"
   "src/open_manipulator_x.cpp"
 )
-ament_target_dependencies(open_manipulator_x_libs ${dependencies_lib})
-target_link_libraries(open_manipulator_x_libs ${Eigen3_LIBRARIES})
+ament_target_dependencies(${LIB_NAME} ${dependencies_lib})
+target_link_libraries(${LIB_NAME} ${Eigen3_LIBRARIES})
 
 ################################################################################
 # Install
 ################################################################################
-install(TARGETS open_manipulator_x_libs
+install(TARGETS ${LIB_NAME}
   ARCHIVE DESTINATION lib
   LIBRARY DESTINATION lib
   RUNTIME DESTINATION bin/${PROJECT_NAME}
@@ -83,5 +85,5 @@ ament_export_dependencies(cmake_modules)
 ament_export_dependencies(dynamixel_workbench_toolbox)
 ament_export_dependencies(rclcpp)
 ament_export_dependencies(robotis_manipulator)
-ament_export_libraries(open_manipulator_x_libs)
+ament_export_libraries(${LIB_NAME})
 ament_package()
