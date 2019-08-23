@@ -20,30 +20,22 @@
 #define OPEN_MANIPULATOR_X_CONTROLLER_HPP
 
 #include <rclcpp/rclcpp.hpp>
-#include "sensor_msgs/msg/joint_state.hpp"
-#include "geometry_msgs/msg/pose_stamped.hpp"
-#include "std_msgs/msg/float64.hpp"
-#include "std_msgs/msg/string.hpp"
-#include "std_msgs/msg/empty.hpp"
 #include <unistd.h>
 #include <chrono>
 #include <cstdio>
 #include <memory>
+#include "open_manipulator_x_libs/open_manipulator_x.hpp"
 
-// #include <moveit/move_group_interface/move_group_interface.h>
-// #include <moveit/robot_state/robot_state.h>
-// #include <moveit/planning_interface/planning_interface.h>
+// Only if You Have MoveIt! Dependencies
+// #include "open_manipulator_x_controller/open_manipulator_x_controller_moveit.hpp"
 
-// #include <moveit/robot_model_loader/robot_model_loader.h>
-// #include <moveit/robot_model/robot_model.h>
-// #include <moveit/robot_state/robot_state.h>
-
-// #include <moveit_msgs/DisplayTrajectory.h>
-// #include <moveit_msgs/ExecuteTrajectoryActionGoal.h>
-// #include <moveit_msgs/MoveGroupActionGoal.h>
+#include "std_msgs/msg/float64.hpp"
+#include "std_msgs/msg/string.hpp"
+#include "std_msgs/msg/empty.hpp"
+#include "sensor_msgs/msg/joint_state.hpp"
+#include "geometry_msgs/msg/pose_stamped.hpp"
 #include "trajectory_msgs/msg/joint_trajectory.hpp"
 #include "trajectory_msgs/msg/joint_trajectory_point.hpp"
-
 #include "open_manipulator_msgs/srv/set_joint_position.hpp"
 #include "open_manipulator_msgs/srv/set_kinematics_pose.hpp"
 #include "open_manipulator_msgs/srv/set_drawing_trajectory.hpp"
@@ -52,7 +44,6 @@
 #include "open_manipulator_msgs/srv/get_kinematics_pose.hpp"
 #include "open_manipulator_msgs/msg/open_manipulator_state.hpp"
 
-#include "open_manipulator_x_libs/open_manipulator_x.hpp"
 
 namespace open_manipulator_x_controller
 {
@@ -67,7 +58,6 @@ class OpenManipulatorXController : public rclcpp::Node
   void publish_callback();  
   double get_control_period(void){return control_period_;}
 
-  // void moveit_timer(double present_time);
   void process(double time);
 
   bool calc_planned_path(const std::string planning_group, open_manipulator_msgs::msg::KinematicsPose msg);
@@ -80,19 +70,15 @@ class OpenManipulatorXController : public rclcpp::Node
   /*****************************************************************************
   ** Parameters
   *****************************************************************************/
-  bool using_platform_;
+  bool use_platform_;
   double control_period_;
-  // bool using_moveit_;
-  // bool moveit_plan_state_;
-
-  // // MoveIt! interface
-  // moveit::planning_interface::MoveGroupInterface* move_group_;
-  // trajectory_msgs::msg::JointTrajectory joint_trajectory_;
-  double moveit_sampling_time_;
-  // bool moveit_plan_only_;
+  bool use_moveit_;
 
   // Robotis_manipulator related 
   OpenManipulatorX open_manipulator_x_;
+
+  // Only if You Have MoveIt! Dependencies
+  // OpenManipulatorXControllerMoveit open_manipulator_x_controller_moveit;
 
   /*****************************************************************************
   ** Init Functions
@@ -108,7 +94,6 @@ class OpenManipulatorXController : public rclcpp::Node
   std::vector<rclcpp::Publisher<open_manipulator_msgs::msg::KinematicsPose>::SharedPtr> open_manipulator_x_kinematics_pose_pub_;
   rclcpp::Publisher<sensor_msgs::msg::JointState>::SharedPtr open_manipulator_x_joint_states_pub_;
   std::vector<rclcpp::Publisher<std_msgs::msg::Float64>::SharedPtr> gazebo_goal_joint_position_pub_;
-  // rclcpp::Publisher<????>::SharedPtr moveit_update_start_state_pub_;
 
   void publish_open_manipulator_x_states();
   void publish_kinematics_pose();
@@ -119,14 +104,8 @@ class OpenManipulatorXController : public rclcpp::Node
   ** ROS Subscribers and Callback Functions
   *****************************************************************************/
   rclcpp::Subscription<std_msgs::msg::String>::SharedPtr open_manipulator_x_option_sub_;
-  // rclcpp::Subscription<moveit_msgs::msg::DisplayTrajectory>::SharedPtr display_planned_path_sub_;
-  // rclcpp::Subscription<moveit_msgs::msg::MoveGroupActionGoal>::SharedPtr move_group_goal_sub_;
-  // rclcpp::Subscription<moveit_msgs::msg::ExecuteTrajectoryActionGoal>::SharedPtr execute_traj_goal_sub_;
 
   void open_manipulator_x_option_callback(const std_msgs::msg::String::SharedPtr msg);
-  // void displayPlannedPathCallback(const moveit_msgs::msg::DisplayTrajectory::SharedPtr msg);
-  // void moveGroupGoalCallback(const moveit_msgs::msg::MoveGroupActionGoal::SharedPtr msg);
-  // void executeTrajGoalCallback(const moveit_msgs::msg::ExecuteTrajectoryActionGoal::SharedPtr msg);
 
   /*****************************************************************************
   ** ROS Servers and Callback Functions
@@ -145,10 +124,6 @@ class OpenManipulatorXController : public rclcpp::Node
   rclcpp::Service<open_manipulator_msgs::srv::SetJointPosition>::SharedPtr goal_tool_control_server_;
   rclcpp::Service<open_manipulator_msgs::srv::SetActuatorState>::SharedPtr set_actuator_state_server_;
   rclcpp::Service<open_manipulator_msgs::srv::SetDrawingTrajectory>::SharedPtr goal_drawing_trajectory_server_;
-  rclcpp::Service<open_manipulator_msgs::srv::GetJointPosition>::SharedPtr get_joint_position_server_;
-  rclcpp::Service<open_manipulator_msgs::srv::GetKinematicsPose>::SharedPtr get_kinematics_pose_server_;
-  rclcpp::Service<open_manipulator_msgs::srv::SetJointPosition>::SharedPtr set_joint_position_server_;
-  rclcpp::Service<open_manipulator_msgs::srv::SetKinematicsPose>::SharedPtr set_kinematics_pose_server_;
 
   void goal_joint_space_path_callback(
     const std::shared_ptr<rmw_request_id_t> request_header,
@@ -206,22 +181,6 @@ class OpenManipulatorXController : public rclcpp::Node
     const std::shared_ptr<rmw_request_id_t> request_header,
     const std::shared_ptr<open_manipulator_msgs::srv::SetDrawingTrajectory::Request>  req,
     const std::shared_ptr<open_manipulator_msgs::srv::SetDrawingTrajectory::Response> res);
-  void get_joint_position_msg_callback(
-    const std::shared_ptr<rmw_request_id_t> request_header,
-    const std::shared_ptr<open_manipulator_msgs::srv::GetJointPosition::Request>  req,
-    const std::shared_ptr<open_manipulator_msgs::srv::GetJointPosition::Response> res);
-  void get_kinematics_pose_msg_callback(
-    const std::shared_ptr<rmw_request_id_t> request_header,
-    const std::shared_ptr<open_manipulator_msgs::srv::GetKinematicsPose::Request>  req,
-    const std::shared_ptr<open_manipulator_msgs::srv::GetKinematicsPose::Response> res);
-  void set_joint_position_msg_callback(
-    const std::shared_ptr<rmw_request_id_t> request_header,
-    const std::shared_ptr<open_manipulator_msgs::srv::SetJointPosition::Request>  req,
-    const std::shared_ptr<open_manipulator_msgs::srv::SetJointPosition::Response> res);
-  void set_kinematics_pose_msg_callback(
-    const std::shared_ptr<rmw_request_id_t> request_header,
-    const std::shared_ptr<open_manipulator_msgs::srv::SetKinematicsPose::Request>  req,
-    const std::shared_ptr<open_manipulator_msgs::srv::SetKinematicsPose::Response> res);
 };
 }  // namespace open_manipulator_x_controller
 #endif //OPEN_MANIPULATOR_X_CONTROLLER_HPP
