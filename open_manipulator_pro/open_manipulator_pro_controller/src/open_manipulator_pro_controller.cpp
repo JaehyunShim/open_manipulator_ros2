@@ -99,11 +99,11 @@ void OpenManipulatorProController::init_parameters()
 
 void OpenManipulatorProController::init_publisher()
 {
-  auto om_tools_name = open_manipulator_pro_.getManipulator()->getAllToolComponentName();
+  auto tools_name = open_manipulator_pro_.getManipulator()->getAllToolComponentName();
 
   open_manipulator_pro_states_pub_ = this->create_publisher<open_manipulator_msgs::msg::OpenManipulatorState>("open_manipulator_pro/states", 10);
 
-  for (auto const& name:om_tools_name)
+  for (auto const& name:tools_name)
   {
     auto pb = this->create_publisher<open_manipulator_msgs::msg::KinematicsPose>("open_manipulator_pro/kinematics_pose", 10);
     open_manipulator_pro_kinematics_pose_pub_.push_back(pb);
@@ -116,8 +116,8 @@ void OpenManipulatorProController::init_publisher()
   else
   {
     auto gazebo_joints_name = open_manipulator_pro_.getManipulator()->getAllActiveJointComponentName();
-    gazebo_joints_name.reserve(gazebo_joints_name.size() + om_tools_name.size());
-    gazebo_joints_name.insert(gazebo_joints_name.end(), om_tools_name.begin(), om_tools_name.end());
+    gazebo_joints_name.reserve(gazebo_joints_name.size() + tools_name.size());
+    gazebo_joints_name.insert(gazebo_joints_name.end(), tools_name.begin(), tools_name.end());
 
     for (auto const& name:gazebo_joints_name)
     {
@@ -193,7 +193,7 @@ void OpenManipulatorProController::open_manipulator_pro_option_callback(const st
 *****************************************************************************/
 void OpenManipulatorProController::goal_joint_space_path_callback(
   const std::shared_ptr<rmw_request_id_t> request_header,
-  const std::shared_ptr<open_manipulator_msgs::srv::SetJointPosition::Request>  req,
+  const std::shared_ptr<open_manipulator_msgs::srv::SetJointPosition::Request> req,
   const std::shared_ptr<open_manipulator_msgs::srv::SetJointPosition::Response> res)
 {
   std::vector <double> target_angle;
@@ -209,7 +209,7 @@ void OpenManipulatorProController::goal_joint_space_path_callback(
 
 void OpenManipulatorProController::goal_joint_space_path_to_kinematics_pose_callback(
   const std::shared_ptr<rmw_request_id_t> request_header,
-  const std::shared_ptr<open_manipulator_msgs::srv::SetKinematicsPose::Request>  req,
+  const std::shared_ptr<open_manipulator_msgs::srv::SetKinematicsPose::Request> req,
   const std::shared_ptr<open_manipulator_msgs::srv::SetKinematicsPose::Response> res)
 {
   KinematicPose target_pose;
@@ -232,7 +232,7 @@ void OpenManipulatorProController::goal_joint_space_path_to_kinematics_pose_call
 
 void OpenManipulatorProController::goal_joint_space_path_to_kinematics_position_callback(
   const std::shared_ptr<rmw_request_id_t> request_header,
-  const std::shared_ptr<open_manipulator_msgs::srv::SetKinematicsPose::Request>  req,
+  const std::shared_ptr<open_manipulator_msgs::srv::SetKinematicsPose::Request> req,
   const std::shared_ptr<open_manipulator_msgs::srv::SetKinematicsPose::Response> res)
 {
   KinematicPose target_pose;
@@ -248,7 +248,7 @@ void OpenManipulatorProController::goal_joint_space_path_to_kinematics_position_
 
 void OpenManipulatorProController::goal_joint_space_path_to_kinematics_orientation_callback(
   const std::shared_ptr<rmw_request_id_t> request_header,
-  const std::shared_ptr<open_manipulator_msgs::srv::SetKinematicsPose::Request>  req,
+  const std::shared_ptr<open_manipulator_msgs::srv::SetKinematicsPose::Request> req,
   const std::shared_ptr<open_manipulator_msgs::srv::SetKinematicsPose::Response> res)
 {
   KinematicPose target_pose;
@@ -268,7 +268,7 @@ void OpenManipulatorProController::goal_joint_space_path_to_kinematics_orientati
 
 void OpenManipulatorProController::goal_task_space_path_callback(
   const std::shared_ptr<rmw_request_id_t> request_header,
-  const std::shared_ptr<open_manipulator_msgs::srv::SetKinematicsPose::Request>  req,
+  const std::shared_ptr<open_manipulator_msgs::srv::SetKinematicsPose::Request> req,
   const std::shared_ptr<open_manipulator_msgs::srv::SetKinematicsPose::Response> res)
 {
   KinematicPose target_pose;
@@ -290,7 +290,7 @@ void OpenManipulatorProController::goal_task_space_path_callback(
 
 void OpenManipulatorProController::goal_task_space_path_position_only_callback(
   const std::shared_ptr<rmw_request_id_t> request_header,
-  const std::shared_ptr<open_manipulator_msgs::srv::SetKinematicsPose::Request>  req,
+  const std::shared_ptr<open_manipulator_msgs::srv::SetKinematicsPose::Request> req,
   const std::shared_ptr<open_manipulator_msgs::srv::SetKinematicsPose::Response> res)
 {
   Eigen::Vector3d position;
@@ -306,7 +306,7 @@ void OpenManipulatorProController::goal_task_space_path_position_only_callback(
 
 void OpenManipulatorProController::goal_task_space_path_orientation_only_callback(
   const std::shared_ptr<rmw_request_id_t> request_header,
-  const std::shared_ptr<open_manipulator_msgs::srv::SetKinematicsPose::Request>  req,
+  const std::shared_ptr<open_manipulator_msgs::srv::SetKinematicsPose::Request> req,
   const std::shared_ptr<open_manipulator_msgs::srv::SetKinematicsPose::Response> res)
 {
   Eigen::Quaterniond q(req->kinematics_pose.pose.orientation.w,
@@ -324,7 +324,7 @@ void OpenManipulatorProController::goal_task_space_path_orientation_only_callbac
 
 void OpenManipulatorProController::goal_joint_space_path_from_present_callback(
   const std::shared_ptr<rmw_request_id_t> request_header,
-  const std::shared_ptr<open_manipulator_msgs::srv::SetJointPosition::Request>  req,
+  const std::shared_ptr<open_manipulator_msgs::srv::SetJointPosition::Request> req,
   const std::shared_ptr<open_manipulator_msgs::srv::SetJointPosition::Response> res)
 {
   std::vector <double> target_angle;
@@ -340,7 +340,7 @@ void OpenManipulatorProController::goal_joint_space_path_from_present_callback(
 
 void OpenManipulatorProController::goal_task_space_path_from_present_callback(
   const std::shared_ptr<rmw_request_id_t> request_header,
-  const std::shared_ptr<open_manipulator_msgs::srv::SetKinematicsPose::Request>  req,
+  const std::shared_ptr<open_manipulator_msgs::srv::SetKinematicsPose::Request> req,
   const std::shared_ptr<open_manipulator_msgs::srv::SetKinematicsPose::Response> res)
 {
   KinematicPose target_pose;
@@ -363,7 +363,7 @@ void OpenManipulatorProController::goal_task_space_path_from_present_callback(
 
 void OpenManipulatorProController::goal_task_space_path_from_present_position_only_callback(
   const std::shared_ptr<rmw_request_id_t> request_header,
-  const std::shared_ptr<open_manipulator_msgs::srv::SetKinematicsPose::Request>  req,
+  const std::shared_ptr<open_manipulator_msgs::srv::SetKinematicsPose::Request> req,
   const std::shared_ptr<open_manipulator_msgs::srv::SetKinematicsPose::Response> res)
 {
   Eigen::Vector3d position;
@@ -379,7 +379,7 @@ void OpenManipulatorProController::goal_task_space_path_from_present_position_on
 
 void OpenManipulatorProController::goal_task_space_path_from_present_orientation_only_callback(
   const std::shared_ptr<rmw_request_id_t> request_header,
-  const std::shared_ptr<open_manipulator_msgs::srv::SetKinematicsPose::Request>  req,
+  const std::shared_ptr<open_manipulator_msgs::srv::SetKinematicsPose::Request> req,
   const std::shared_ptr<open_manipulator_msgs::srv::SetKinematicsPose::Response> res)
 {
   Eigen::Quaterniond q(req->kinematics_pose.pose.orientation.w,
@@ -397,7 +397,7 @@ void OpenManipulatorProController::goal_task_space_path_from_present_orientation
 
 void OpenManipulatorProController::goal_tool_control_callback(
   const std::shared_ptr<rmw_request_id_t> request_header,
-  const std::shared_ptr<open_manipulator_msgs::srv::SetJointPosition::Request>  req,
+  const std::shared_ptr<open_manipulator_msgs::srv::SetJointPosition::Request> req,
   const std::shared_ptr<open_manipulator_msgs::srv::SetJointPosition::Response> res)
 {
   for(int i = 0; i < req->joint_position.joint_name.size(); i ++)
@@ -409,7 +409,7 @@ void OpenManipulatorProController::goal_tool_control_callback(
 
 void OpenManipulatorProController::set_actuator_state_callback(
   const std::shared_ptr<rmw_request_id_t> request_header,
-  const std::shared_ptr<open_manipulator_msgs::srv::SetActuatorState::Request>  req,
+  const std::shared_ptr<open_manipulator_msgs::srv::SetActuatorState::Request> req,
   const std::shared_ptr<open_manipulator_msgs::srv::SetActuatorState::Response> res)
 {
   if(req->set_actuator_state == true) // enable actuators
@@ -429,7 +429,7 @@ void OpenManipulatorProController::set_actuator_state_callback(
 
 void OpenManipulatorProController::goal_drawing_trajectory_callback(
   const std::shared_ptr<rmw_request_id_t> request_header,
-  const std::shared_ptr<open_manipulator_msgs::srv::SetDrawingTrajectory::Request>  req,
+  const std::shared_ptr<open_manipulator_msgs::srv::SetDrawingTrajectory::Request> req,
   const std::shared_ptr<open_manipulator_msgs::srv::SetDrawingTrajectory::Response> res)
 {
   try
@@ -533,10 +533,10 @@ void OpenManipulatorProController::publish_open_manipulator_pro_states()
 void OpenManipulatorProController::publish_kinematics_pose()
 {
   open_manipulator_msgs::msg::KinematicsPose msg;
-  auto om_tools_name = open_manipulator_pro_.getManipulator()->getAllToolComponentName();
+  auto tools_name = open_manipulator_pro_.getManipulator()->getAllToolComponentName();
 
   uint8_t index = 0;
-  for (auto const& tools:om_tools_name)
+  for (auto const& tools:tools_name)
   {
     KinematicPose pose = open_manipulator_pro_.getKinematicPose(tools);
     msg.pose.position.x = pose.position[0];
@@ -559,7 +559,7 @@ void OpenManipulatorProController::publish_joint_states()
   msg.header.stamp = rclcpp::Clock().now();
 
   auto joints_name = open_manipulator_pro_.getManipulator()->getAllActiveJointComponentName();
-  auto tool_name = open_manipulator_pro_.getManipulator()->getAllToolComponentName();
+  auto tools_name = open_manipulator_pro_.getManipulator()->getAllToolComponentName();
 
   auto joint_value = open_manipulator_pro_.getAllActiveJointValue();
   auto tool_value = open_manipulator_pro_.getAllToolValue();
@@ -573,13 +573,13 @@ void OpenManipulatorProController::publish_joint_states()
     msg.effort.push_back(joint_value.at(i).effort);
   }
 
-  for(uint8_t i = 0; i < tool_name.size(); i ++)
+  for(uint8_t i = 0; i < tools_name.size(); i ++)
   {
-    msg.name.push_back(tool_name.at(i));
+    msg.name.push_back(tools_name.at(i));
 
     msg.position.push_back(tool_value.at(i).position);
-    msg.velocity.push_back(0.0f);
-    msg.effort.push_back(0.0f);
+    msg.velocity.push_back(0.0);
+    msg.effort.push_back(0.0);
   }
   open_manipulator_pro_joint_states_pub_->publish(msg);
 }
@@ -625,7 +625,7 @@ int main(int argc, char **argv)
   else
     printf("port_name and baud_rate are set to %s, %s \n", usb_port.c_str(), baud_rate.c_str());
 
-  rclcpp::spin(std::make_unique<open_manipulator_pro_controller::OpenManipulatorProController>(usb_port, baud_rate));
+  rclcpp::spin(std::make_shared<open_manipulator_pro_controller::OpenManipulatorProController>(usb_port, baud_rate));
 
   rclcpp::shutdown();
 

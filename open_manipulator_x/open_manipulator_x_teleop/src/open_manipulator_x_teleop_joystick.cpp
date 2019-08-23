@@ -20,7 +20,6 @@
 
 namespace open_manipulator_x_teleop_joystick
 {
-
 OpenManipulatorXTeleopJoystick::OpenManipulatorXTeleopJoystick()
 : Node("open_manipulator_x_teleop_joystick")
 {
@@ -222,7 +221,6 @@ bool OpenManipulatorXTeleopJoystick::set_task_space_path_from_present_position_o
   request->kinematics_pose.pose.position.z = kinematics_pose.at(2);
   request->path_time = path_time;
 
-
   using ServiceResponseFuture = rclcpp::Client<open_manipulator_msgs::srv::SetKinematicsPose>::SharedFuture;
   auto response_received_callback = [this](ServiceResponseFuture future) {
       auto result = future.get();
@@ -232,7 +230,6 @@ bool OpenManipulatorXTeleopJoystick::set_task_space_path_from_present_position_o
 
   return false;
 }
-
 }  // namespace open_manipulator_x_teleop_joystick
 
 /*****************************************************************************
@@ -242,7 +239,7 @@ int main(int argc, char *argv[])
 {
   rclcpp::init(argc, argv);
 
-  rclcpp::spin(std::make_unique<open_manipulator_x_teleop_joystick::OpenManipulatorXTeleopJoystick>());
+  rclcpp::spin(std::make_shared<open_manipulator_x_teleop_joystick::OpenManipulatorXTeleopJoystick>());
 
   rclcpp::shutdown();
 

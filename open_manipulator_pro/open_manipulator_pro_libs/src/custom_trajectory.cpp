@@ -85,14 +85,12 @@ TaskWaypoint Line::getTaskWaypoint(double tick)
   return draw_line(tick);
 }
 
-
 void Line::makeTaskTrajectory(double move_time, TaskWaypoint start, const void *arg)
 {
   TaskWaypoint *c_arg = (TaskWaypoint *)arg;
   init_line(move_time, start, c_arg[0]);
 }
 void Line::setOption(const void *arg) {}
-
 
 /*****************************************************************************
 ** Circle
@@ -166,8 +164,7 @@ void Circle::makeTaskTrajectory(double move_time, TaskWaypoint start, const void
   init_circle(move_time, start, get_arg_[0], get_arg_[1], get_arg_[2]);
 }
 
-void Circle::setOption(const void *arg){}
-
+void Circle::setOption(const void *arg) {}
 
 /*****************************************************************************
 ** Rhombus
@@ -195,7 +192,6 @@ void Rhombus::init_rhombus(double move_time, TaskWaypoint start, double radius, 
   path_generator_.calcCoefficient(drawingStart, drawingGoal, move_time);
   coefficient_ = path_generator_.getCoefficient();
 }
-
 
 TaskWaypoint Rhombus::draw_rhombus(double tick)
 {
@@ -233,7 +229,6 @@ TaskWaypoint Rhombus::draw_rhombus(double tick)
     traj[0] = get_time_var / (PI/2) - 4;
     traj[1] = - get_time_var / (PI/2) + 4;
   }
-  
 
   diff_pose[0] = traj[0]*cos(start_angular_position_) - traj[1]*sin(start_angular_position_);
   diff_pose[1] = traj[0]*sin(start_angular_position_) + traj[1]*cos(start_angular_position_);
@@ -252,7 +247,6 @@ TaskWaypoint Rhombus::draw_rhombus(double tick)
   return pose;
 }
 
-
 void Rhombus::makeTaskTrajectory(double move_time, TaskWaypoint start, const void *arg)
 {
   double *get_arg_ = (double *)arg;
@@ -264,7 +258,6 @@ TaskWaypoint Rhombus::getTaskWaypoint(double tick)
   return draw_rhombus(tick);
 }
 void Rhombus::setOption(const void *arg){}
-
 
 /*****************************************************************************
 ** Heart
@@ -337,6 +330,7 @@ void Heart::makeTaskTrajectory(double move_time, TaskWaypoint start, const void 
   double *get_arg_ = (double *)arg;
   init_heart(move_time, start, get_arg_[0], get_arg_[1], get_arg_[2]);
 }
+
 void Heart::setOption(const void *arg){}
 
 TaskWaypoint Heart::getTaskWaypoint(double tick)

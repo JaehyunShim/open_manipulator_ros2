@@ -20,7 +20,6 @@
 
 namespace open_manipulator_x_teleop_keyboard
 {
-
 OpenManipulatorXTeleopKeyboard::OpenManipulatorXTeleopKeyboard()
 : Node("open_manipulator_x_teleop_keyboard")
 {
@@ -419,7 +418,6 @@ void OpenManipulatorXTeleopKeyboard::display_callback()
   char ch = std::getchar();
   this->set_goal(ch);
 }
-
 }  // namespace open_manipulator_x_teleop_keyboard
 
 /********************************************************************************
@@ -429,7 +427,7 @@ int main(int argc, char *argv[])
 {
   rclcpp::init(argc, argv);
 
-  rclcpp::spin(std::make_unique<open_manipulator_x_teleop_keyboard::OpenManipulatorXTeleopKeyboard>());
+  rclcpp::spin(std::make_shared<open_manipulator_x_teleop_keyboard::OpenManipulatorXTeleopKeyboard>());
 
   rclcpp::shutdown();
 

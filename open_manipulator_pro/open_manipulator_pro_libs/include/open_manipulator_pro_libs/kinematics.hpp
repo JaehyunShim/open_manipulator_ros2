@@ -37,11 +37,11 @@ namespace kinematics
 *****************************************************************************/
 class SolverUsingCRAndJacobian : public robotis_manipulator::Kinematics
 {
-private:
+ private:
   void forward_solver_using_chain_rule(Manipulator *manipulator, Name component_name);
   bool inverse_solver_using_jacobian(Manipulator *manipulator, Name tool_name, Pose target_pose, std::vector<JointValue>* goal_joint_value);
 
-public:
+ public:
   SolverUsingCRAndJacobian(){}
   virtual ~SolverUsingCRAndJacobian(){}
 
@@ -56,11 +56,11 @@ public:
 *****************************************************************************/
 class SolverUsingCRAndSRJacobian : public robotis_manipulator::Kinematics
 {
-private:
+ private:
   void forward_solver_using_chain_rule(Manipulator *manipulator, Name component_name);
   bool inverse_solver_using_sr_jacobian(Manipulator *manipulator, Name tool_name, Pose target_pose, std::vector<JointValue>* goal_joint_value);
 
-public:
+ public:
   SolverUsingCRAndSRJacobian(){}
   virtual ~SolverUsingCRAndSRJacobian(){}
 

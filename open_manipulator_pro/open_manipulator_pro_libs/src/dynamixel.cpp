@@ -118,7 +118,6 @@ std::vector<robotis_manipulator::ActuatorValue> JointDynamixel::receiveJointActu
   return JointDynamixel::receive_all_dynamixel_value(actuator_id);
 }
 
-
 /*****************************************************************************
 ** Functions called in Joint Dynamixel Control Functions
 *****************************************************************************/
@@ -361,7 +360,6 @@ std::vector<robotis_manipulator::ActuatorValue> JointDynamixel::receive_all_dyna
   return all_actuator;
 }
 
-
 /*****************************************************************************
 ** Joint Dynamixel Profile Control Functions
 *****************************************************************************/
@@ -458,7 +456,6 @@ std::vector<robotis_manipulator::ActuatorValue> JointDynamixelProfileControl::re
 {
   return JointDynamixelProfileControl::receive_all_dynamixel_value(actuator_id);
 }
-
 
 /*****************************************************************************
 ** Functions called in Joint Dynamixel Profile Control Functions
@@ -711,7 +708,6 @@ std::vector<robotis_manipulator::ActuatorValue> JointDynamixelProfileControl::re
   return all_actuator;
 }
 
-
 /*****************************************************************************
 ** Tool Dynamixel Control Functions
 *****************************************************************************/
@@ -795,7 +791,6 @@ robotis_manipulator::ActuatorValue GripperDynamixel::receiveToolActuatorValue()
   result.effort = 0.0;
   return result;
 }
-
 
 /*****************************************************************************
 ** Functions called in Tool Dynamixel Profile Control Functions

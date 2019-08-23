@@ -126,59 +126,59 @@ class OpenManipulatorXController : public rclcpp::Node
 
   void goal_joint_space_path_callback(
     const std::shared_ptr<rmw_request_id_t> request_header,
-    const std::shared_ptr<open_manipulator_msgs::srv::SetJointPosition::Request>  req,
+    const std::shared_ptr<open_manipulator_msgs::srv::SetJointPosition::Request> req,
     const std::shared_ptr<open_manipulator_msgs::srv::SetJointPosition::Response> res);
   void goal_joint_space_path_to_kinematics_pose_callback(
     const std::shared_ptr<rmw_request_id_t> request_header,
-    const std::shared_ptr<open_manipulator_msgs::srv::SetKinematicsPose::Request>  req,
+    const std::shared_ptr<open_manipulator_msgs::srv::SetKinematicsPose::Request> req,
     const std::shared_ptr<open_manipulator_msgs::srv::SetKinematicsPose::Response> res);
   void goal_joint_space_path_to_kinematics_position_callback(
     const std::shared_ptr<rmw_request_id_t> request_header,
-    const std::shared_ptr<open_manipulator_msgs::srv::SetKinematicsPose::Request>  req,
+    const std::shared_ptr<open_manipulator_msgs::srv::SetKinematicsPose::Request> req,
     const std::shared_ptr<open_manipulator_msgs::srv::SetKinematicsPose::Response> res);
   void goal_joint_space_path_to_kinematics_orientation_callback(
     const std::shared_ptr<rmw_request_id_t> request_header,
-    const std::shared_ptr<open_manipulator_msgs::srv::SetKinematicsPose::Request>  req,
+    const std::shared_ptr<open_manipulator_msgs::srv::SetKinematicsPose::Request> req,
     const std::shared_ptr<open_manipulator_msgs::srv::SetKinematicsPose::Response> res);
   void goal_task_space_path_callback(
     const std::shared_ptr<rmw_request_id_t> request_header,
-    const std::shared_ptr<open_manipulator_msgs::srv::SetKinematicsPose::Request>  req,
+    const std::shared_ptr<open_manipulator_msgs::srv::SetKinematicsPose::Request> req,
     const std::shared_ptr<open_manipulator_msgs::srv::SetKinematicsPose::Response> res);
   void goal_task_space_path_position_only_callback(
     const std::shared_ptr<rmw_request_id_t> request_header,
-    const std::shared_ptr<open_manipulator_msgs::srv::SetKinematicsPose::Request>  req,
+    const std::shared_ptr<open_manipulator_msgs::srv::SetKinematicsPose::Request> req,
     const std::shared_ptr<open_manipulator_msgs::srv::SetKinematicsPose::Response> res);
   void goal_task_space_path_orientation_only_callback(
     const std::shared_ptr<rmw_request_id_t> request_header,
-    const std::shared_ptr<open_manipulator_msgs::srv::SetKinematicsPose::Request>  req,
+    const std::shared_ptr<open_manipulator_msgs::srv::SetKinematicsPose::Request> req,
     const std::shared_ptr<open_manipulator_msgs::srv::SetKinematicsPose::Response> res);
   void goal_joint_space_path_from_present_callback(
     const std::shared_ptr<rmw_request_id_t> request_header,
-    const std::shared_ptr<open_manipulator_msgs::srv::SetJointPosition::Request>  req,
+    const std::shared_ptr<open_manipulator_msgs::srv::SetJointPosition::Request> req,
     const std::shared_ptr<open_manipulator_msgs::srv::SetJointPosition::Response> res);
   void goal_task_space_path_from_present_callback(
     const std::shared_ptr<rmw_request_id_t> request_header,
-    const std::shared_ptr<open_manipulator_msgs::srv::SetKinematicsPose::Request>  req,
+    const std::shared_ptr<open_manipulator_msgs::srv::SetKinematicsPose::Request> req,
     const std::shared_ptr<open_manipulator_msgs::srv::SetKinematicsPose::Response> res);
   void goal_task_space_path_from_present_position_only_callback(
     const std::shared_ptr<rmw_request_id_t> request_header,
-    const std::shared_ptr<open_manipulator_msgs::srv::SetKinematicsPose::Request>  req,
+    const std::shared_ptr<open_manipulator_msgs::srv::SetKinematicsPose::Request> req,
     const std::shared_ptr<open_manipulator_msgs::srv::SetKinematicsPose::Response> res);
   void goal_task_space_path_from_present_orientation_only_callback(
     const std::shared_ptr<rmw_request_id_t> request_header,
-    const std::shared_ptr<open_manipulator_msgs::srv::SetKinematicsPose::Request>  req,
+    const std::shared_ptr<open_manipulator_msgs::srv::SetKinematicsPose::Request> req,
     const std::shared_ptr<open_manipulator_msgs::srv::SetKinematicsPose::Response> res);
   void goal_tool_control_callback(
     const std::shared_ptr<rmw_request_id_t> request_header,
-    const std::shared_ptr<open_manipulator_msgs::srv::SetJointPosition::Request>  req,
+    const std::shared_ptr<open_manipulator_msgs::srv::SetJointPosition::Request> req,
     const std::shared_ptr<open_manipulator_msgs::srv::SetJointPosition::Response> res);
   void set_actuator_state_callback(
     const std::shared_ptr<rmw_request_id_t> request_header,
-    const std::shared_ptr<open_manipulator_msgs::srv::SetActuatorState::Request>  req,
+    const std::shared_ptr<open_manipulator_msgs::srv::SetActuatorState::Request> req,
     const std::shared_ptr<open_manipulator_msgs::srv::SetActuatorState::Response> res);
   void goal_drawing_trajectory_callback(
     const std::shared_ptr<rmw_request_id_t> request_header,
-    const std::shared_ptr<open_manipulator_msgs::srv::SetDrawingTrajectory::Request>  req,
+    const std::shared_ptr<open_manipulator_msgs::srv::SetDrawingTrajectory::Request> req,
     const std::shared_ptr<open_manipulator_msgs::srv::SetDrawingTrajectory::Response> res);
 };
 }  // namespace open_manipulator_x_controller

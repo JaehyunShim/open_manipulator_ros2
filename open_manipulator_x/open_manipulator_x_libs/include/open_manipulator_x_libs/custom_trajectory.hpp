@@ -89,7 +89,6 @@ class Circle : public robotis_manipulator::CustomTaskTrajectory
   double revolution_;
 };
 
-
 /*****************************************************************************
 ** Rhombus
 *****************************************************************************/
@@ -117,7 +116,6 @@ class Rhombus : public robotis_manipulator::CustomTaskTrajectory
   double start_angular_position_;
   double revolution_;
 };
-
 
 /*****************************************************************************
 ** Heart

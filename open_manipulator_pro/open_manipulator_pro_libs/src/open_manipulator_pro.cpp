@@ -18,8 +18,8 @@
 
 #include "../include/open_manipulator_pro_libs/open_manipulator_pro.hpp"
 
-OpenManipulatorPro::OpenManipulatorPro()
-{}
+OpenManipulatorPro::OpenManipulatorPro() {}
+
 OpenManipulatorPro::~OpenManipulatorPro()
 {
   delete kinematics_;
@@ -196,7 +196,6 @@ void OpenManipulatorPro::init_open_manipulator_pro(bool using_actual_robot_state
     void *p_joint_dxl_mode_arg = &joint_dxl_mode_arg;
     setJointActuatorMode(JOINT_DYNAMIXEL, jointDxlId, p_joint_dxl_mode_arg);
 
-
     /*****************************************************************************
     ** Initialize Tool Actuator
     *****************************************************************************/
@@ -249,7 +248,6 @@ void OpenManipulatorPro::init_open_manipulator_pro(bool using_actual_robot_state
 
 void OpenManipulatorPro::process_open_manipulator_pro(double present_time, bool using_actual_robot_state, bool with_gripper)
 {
- 
   JointWaypoint goal_joint_value = getJointGoalValueFromTrajectory(present_time);
   JointWaypoint goal_tool_value;
   

@@ -81,7 +81,6 @@ bool SolverUsingCRAndJacobian::solveInverseKinematics(Manipulator *manipulator, 
   return inverse_solver_using_jacobian(manipulator, tool_name, target_pose, goal_joint_value);
 }
 
-
 //private
 void SolverUsingCRAndJacobian::forward_solver_using_chain_rule(Manipulator *manipulator, Name component_name)
 {
@@ -175,7 +174,6 @@ bool SolverUsingCRAndJacobian::inverse_solver_using_jacobian(Manipulator *manipu
   return false;
 }
 
-
 /*****************************************************************************
 ** Kinematics Solver Using Chain Rule and Singularity Robust Jacobian
 *****************************************************************************/
@@ -235,7 +233,6 @@ bool SolverUsingCRAndSRJacobian::solveInverseKinematics(Manipulator *manipulator
 {
   return inverse_solver_using_sr_jacobian(manipulator, tool_name, target_pose, goal_joint_value);
 }
-
 
 //private
 void SolverUsingCRAndSRJacobian::forward_solver_using_chain_rule(Manipulator *manipulator, Name component_name)
@@ -443,7 +440,6 @@ bool SolverUsingCRAndSRJacobian::inverse_solver_using_sr_jacobian(Manipulator *m
   return false;
 }
 
-
 /*****************************************************************************
 ** Kinematics Solver Using Chain Rule and Singularity Robust Position Only Jacobian
 *****************************************************************************/
@@ -503,7 +499,6 @@ bool SolverUsingCRAndSRPositionOnlyJacobian::solveInverseKinematics(Manipulator 
 {
   return inverse_solver_using_position_only_sr_jacobian(manipulator, tool_name, target_pose, goal_joint_value);
 }
-
 
 //private
 void SolverUsingCRAndSRPositionOnlyJacobian::forward_solver_using_chain_rule(Manipulator *manipulator, Name component_name)
@@ -711,7 +706,6 @@ bool SolverUsingCRAndSRPositionOnlyJacobian::inverse_solver_using_position_only_
   return false;
 }
 
-
 /*****************************************************************************
 ** Kinematics Solver Customized for OpenManipulator Chain
 *****************************************************************************/
@@ -771,7 +765,6 @@ bool SolverCustomizedforOMChain::solveInverseKinematics(Manipulator *manipulator
 {
   return chain_custom_inverse_kinematics(manipulator, tool_name, target_pose, goal_joint_value);
 }
-
 
 //private
 void SolverCustomizedforOMChain::forward_solver_using_chain_rule(Manipulator *manipulator, Name component_name)

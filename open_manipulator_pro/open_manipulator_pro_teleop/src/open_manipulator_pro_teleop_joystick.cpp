@@ -20,7 +20,6 @@
 
 namespace open_manipulator_pro_teleop_joystick
 {
-
 OpenManipulatorProTeleopJoystick::OpenManipulatorProTeleopJoystick()
 : Node("open_manipulator_pro_teleop_joystick")
 {
@@ -261,7 +260,7 @@ int main(int argc, char *argv[])
 {
   rclcpp::init(argc, argv);
 
-  rclcpp::spin(std::make_unique<open_manipulator_pro_teleop_joystick::OpenManipulatorProTeleopJoystick>());
+  rclcpp::spin(std::make_shared<open_manipulator_pro_teleop_joystick::OpenManipulatorProTeleopJoystick>());
 
   rclcpp::shutdown();
 

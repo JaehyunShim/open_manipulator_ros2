@@ -61,7 +61,6 @@ class Line : public robotis_manipulator::CustomTaskTrajectory
   std::vector<double> vel_max_;
 };
 
-
 /*****************************************************************************
 ** Circle
 *****************************************************************************/
@@ -90,7 +89,6 @@ class Circle : public robotis_manipulator::CustomTaskTrajectory
   double revolution_;
 };
 
-
 /*****************************************************************************
 ** Rhombus
 *****************************************************************************/
@@ -118,7 +116,6 @@ class Rhombus : public robotis_manipulator::CustomTaskTrajectory
   double start_angular_position_;
   double revolution_;
 };
-
 
 /*****************************************************************************
 ** Heart

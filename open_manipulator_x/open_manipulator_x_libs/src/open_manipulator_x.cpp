@@ -18,8 +18,8 @@
 
 #include "../include/open_manipulator_x_libs/open_manipulator_x.hpp"
 
-OpenManipulatorX::OpenManipulatorX()
-{}
+OpenManipulatorX::OpenManipulatorX() {}
+
 OpenManipulatorX::~OpenManipulatorX()
 {
   delete kinematics_;
@@ -151,7 +151,6 @@ void OpenManipulatorX::init_open_manipulator_x(bool using_actual_robot_state, ST
     STRING joint_dxl_mode_arg = "position_mode";
     void *p_joint_dxl_mode_arg = &joint_dxl_mode_arg;
     setJointActuatorMode(JOINT_DYNAMIXEL, jointDxlId, p_joint_dxl_mode_arg);
-
 
     /*****************************************************************************
     ** Initialize Tool Actuator

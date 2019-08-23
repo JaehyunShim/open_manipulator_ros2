@@ -20,7 +20,6 @@
 
 namespace open_manipulator_pro_teleop_keyboard
 {
-
 OpenManipulatorProTeleopKeyboard::OpenManipulatorProTeleopKeyboard()
 : Node("open_manipulator_pro_teleop_keyboard")
 {
@@ -431,6 +430,7 @@ std::vector<double> OpenManipulatorProTeleopKeyboard::get_present_joint_angle()
 {
   return present_joint_angle_;
 }
+
 std::vector<double> OpenManipulatorProTeleopKeyboard::get_present_kinematics_pose()
 {
   return present_kinematic_position_;
@@ -461,7 +461,6 @@ void OpenManipulatorProTeleopKeyboard::display_callback()
   char ch = std::getchar();
   this->set_goal(ch);
 }
-
 }  // namespace open_manipulator_pro_teleop_keyboard
 
 /********************************************************************************
@@ -471,7 +470,7 @@ int main(int argc, char *argv[])
 {
   rclcpp::init(argc, argv);
 
-  rclcpp::spin(std::make_unique<open_manipulator_pro_teleop_keyboard::OpenManipulatorProTeleopKeyboard>());
+  rclcpp::spin(std::make_shared<open_manipulator_pro_teleop_keyboard::OpenManipulatorProTeleopKeyboard>());
 
   rclcpp::shutdown();
 
