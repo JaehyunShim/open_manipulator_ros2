@@ -45,7 +45,7 @@ class OpenManipulatorProTeleopJoystick : public rclcpp::Node
   *****************************************************************************/
   std::vector<double> present_joint_angle_;
   std::vector<double> present_kinematic_position_;
-  bool with_gripper_;
+  bool use_gripper_;
 
   /*****************************************************************************
   ** ROS Subscribers, Callback Functions and Relevant Functions

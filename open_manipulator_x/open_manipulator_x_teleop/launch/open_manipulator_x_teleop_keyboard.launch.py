@@ -23,13 +23,10 @@ from launch.substitutions import LaunchConfiguration
 from launch_ros.actions import Node
 
 def generate_launch_description():
-    end_effector_name = LaunchConfiguration('end_effector', default='gripper')
-    
     return LaunchDescription([
         Node(
             package='open_manipulator_x_teleop',
             node_executable='open_manipulator_x_teleop_keyboard',
-            node_name='open_manipulator_x_teleop_keyboard',
-            arguments=['-d', end_effector_name],
+            # node_name='teleop_keyboard',
             output='screen')
     ])

@@ -22,13 +22,17 @@ namespace open_manipulator_pro_teleop_keyboard
 {
 
 OpenManipulatorProTeleopKeyboard::OpenManipulatorProTeleopKeyboard()
-: Node("open_manipulator_pro_teleop_keyboard"),
-  with_gripper_(false)
+: Node("open_manipulator_pro_teleop_keyboard")
 {
   /************************************************************
-  ** Get Parameters
+  ** Initialise ROS Parameters
   ************************************************************/
-  this->get_parameter_or("with_gripper", with_gripper_, true);
+  this->declare_parameter(
+    "use_gripper",
+    rclcpp::ParameterValue(false),
+    rcl_interfaces::msg::ParameterDescriptor());
+
+  this->get_parameter("use_gripper", use_gripper_);
 
   /********************************************************************************
   ** Initialise joint angle and kinematic position size 
@@ -245,7 +249,7 @@ void OpenManipulatorProTeleopKeyboard::set_goal(char ch)
   }
   else if(ch == 'v' || ch == 'V')
   {
-    if (with_gripper_)
+    if (use_gripper_)
     {
       printf("input : v \topen gripper\n");
       std::vector<double> joint_angle;
@@ -255,7 +259,7 @@ void OpenManipulatorProTeleopKeyboard::set_goal(char ch)
   }
   else if(ch == 'b' || ch == 'B')
   {
-    if (with_gripper_)
+    if (use_gripper_)
     {
       printf("input : b \tclose gripper\n");
       std::vector<double> joint_angle;
@@ -400,7 +404,7 @@ void OpenManipulatorProTeleopKeyboard::print_text()
   printf("o : increase joint 6 angle\n");
   printf("l : decrease joint 6 angle\n");
   printf("       \n");
-  if (with_gripper_)
+  if (use_gripper_)
   {
     printf("\n");
     printf("v : gripper open\n");

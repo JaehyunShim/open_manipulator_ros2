@@ -22,13 +22,17 @@ namespace open_manipulator_pro_teleop_joystick
 {
 
 OpenManipulatorProTeleopJoystick::OpenManipulatorProTeleopJoystick()
-: Node("open_manipulator_pro_teleop_joystick"),
-  with_gripper_(false)
+: Node("open_manipulator_pro_teleop_joystick")
 {
   /************************************************************
-  ** Get Parameters
+  ** Initialise ROS Parameters
   ************************************************************/
-  this->get_parameter_or("with_gripper", with_gripper_, true);
+  this->declare_parameter(
+    "use_gripper",
+    rclcpp::ParameterValue(false),
+    rcl_interfaces::msg::ParameterDescriptor());
+
+  this->get_parameter("use_gripper", use_gripper_);
 
   /*****************************************************************************
   ** Initialise joint angle and kinematic position size 
@@ -97,7 +101,7 @@ void OpenManipulatorProTeleopJoystick::joy_callback(const sensor_msgs::msg::Joy:
   else if(msg->buttons.at(5) == 1) set_goal("home");
   else if(msg->buttons.at(4) == 1) set_goal("init");
 
-  if (with_gripper_)
+  if (use_gripper_)
   {
     if(msg->buttons.at(2) == 1) set_goal("gripper close");
     else if(msg->buttons.at(1) == 1) set_goal("gripper open");
