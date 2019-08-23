@@ -42,7 +42,6 @@
 
 namespace open_manipulator_x_controller_moveit
 {
-
 class OpenManipulatorXControllerMoveit : public rclcpp::Node
 {
  public:

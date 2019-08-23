@@ -44,10 +44,8 @@
 #include "open_manipulator_msgs/srv/get_kinematics_pose.hpp"
 #include "open_manipulator_msgs/msg/open_manipulator_state.hpp"
 
-
 namespace open_manipulator_x_controller
 {
-
 class OpenManipulatorXController : public rclcpp::Node
 {
  public:
@@ -78,11 +76,12 @@ class OpenManipulatorXController : public rclcpp::Node
   OpenManipulatorX open_manipulator_x_;
 
   // Only if You Have MoveIt! Dependencies
-  // OpenManipulatorXControllerMoveit open_manipulator_x_controller_moveit;
+  // OpenManipulatorXControllerMoveit open_manipulator_x_controller_moveit_;
 
   /*****************************************************************************
   ** Init Functions
   *****************************************************************************/
+  void init_parameters();
   void init_publisher();
   void init_subscriber();
   void init_server();

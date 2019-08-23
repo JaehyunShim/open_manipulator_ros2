@@ -21,19 +21,17 @@
 using namespace open_manipulator_x_controller;
 
 OpenManipulatorXController::OpenManipulatorXController(std::string usb_port, std::string baud_rate)
-: Node("open_manipulator_x_controller"),
-  control_period_(0.010),
-  use_platform_(false),
-  use_moveit_(false)
+: Node("open_manipulator_x_controller")
 {
   /************************************************************
-  ** Get Parameters
+  ** Initialise ROS Parameters
   ************************************************************/
-  this->get_parameter_or("control_period", control_period_, 0.010);
-  this->get_parameter_or("use_platform", use_platform_, true);
-  this->get_parameter_or("use_moveit", use_moveit_, false);
+  init_parameters();
 
-  open_manipulator_x_.init_open_manipulator_x(use_platform_, usb_port, baud_rate, 0.010);
+  // Only if You Have MoveIt! Dependencies
+  // open_manipulator_x_controller_moveit_.init_parameters();
+
+  open_manipulator_x_.init_open_manipulator_x(use_platform_, usb_port, baud_rate, control_period_);
 
   if (use_platform_ == true) 
     RCLCPP_INFO(this->get_logger(), "Succeeded to Initialise OpenManipulator-X Controller");
@@ -48,9 +46,9 @@ OpenManipulatorXController::OpenManipulatorXController(std::string usb_port, std
   init_server();
 
   // Only if You Have MoveIt! Dependencies
-  // open_manipulator_x_controller_moveit.init_publisher();
-  // open_manipulator_x_controller_moveit.init_subscriber();
-  // open_manipulator_x_controller_moveit.init_server();
+  // open_manipulator_x_controller_moveit_.init_publisher();
+  // open_manipulator_x_controller_moveit_.init_subscriber();
+  // open_manipulator_x_controller_moveit_.init_server();
 
   /************************************************************
   ** Start Process and Publish Threads
@@ -72,6 +70,28 @@ OpenManipulatorXController::~OpenManipulatorXController()
 /********************************************************************************
 ** Init Functions
 ********************************************************************************/
+void OpenManipulatorXController::init_parameters()
+{
+  // Declare parameters that may be set on this node
+  this->declare_parameter(
+    "use_platform",
+    rclcpp::ParameterValue(false),
+    rcl_interfaces::msg::ParameterDescriptor());
+  this->declare_parameter(
+    "control_period",
+    rclcpp::ParameterValue(0.010),
+    rcl_interfaces::msg::ParameterDescriptor());
+  this->declare_parameter(
+    "use_moveit",
+    rclcpp::ParameterValue(false),
+    rcl_interfaces::msg::ParameterDescriptor());
+
+  // Get parameter from yaml
+  this->get_parameter("use_platform", use_platform_);
+  this->get_parameter("control_period", control_period_);
+  this->get_parameter("use_moveit", use_moveit_);
+}
+
 void OpenManipulatorXController::init_publisher()
 {
   auto om_tools_name = open_manipulator_x_.getManipulator()->getAllToolComponentName();
@@ -474,7 +494,7 @@ void OpenManipulatorXController::process(double time)
   open_manipulator_x_.process_open_manipulator_x(time);
 
   // Only if You Have MoveIt! Dependencies
-  // open_manipulator_x_controller_moveit.moveitTimer(time);
+  // open_manipulator_x_controller_moveit_.moveitTimer(time);
 }
 
 /********************************************************************************

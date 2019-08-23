@@ -20,37 +20,34 @@ import os
 
 from ament_index_python.packages import get_package_share_directory
 from launch import LaunchDescription
-from launch.substitutions import LaunchConfiguration
 from launch.actions import DeclareLaunchArgument
-from launch.actions import IncludeLaunchDescription
+from launch.actions import LogInfo
+from launch.substitutions import LaunchConfiguration
 from launch_ros.actions import Node
 
 def generate_launch_description():
-    use_robot_name         = LaunchConfiguration('use_robot_name',         default='open_manipulator_x')
-    dynamixel_usb_port     = LaunchConfiguration('dynamixel_usb_port',     default='/dev/ttyUSB0')
-    dynamixel_baud_rate    = LaunchConfiguration('dynamixel_baud_rate',    default='1000000')
-    control_period         = LaunchConfiguration('control_period',         default='0.010')
-    use_platform           = LaunchConfiguration('use_platform',           default='True')
-    use_moveit             = LaunchConfiguration('use_moveit',             default='False')
-    planning_group_name    = LaunchConfiguration('planning_group_name',    default='arm')
-    moveit_sample_duration = LaunchConfiguration('moveit_sample_duration', default='0.050') 
+    usb_port = LaunchConfiguration('usb_port', default='/dev/ttyUSB0')
+    baud_rate = LaunchConfiguration('baud_rate', default=1000000)
+    param_dir = LaunchConfiguration(
+        'param_dir',
+        default=os.path.join(
+            get_package_share_directory('open_manipulator_x_controller'),
+            'param',
+            'open_manipulator_x_controller_params.yaml'))
 
-    # param_file_name = 'open_manipulator_x_controller_params.yaml'
-    # param_path = os.path.join(
-    #     get_package_share_directory('open_manipulator_x_controller'), 
-    #     'param', param_file_name
-    # )
-
-    param_path = '/home/robotis/colcon_ws/src/ROS2_study/open_manipulator_x/open_manipulator_x_controller/param/open_manipulator_x_controller_params.yaml'
-
-#    print(param_path)
-        
     return LaunchDescription([
+        LogInfo(msg=['Execute OpenManipulator-X Controller!!']),
+
+        DeclareLaunchArgument(
+            'param_dir',
+            default_value=param_dir,
+            description='Specifying parameter direction'),
+
         Node(
             package='open_manipulator_x_controller',
             node_executable='open_manipulator_x_controller',
-            node_name='open_manipulator_x_controller',
-            # arguments=['-d', usb_port, baud_rate],
-            parameters=[{'use_platform': use_platform}],
-            output='screen')
+            # node_name='om_x_controller',
+            parameters=[param_dir],
+            arguments=['-d', usb_port, baud_rate],
+            output='screen'),
     ])
