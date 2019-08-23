@@ -19,7 +19,6 @@
 #include "open_manipulator_pro_controller/open_manipulator_pro_controller.hpp"
 
 using namespace open_manipulator_pro_controller;
-using namespace std::placeholders;
 
 OpenManipulatorProController::OpenManipulatorProController(std::string usb_port, std::string baud_rate)
 : Node("open_manipulator_pro_controller"),
@@ -108,43 +107,53 @@ void OpenManipulatorProController::init_publisher()
 void OpenManipulatorProController::init_subscriber()
 {
   open_manipulator_pro_option_sub_ = this->create_subscription<std_msgs::msg::String>(
-    "open_manipulator_pro/option", 10, std::bind(&OpenManipulatorProController::open_manipulator_pro_option_callback, this, _1));
+    "open_manipulator_pro/option", 10, std::bind(&OpenManipulatorProController::open_manipulator_pro_option_callback, this, std::placeholders::_1));
 }
 
 void OpenManipulatorProController::init_server()
 {
   goal_joint_space_path_server_ = this->create_service<open_manipulator_msgs::srv::SetJointPosition>(
-    "open_manipulator_pro/goal_joint_space_path", std::bind(&OpenManipulatorProController::goal_joint_space_path_callback, this, _1, _2, _3));
+    "open_manipulator_pro/goal_joint_space_path", std::bind(&OpenManipulatorProController::goal_joint_space_path_callback, this, 
+    std::placeholders::_1, std::placeholders::_2, std::placeholders::_3));
   goal_joint_space_path_to_kinematics_pose_server_ = this->create_service<open_manipulator_msgs::srv::SetKinematicsPose>(
-    "open_manipulator_pro/goal_joint_space_path_to_kinematics_pose", std::bind(&OpenManipulatorProController::goal_joint_space_path_to_kinematics_pose_callback, this, _1, _2, _3));
+    "open_manipulator_pro/goal_joint_space_path_to_kinematics_pose", std::bind(&OpenManipulatorProController::goal_joint_space_path_to_kinematics_pose_callback, this, 
+    std::placeholders::_1, std::placeholders::_2, std::placeholders::_3));
   goal_joint_space_path_to_kinematics_position_server_ = this->create_service<open_manipulator_msgs::srv::SetKinematicsPose>(
-    "open_manipulator_pro/goal_joint_space_path_to_kinematics_position", std::bind(&OpenManipulatorProController::goal_joint_space_path_to_kinematics_position_callback, this, _1, _2, _3));
+    "open_manipulator_pro/goal_joint_space_path_to_kinematics_position", std::bind(&OpenManipulatorProController::goal_joint_space_path_to_kinematics_position_callback, this, 
+    std::placeholders::_1, std::placeholders::_2, std::placeholders::_3));
   goal_joint_space_path_to_kinematics_orientation_server_ = this->create_service<open_manipulator_msgs::srv::SetKinematicsPose>(
-    "open_manipulator_pro/goal_joint_space_path_to_kinematics_orientation", std::bind(&OpenManipulatorProController::goal_joint_space_path_to_kinematics_orientation_callback, this, _1, _2, _3));
-
+    "open_manipulator_pro/goal_joint_space_path_to_kinematics_orientation", std::bind(&OpenManipulatorProController::goal_joint_space_path_to_kinematics_orientation_callback, this, 
+    std::placeholders::_1, std::placeholders::_2, std::placeholders::_3));
   goal_task_space_path_server_ = this->create_service<open_manipulator_msgs::srv::SetKinematicsPose>(
-    "open_manipulator_pro/goal_task_space_path", std::bind(&OpenManipulatorProController::goal_task_space_path_callback, this, _1, _2, _3));
+    "open_manipulator_pro/goal_task_space_path", std::bind(&OpenManipulatorProController::goal_task_space_path_callback, this, 
+    std::placeholders::_1, std::placeholders::_2, std::placeholders::_3));
   goal_task_space_path_position_only_server_ = this->create_service<open_manipulator_msgs::srv::SetKinematicsPose>(
-    "open_manipulator_pro/goal_task_space_path_position_only", std::bind(&OpenManipulatorProController::goal_task_space_path_position_only_callback, this, _1, _2, _3));
+    "open_manipulator_pro/goal_task_space_path_position_only", std::bind(&OpenManipulatorProController::goal_task_space_path_position_only_callback, this, 
+    std::placeholders::_1, std::placeholders::_2, std::placeholders::_3));
   goal_task_space_path_orientation_only_server_ = this->create_service<open_manipulator_msgs::srv::SetKinematicsPose>(
-    "open_manipulator_pro/goal_task_space_path_orientation_only", std::bind(&OpenManipulatorProController::goal_task_space_path_orientation_only_callback, this, _1, _2, _3));
-
+    "open_manipulator_pro/goal_task_space_path_orientation_only", std::bind(&OpenManipulatorProController::goal_task_space_path_orientation_only_callback, this, 
+    std::placeholders::_1, std::placeholders::_2, std::placeholders::_3));
   goal_joint_space_path_from_present_server_ = this->create_service<open_manipulator_msgs::srv::SetJointPosition>(
-    "open_manipulator_pro/goal_joint_space_path_from_present", std::bind(&OpenManipulatorProController::goal_joint_space_path_from_present_callback, this, _1, _2, _3));
-
+    "open_manipulator_pro/goal_joint_space_path_from_present", std::bind(&OpenManipulatorProController::goal_joint_space_path_from_present_callback, this, 
+    std::placeholders::_1, std::placeholders::_2, std::placeholders::_3));
   goal_task_space_path_from_present_server_ = this->create_service<open_manipulator_msgs::srv::SetKinematicsPose>(
-    "open_manipulator_pro/goal_task_space_path_from_present", std::bind(&OpenManipulatorProController::goal_task_space_path_from_present_callback, this, _1, _2, _3));
+    "open_manipulator_pro/goal_task_space_path_from_present", std::bind(&OpenManipulatorProController::goal_task_space_path_from_present_callback, this, 
+    std::placeholders::_1, std::placeholders::_2, std::placeholders::_3));
   goal_task_space_path_from_present_position_only_server_ = this->create_service<open_manipulator_msgs::srv::SetKinematicsPose>(
-    "open_manipulator_pro/goal_task_space_path_from_present_position_only", std::bind(&OpenManipulatorProController::goal_task_space_path_from_present_position_only_callback, this, _1, _2, _3));
+    "open_manipulator_pro/goal_task_space_path_from_present_position_only", std::bind(&OpenManipulatorProController::goal_task_space_path_from_present_position_only_callback, this, 
+    std::placeholders::_1, std::placeholders::_2, std::placeholders::_3));
   goal_task_space_path_from_present_orientation_only_server_ = this->create_service<open_manipulator_msgs::srv::SetKinematicsPose>(
-    "open_manipulator_pro/goal_task_space_path_from_present_orientation_only", std::bind(&OpenManipulatorProController::goal_task_space_path_from_present_orientation_only_callback, this, _1, _2, _3));
-
+    "open_manipulator_pro/goal_task_space_path_from_present_orientation_only", std::bind(&OpenManipulatorProController::goal_task_space_path_from_present_orientation_only_callback, this, 
+    std::placeholders::_1, std::placeholders::_2, std::placeholders::_3));
   goal_tool_control_server_ = this->create_service<open_manipulator_msgs::srv::SetJointPosition>(
-    "open_manipulator_pro/goal_tool_control", std::bind(&OpenManipulatorProController::goal_tool_control_callback, this, _1, _2, _3));
+    "open_manipulator_pro/goal_tool_control", std::bind(&OpenManipulatorProController::goal_tool_control_callback, this, 
+    std::placeholders::_1, std::placeholders::_2, std::placeholders::_3));
   set_actuator_state_server_ = this->create_service<open_manipulator_msgs::srv::SetActuatorState>(
-    "open_manipulator_pro/set_actuator_state", std::bind(&OpenManipulatorProController::set_actuator_state_callback, this, _1, _2, _3));
+    "open_manipulator_pro/set_actuator_state", std::bind(&OpenManipulatorProController::set_actuator_state_callback, this, 
+    std::placeholders::_1, std::placeholders::_2, std::placeholders::_3));
   goal_drawing_trajectory_server_ = this->create_service<open_manipulator_msgs::srv::SetDrawingTrajectory>(
-    "open_manipulator_pro/goal_drawing_trajectory", std::bind(&OpenManipulatorProController::goal_drawing_trajectory_callback, this, _1, _2, _3));
+    "open_manipulator_pro/goal_drawing_trajectory", std::bind(&OpenManipulatorProController::goal_drawing_trajectory_callback, this, 
+    std::placeholders::_1, std::placeholders::_2, std::placeholders::_3));
 }
 
 /*****************************************************************************

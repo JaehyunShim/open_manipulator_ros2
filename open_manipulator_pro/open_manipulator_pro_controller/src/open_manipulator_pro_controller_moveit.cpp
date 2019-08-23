@@ -19,7 +19,6 @@
 #include "open_manipulator_pro_controller/open_manipulator_pro_controller.hpp"
 
 using namespace open_manipulator_pro_controller;
-using namespace std::placeholders;
 
 OpenManipulatorProControllerMoveit::OpenManipulatorProControllerMoveit(std::string usb_port, std::string baud_rate)
 : moveit_plan_only_(true),
