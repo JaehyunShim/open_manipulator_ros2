@@ -1,4 +1,4 @@
-### ROS2_STUDY
+### OpenMANIPULATOR_ROS2
 
 - Development History of ROS2 Programs for OpenManipulator X and PRO.
 
