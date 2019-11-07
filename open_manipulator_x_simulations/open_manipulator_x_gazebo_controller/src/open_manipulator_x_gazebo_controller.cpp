@@ -18,14 +18,11 @@
 
 #include "../include/open_manipulator_x_gazebo_controller/open_manipulator_x_gazebo_controller.h"
 
-
 #define NUM_OF_JOINT 4
 #define NUM_OF_TOOL 1
 
-
 using namespace open_manipulator_x_gazebo_controller;
 using namespace std::placeholders;
-
 
 
 OpenManipulatorXGazeboController::OpenManipulatorXGazeboController()
