@@ -21,6 +21,7 @@
 using namespace open_manipulator_x_controller;
 using namespace std::placeholders;
 
+
 OpenManipulatorXControllerMoveit::OpenManipulatorXControllerMoveit(std::string usb_port, std::string baud_rate)
 : moveit_plan_state_(false),
   moveit_plan_only_(true),

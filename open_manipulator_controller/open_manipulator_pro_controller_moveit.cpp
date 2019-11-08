@@ -20,6 +20,7 @@
 
 using namespace open_manipulator_pro_controller;
 
+
 OpenManipulatorProControllerMoveit::OpenManipulatorProControllerMoveit(std::string usb_port, std::string baud_rate)
 : moveit_plan_only_(true),
   moveit_plan_state_(false),

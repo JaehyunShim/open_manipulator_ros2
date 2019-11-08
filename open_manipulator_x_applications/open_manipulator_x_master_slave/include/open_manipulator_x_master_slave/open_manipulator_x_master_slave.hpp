@@ -28,17 +28,18 @@
 #include "open_manipulator_x_libs/open_manipulator_x.hpp"
 
 #define NUM_OF_JOINT 4
+
 #define MASTER_SLAVE_MODE 0
 #define START_RECORDING_TRAJECTORY_MODE 1
 #define STOP_RECORDING_TRAJECTORY_MODE 2
 #define PLAY_RECORDED_TRAJECTORY_MODE 3
+
 
 typedef struct _WaypointBuffer
 {
   std::vector<double> joint_angle;
   double tool_position;
 } WaypointBuffer;
-
 
 class OpenManipulatorXMasterSlave : public rclcpp::Node
 {

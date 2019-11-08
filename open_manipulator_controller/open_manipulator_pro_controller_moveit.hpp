@@ -19,26 +19,27 @@
 #ifndef OPEN_MANIPULATOR_PRO_CONTROLLER_MOVEIT_HPP
 #define OPEN_MANIPULATOR_PRO_CONTROLLER_MOVEIT_HPP
 
-#include <rclcpp/rclcpp.hpp>
 #include <unistd.h>
 #include <chrono>
 #include <cstdio>
 #include <memory>
+
+#include "geometry_msgs/msg/pose_stamped.hpp"
 #include "moveit/move_group_interface/move_group_interface.h"
 #include "moveit/robot_state/robot_state.h"
 #include "moveit/planning_interface/planning_interface.h"
 #include "moveit/robot_model_loader/robot_model_loader.h"
 #include "moveit/robot_model/robot_model.h"
 #include "moveit/robot_state/robot_state.h"
-
-#include "std_msgs/msg/float64.hpp"
-#include "std_msgs/msg/string.hpp"
-#include "std_msgs/msg/empty.hpp"
-#include "sensor_msgs/msg/joint_state.hpp"
-#include "geometry_msgs/msg/pose_stamped.hpp"
 #include "moveit_msgs/DisplayTrajectory.h"
 #include "moveit_msgs/ExecuteTrajectoryActionGoal.h"
 #include "moveit_msgs/MoveGroupActionGoal.h"
+#include <rclcpp/rclcpp.hpp>
+#include "sensor_msgs/msg/joint_state.hpp"
+#include "std_msgs/msg/float64.hpp"
+#include "std_msgs/msg/string.hpp"
+#include "std_msgs/msg/empty.hpp"
+
 
 namespace open_manipulator_pro_controller_moveit
 {

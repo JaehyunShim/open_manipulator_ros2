@@ -52,7 +52,6 @@ OpenManipulatorXMasterSlave::OpenManipulatorXMasterSlave(std::string usb_port, s
   /************************************************************
   ** Initialise ROS timers
   ************************************************************/
-  sync_open_manipulator_x(false);
   update_timer_ = this->create_wall_timer(
     10ms, std::bind(&OpenManipulatorXMasterSlave::update_callback, this));  
 
