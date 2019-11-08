@@ -17,7 +17,7 @@ endif()
 ################################################################################
 find_package(ament_cmake REQUIRED)
 find_package(open_manipulator_x_libs REQUIRED)
-find_package(open_manipulator_x_msgs REQUIRED)
+find_package(open_manipulator_msgs REQUIRED)
 find_package(rclcpp REQUIRED)
 find_package(robotis_manipulator REQUIRED)
 
@@ -30,7 +30,7 @@ include_directories(
 
 set(dependencies
   "open_manipulator_x_libs"
-  "open_manipulator_x_msgs"
+  "open_manipulator_msgs"
   "rclcpp"
   "robotis_manipulator"
 )
@@ -60,7 +60,7 @@ install(DIRECTORY include/
 ################################################################################
 ament_export_include_directories(include)
 ament_export_dependencies(open_manipulator_x_libs)
-ament_export_dependencies(open_manipulator_x_msgs)
+ament_export_dependencies(open_manipulator_msgs)
 ament_export_dependencies(rclcpp)
 ament_export_dependencies(robotis_manipulator)
 ament_package()

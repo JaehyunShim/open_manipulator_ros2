@@ -24,24 +24,14 @@
 
 #include <rclcpp/rclcpp.hpp>
 
-#include "open_manipulator_libs/dynamixel.h"
-#include "open_manipulator_libs/kinematics.h"
-#include "open_manipulator_msgs/SetJointPosition.h"
+#include "open_manipulator_msgs/srv/set_joint_position.hpp"
+#include "open_manipulator_x_libs/open_manipulator_x.hpp"
 
-#define JOINT_DYNAMIXEL "joint_dxl"
-#define TOOL_DYNAMIXEL  "tool_dxl"
 #define NUM_OF_JOINT 4
-
-#define X_AXIS robotis_manipulator::math::vector3(1.0, 0.0, 0.0)
-#define Y_AXIS robotis_manipulator::math::vector3(0.0, 1.0, 0.0)
-#define Z_AXIS robotis_manipulator::math::vector3(0.0, 0.0, 1.0)
-
 #define MASTER_SLAVE_MODE 0
 #define START_RECORDING_TRAJECTORY_MODE 1
 #define STOP_RECORDING_TRAJECTORY_MODE 2
 #define PLAY_RECORDED_TRAJECTORY_MODE 3
-
-using namespace robotis_manipulator;
 
 typedef struct _WaypointBuffer
 {
@@ -50,19 +40,19 @@ typedef struct _WaypointBuffer
 } WaypointBuffer;
 
 
-class OpenManipulatorXMasterSlave : public RobotisManipulator
+class OpenManipulatorXMasterSlave : public rclcpp::Node
 {
  public:
   OpenManipulatorXMasterSlave(std::string usb_port, std::string baud_rate);
   ~OpenManipulatorXMasterSlave();
 
-  void publish_callback();  
+  void update_callback();  
   
-  rclcpp::TimerBase::SharedPtr publish_timer_;
+  rclcpp::TimerBase::SharedPtr update_timer_;
 
  private:
   /*****************************************************************************
-  ** Parameters
+  ** ROS Parameters
   *****************************************************************************/
   uint8_t mode_state_;
   double service_call_period_;
@@ -70,17 +60,25 @@ class OpenManipulatorXMasterSlave : public RobotisManipulator
   std::vector<double> goal_joint_position_;
   double goal_tool_position_;
 
+  /*****************************************************************************
+  ** Variables
+  *****************************************************************************/
+  // Robotis_manipulator related 
+  OpenManipulatorX open_manipulator_x_;
+
   std::vector<WaypointBuffer> record_buffer_;
   int buffer_index_;
 
-  JointActuator *actuator_;
-  ToolActuator *tool_;
+  /*****************************************************************************
+  ** Init Functions
+  *****************************************************************************/
+  void init_parameters();
 
   /*****************************************************************************
-  ** ROS Publishers, Callback Functions and Relevant Functions
+  ** ROS Clients
   *****************************************************************************/
-  ros::ServiceClient goal_joint_space_path_client_;
-  ros::ServiceClient goal_tool_control_client_;
+  rclcpp::Client<open_manipulator_msgs::srv::SetJointPosition>::SharedPtr goal_joint_space_path_client_;
+  rclcpp::Client<open_manipulator_msgs::srv::SetJointPosition>::SharedPtr goal_tool_control_client_;
 
   /*****************************************************************************
   ** Others
@@ -89,8 +87,9 @@ class OpenManipulatorXMasterSlave : public RobotisManipulator
   void sync_open_manipulator_x(bool recorded_state);
   double get_service_call_period() {return service_call_period_;}
 
+  void set_goal();
   bool set_joint_space_path(double path_time, std::vector<double> set_goal_joint_position = {});
-  bool set_tool_path(double set_goal_tool_position = -1.0);
+  bool set_tool_control(double set_goal_tool_position = -1.0);
   void set_mode_state(char ch);
 
   void print_text();
