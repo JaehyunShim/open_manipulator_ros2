@@ -40,6 +40,8 @@ OpenManipulatorXMasterSlave::OpenManipulatorXMasterSlave(std::string usb_port, s
 
   mode_state_ = MASTER_SLAVE_MODE;
   buffer_index_ = 0;
+  
+  this->disable_waiting_for_enter();
 
   /************************************************************
   ** Initialise ROS clients
@@ -60,6 +62,7 @@ OpenManipulatorXMasterSlave::OpenManipulatorXMasterSlave(std::string usb_port, s
 
 OpenManipulatorXMasterSlave::~OpenManipulatorXMasterSlave()
 {
+  this->restore_terminal_settings();
   RCLCPP_INFO(this->get_logger(), "OpenManipulator-X master slave node has been terminated.");
 }
 
@@ -217,17 +220,14 @@ bool OpenManipulatorXMasterSlave::set_tool_control(double set_goal_tool_position
 
 void OpenManipulatorXMasterSlave::update_callback()
 {
-  static int count = 0;
-  if (!(count % 5))
-  {
-    print_text();
-    if (kbhit())
-      set_mode_state(std::getchar());
-  }
-  count ++;
-
   open_manipulator_x_.receiveAllJointActuatorValue();
   open_manipulator_x_.receiveAllToolActuatorValue();
+
+  this->print_text();
+  
+  char ch = std::getchar();
+  if (ch=='1' || ch=='2' || ch=='3' || ch=='4')
+    this->set_mode_state(ch);
 
   this->set_goal();
 }
@@ -306,21 +306,21 @@ void OpenManipulatorXMasterSlave::print_text()
   printf("-----------------------------\n");
 }
 
-bool OpenManipulatorXMasterSlave::kbhit()
+void OpenManipulatorXMasterSlave::restore_terminal_settings()
 {
-  termios term;
-  tcgetattr(0, &term);
+  tcsetattr(0, TCSANOW, &oldt_);  /* Apply saved settings */
+}
 
-  termios term2 = term;
-  term2.c_lflag &= ~ICANON;
-  tcsetattr(0, TCSANOW, &term2);
+void OpenManipulatorXMasterSlave::disable_waiting_for_enter()
+{
+  struct termios newt;
 
-  int byteswaiting;
-  ioctl(0, FIONREAD, &byteswaiting);
-
-  tcsetattr(0, TCSANOW, &term);
-
-  return byteswaiting > 0;
+  tcgetattr(0, &oldt_);             /* Save terminal settings */
+  newt = oldt_;                     /* Init new settings */
+  newt.c_lflag &= ~(ICANON | ECHO); /* Change settings */
+  newt.c_cc[VMIN] = 0;
+  newt.c_cc[VTIME] = 0;
+  tcsetattr(0, TCSANOW, &newt);     /* Apply settings */
 }
 
 /*****************************************************************************

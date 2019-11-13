@@ -94,6 +94,8 @@ class OpenManipulatorXMasterSlave : public rclcpp::Node
   void set_mode_state(char ch);
 
   void print_text();
-  bool kbhit();
+  struct termios oldt_;
+  void restore_terminal_settings();
+  void disable_waiting_for_enter();
 };
 #endif //OPEN_MANIPULATOR_X_MASTER_SLAVE_HPP

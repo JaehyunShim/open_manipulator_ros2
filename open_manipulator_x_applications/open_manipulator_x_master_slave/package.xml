@@ -2,7 +2,7 @@
 <?xml-model href="http://download.ros.org/schema/package_format3.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
 <package format="3">
   <name>open_manipulator_x_master_slave</name>
-  <version>2.0.1</version>
+  <version>2.2.0</version>
   <description>
     ROS 2 package for open_manipulator_x_master_slave.
   </description>
@@ -17,8 +17,8 @@
   <url type="repository">https://github.com/ROBOTIS-GIT/open_manipulator</url>
   <url type="bugtracker">https://github.com/ROBOTIS-GIT/open_manipulator/issues</url>
   <buildtool_depend>ament_cmake</buildtool_depend>
-  <depend>open_manipulator_x_libs</depend>
   <depend>open_manipulator_msgs</depend>
+  <depend>open_manipulator_x_libs</depend>
   <depend>rclcpp</depend>
   <depend>robotis_manipulator</depend>
   <export>
