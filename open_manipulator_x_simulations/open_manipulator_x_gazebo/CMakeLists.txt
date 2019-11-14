@@ -22,10 +22,6 @@ find_package(std_msgs REQUIRED)
 find_package(urdf REQUIRED)
 
 ################################################################################
-# Declare ROS messages, services and actions
-################################################################################
-
-################################################################################
 # Build
 ################################################################################
 #add_executable(gripper_sub_publisher src/gripper_sub_publisher.cpp)
@@ -45,18 +41,8 @@ install(
 )
 
 ################################################################################
-# Test
-################################################################################
-if(BUILD_TESTING)
-  find_package(ament_cmake_gtest REQUIRED)
-  find_package(ament_cmake_pytest REQUIRED)
-  find_package(ament_lint_auto REQUIRED)
-  ament_lint_auto_find_test_dependencies()
-endif()
-
-################################################################################
 # Macro for ament package
 ################################################################################
-ament_export_dependencies(xacro)
 ament_export_dependencies(urdf)
+ament_export_dependencies(xacro)
 ament_package()
