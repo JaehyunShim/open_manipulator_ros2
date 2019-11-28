@@ -11,7 +11,3 @@
 ### 2. OpenManipulator-PRO
 - [eManual](http://emanual.robotis.com/docs/en/platform/openmanipulator_pro/ros2_setup/#ros-setup)
 - [Source Code](https://github.com/ROBOTIS-GIT/open_manipulator_pro/tree/ros2)
-
-## Files & Packagse Left in the Package
-- hpp, cpp files for controller_moveit
-- Simulations folder
